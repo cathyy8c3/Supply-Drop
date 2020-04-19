@@ -146,8 +146,6 @@ struct newUser: View {
                                 
                             VStack{
                                 Button(action:{
-                                    //todo
-                                    
                                     if (!(self.password1==self.password2)){
                                         self.passError = "Passwords don't match."
                                         self.height=30
@@ -165,6 +163,11 @@ struct newUser: View {
                                         self.emailUsernameError = "Invalid Username."
                                     }else{
                                         self.emailUsernameError=""
+                                    }
+                                    
+                                    if(self.passError=="" && self.emailUsernameError==""){
+                                        //todo
+                                        //submit
                                     }
                                 }){
                                     Text("Create Your Account")

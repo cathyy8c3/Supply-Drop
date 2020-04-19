@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct Edit_Profile: View {
+    @ObservedObject var user1:User
     @EnvironmentObject var user:User
-    
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     @State var name:String = ""
@@ -22,6 +22,7 @@ struct Edit_Profile: View {
     @State var presentMe:Bool = false
     @State var match:String = ""
     @State var address1:Address = Address()
+    @State var valid:String = ""
     
     @State var image:Image?
     @State private var showingImagePicker = false
@@ -63,7 +64,7 @@ struct Edit_Profile: View {
                             self.showingImagePicker=true
                         }) {
                             ZStack (alignment:.bottom){
-                                self.user.profile
+                                self.user1.profile
                                     .renderingMode(.original)
                                     .resizable()
                                     .scaledToFit()
@@ -111,6 +112,9 @@ struct Edit_Profile: View {
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
+                            
+                            Text(self.valid)
+                                .foregroundColor(Color.red)
                                 
                             VStack(spacing:20){
                                     Text("Address")
@@ -181,13 +185,25 @@ struct Edit_Profile: View {
                         NavigationLink(destination: Profile(), isActive: self.$presentMe) { EmptyView() }
                         
                         Button(action: {
-                            self.user.name = self.name
-                            self.user.email = self.email
-                            
-                            if(self.oldpass==self.user.password){
+                            if(self.oldpass==self.user1.password){
                                 if(self.pass1==self.pass2){
-                                    self.user.password=self.pass1
+                                    self.user1.password=self.pass1
                                     self.presentMe=true
+                                    
+                                    if(!self.isValidPassword(testStr: self.pass1)){
+                                        self.match = "Invalid password."
+                                    }else{
+                                        if(self.isValidUsername(username: self.username)){
+                                            self.valid = "Invalid username."
+                                        }else if(self.isValidEmail(email:self.email)){
+                                            self.valid = "Invalid email."
+                                        }else{
+                                            //todo
+                                            //save
+                                            
+                                            self.user.setUser2User(user2: self.user1)
+                                        }
+                                    }
                                 }else{
                                     self.match = "Passwords don't match."
                                     self.pass1 = ""
@@ -231,6 +247,6 @@ struct Edit_Profile: View {
 
 struct Edit_Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Edit_Profile().environmentObject(User())
+        Edit_Profile(user1: User()).environmentObject(User())
     }
 }
