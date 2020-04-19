@@ -18,6 +18,6 @@ class Address{
     var country:String = ""
     
     func getLoc()->String{
-        return "\(address1) \(address2) \(city) \(state) \(zip) \(country)"
+        return "\(address1)\n\(address2)\n\(city), \(state) \(zip)\n\(country)"
     }
 }

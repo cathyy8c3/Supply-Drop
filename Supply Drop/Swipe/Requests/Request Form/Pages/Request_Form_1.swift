@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Request_Form_1: View {
     @ObservedObject  var order:Order = Order()
+    @EnvironmentObject var user:User
     @State var n:Int = 0
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
@@ -77,42 +78,43 @@ struct Request_Form_1: View {
                             Text("Address")
                                 .font(.callout)
                             
-                            TextField("Address Line 1", text: self.$order.address.address1)
+                            TextField("Address Line 1", text: self.$user.initAddress.address1)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
 
                             
-                            TextField("Address Line 2", text: self.$order.address.address2)
+                            TextField("Address Line 2", text: self.$user.initAddress.address2)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
                             HStack {
-                                TextField("City", text: self.$order.address.city)
+                                TextField("City", text: self.$user.initAddress.city)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
                                 .border(Color.gray, width:0.5)
                                 
-                                TextField("State", text: self.$order.address.state)
+                                TextField("State", text: self.$user.initAddress.state)
                                     .padding()
                                     .frame(width:75, height:50)
                                     .border(Color.gray, width:0.5)
                                     
-                                TextField("Zip Code", text: self.$order.address.zip)
+                                TextField("Zip Code", text: self.$user.initAddress.zip)
                                     .keyboardType(.numberPad)
                                     .padding()
                                     .frame(width:geometry.size.width/2.3-75, height:50)
                                     .border(Color.gray, width:0.5)
                             }
                             
-                            TextField("Country", text: self.$order.address.country)
+                            TextField("Country", text: self.$user.initAddress.country)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
                             Button(action:{
                                 //todo
+                                //set order address to user address
                                 
                                 self.order.num=self.n
                             }){
@@ -124,6 +126,7 @@ struct Request_Form_1: View {
                             }
                             .frame(width:500)
                             .disabled(!self.order.valid(n:self.n))
+                            .disabled(self.user.initAddress.getLoc().count<13)
                         }
                         
                     }
@@ -146,6 +149,6 @@ struct Request_Form_1: View {
 
 struct Request_Form_1_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Form_1(order:Order())
+        Request_Form_1(order:Order()).environmentObject(User())
     }
 }

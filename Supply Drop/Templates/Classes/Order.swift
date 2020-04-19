@@ -30,25 +30,33 @@ class Order:ObservableObject{
     @Published var complete:Bool = false
     
     func valid(n:Int)->Bool{
-        if(item.count==0 || n==0 || !(date.count==10) || address.address1.count==0 || address.address2.count==0 || address.city.count==0 || address.state.count==0 || address.zip.count==0 || address.country.count==0){
+        if(item.count==0 || n==0 || !(date.count==10)){
             return false
         }
         return true
     }
     
     func getRequester()->User{
+        //todo
+        
         return requester
     }
     
     func getDonor()->User{
+        //todo
+        
         return donor
     }
     
     func setRequester(u:User){
+        //todo
+        
         requester=u
     }
     
     func setDonor(u:User){
+        //todo
+        
         donor=u
     }
     

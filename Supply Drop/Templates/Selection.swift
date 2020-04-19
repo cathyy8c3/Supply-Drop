@@ -37,7 +37,7 @@ struct Selection: View {
 //                        .frame(minWidth:150,maxWidth:200,minHeight:150,maxHeight:250)
                     Spacer()
                     
-                    Text("\(self.you ? "You": self.order.getRequester().name) \(self.phrase) \(self.order.num) \(self.order.item)")
+                    Text("\(self.you ? "You": self.order.getRequester().username) \(self.phrase) \(self.order.num) \(self.order.item)")
                         .font(.system(size: 40))
                         .fontWeight(.light)
                         .frame(height:80,alignment: .leading)

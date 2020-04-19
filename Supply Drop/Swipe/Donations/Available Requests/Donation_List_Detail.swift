@@ -46,7 +46,7 @@ struct Donation_List_Detail: View {
                                 .font(.largeTitle)
                                 .padding(.top,70)
                             
-                            Text("Made by \(self.order.getRequester().name)\(self.order.org2string())")
+                            Text("Made by \(self.order.getRequester().username)\(self.order.org2string())")
     //                            .font(.title)
                             
                             Text("Asking for \(String(self.order.num)) \(self.order.item)")

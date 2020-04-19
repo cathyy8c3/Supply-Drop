@@ -51,21 +51,15 @@ struct Your_Request_Details: View {
                                 }
                             }
                             
-                            Text("Claimed by \(self.order.getDonor().name)\(self.order.org2string())")
+                            Text("Claimed by \(self.order.getDonor().username)\(self.order.org2string())")
     //                            .font(.title)
                             
                             Text("You requested \(String(self.order.num)) \(self.order.item).")
     //                            .font(.title)
                             
                             VStack {
-                                Text("Address: \(self.order.address.address1)")
-                                    
-                                
-                                Text("\(self.order.address.address2)")
-                                
-                                Text("\(self.order.address.city), \(self.order.address.state), \(self.order.address.zip)")
-                                
-                                Text("\(self.order.address.country)")
+                                Text("Address: \(self.order.address.getLoc())")
+                                    .frame(width:300,height:100,alignment: .top)
                             }
                             .padding(.bottom,20)
                         }
