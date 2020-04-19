@@ -14,16 +14,43 @@ struct Edit_Profile: View {
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     @State var name:String = ""
+    @State var username:String = ""
     @State var email:String = ""
     @State var oldpass:String = ""
     @State var pass1:String = ""
     @State var pass2:String = ""
     @State var presentMe:Bool = false
     @State var match:String = ""
+    @State var address1:Address = Address()
     
     @State var image:Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
+    
+    func isValidEmail(email:String?) -> Bool {
+        
+        guard email != nil else { return false }
+        
+        let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        
+        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return pred.evaluate(with: email)
+    }
+    
+    func isValidPassword(testStr:String?) -> Bool {
+        guard testStr != nil else { return false }
+     
+        // at least one uppercase,
+        // at least one digit
+        // at least one lowercase
+        // 8 characters total
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
+        return passwordTest.evaluate(with: testStr)
+    }
+    
+    func isValidUsername(username:String)->Bool{
+        return username.isAlphanumeric
+    }
     
     var body: some View {
         NavigationView{
@@ -46,9 +73,9 @@ struct Edit_Profile: View {
                                     .overlay(Circle().stroke(Color.white,lineWidth: 2))
                                     .frame(width:geometry.size.width/2,height:geometry.size.width/2)
                                 
-                                Text("Edit")
-                                    .foregroundColor(Color.purple)
-                                    .padding(.bottom, geometry.size.width/9)
+//                                Text("Edit")
+//                                    .foregroundColor(Color.purple)
+//                                    .padding(.bottom, geometry.size.width/9)
                                 
                                 self.image?
                                     .renderingMode(.original)
@@ -75,10 +102,58 @@ struct Edit_Profile: View {
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
+                            TextField("Username", text: self.$username)
+                            .padding()
+                                .frame(width:275, height:50)
+                            .border(Color.gray, width:0.5)
+                            
                             TextField("Email", text: self.$email)
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
+                                
+                            VStack(spacing:20){
+                                    Text("Address")
+                                        .font(.body)
+                                        .padding(.top,20)
+                                    
+                                    TextField("Address Line 1", text: self.$address1.address1)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2, height:50)
+                                    .border(Color.gray, width:0.5)
+
+                                    
+                                    TextField("Address Line 2", text: self.$address1.address2)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2, height:50)
+                                    .border(Color.gray, width:0.5)
+                                    
+                                    HStack {
+                                        TextField("City", text: self.$address1.city)
+                                        .padding()
+                                        .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
+                                        .border(Color.gray, width:0.5)
+                                        
+                                        TextField("State", text: self.$address1.state)
+                                            .padding()
+                                            .frame(width:75, height:50)
+                                            .border(Color.gray, width:0.5)
+                                            
+                                        TextField("Zip Code", text: self.$address1.zip)
+                                            .keyboardType(.numberPad)
+                                            .padding()
+                                            .frame(width:geometry.size.width/2.3-75, height:50)
+                                            .border(Color.gray, width:0.5)
+                                    }
+                                    
+                                    TextField("Country", text: self.$address1.country)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2, height:50)
+                                    .border(Color.gray, width:0.5)
+                                }.padding(.bottom, 20)
+                                    
+                                
+                            }
                             .padding(.bottom,30)
                                 
                             SecureField("Old Password", text: self.$oldpass)
@@ -108,10 +183,8 @@ struct Edit_Profile: View {
                         Button(action: {
                             self.user.name = self.name
                             self.user.email = self.email
-                            self.user.profile = self.image ?? self.user.profile
                             
                             if(self.oldpass==self.user.password){
-                                
                                 if(self.pass1==self.pass2){
                                     self.user.password=self.pass1
                                     self.presentMe=true
@@ -127,35 +200,33 @@ struct Edit_Profile: View {
                         }) {
                             Text("Save")
                                 .foregroundColor(Color.purple)
-                                .padding(.bottom,30)
+                                .padding([.bottom,.top],30)
                         }
                         .frame(width:500)
                         
                         Spacer()
                     }
                 }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
                 //.frame(height:geometry.size.height)
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .navigationViewStyle(StackNavigationViewStyle())
-            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                    ImagePicker(image: self.$inputImage)
-            }
-        }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
-        .offset(y: -keyboardResponder.currentHeight*0.9)
+            .offset(y: -keyboardResponder.currentHeight*0.9)
+//            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+//                    ImagePicker(image: self.$inputImage)
+//            }
         
     }
     
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        self.image = Image(uiImage: inputImage)
-    }
+//    func loadImage() {
+//        guard let inputImage = inputImage else { return }
+//        self.image = Image(uiImage: inputImage)
+//    }
 }
 
 struct Edit_Profile_Previews: PreviewProvider {

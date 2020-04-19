@@ -19,8 +19,14 @@ class User:Codable, Identifiable, ObservableObject{
     @Published var address:String = ""
     @Published var id:String = ""
     
+    @Published var initAddress:Address = Address()
+    
     @Published var profile:Image = Image("logo_profile")
     @Published var messaging:Bool = true
+    
+    func setAddress(){
+        address = initAddress.getLoc()
+    }
 //
 //    @Published var requests:[Int] = []
 //    @Published var donations:[Int] = []
@@ -116,5 +122,11 @@ class Api{
                 return
             }
         }.resume()
+    }
+}
+
+extension String {
+    var isAlphanumeric: Bool {
+        return !isEmpty && range(of: "[^a-zA-Z0-9]", options: .regularExpression) == nil
     }
 }

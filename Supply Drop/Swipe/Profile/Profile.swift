@@ -33,7 +33,7 @@ struct Profile: View {
                                 .clipShape(Circle())
                                 .shadow(radius: 20)
                                 .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(width:geometry.size.width/2,height:geometry.size.width/2)
+                                .frame(maxWidth:geometry.size.width/3,maxHeight:geometry.size.width/3)
                                 .offset(y:-geometry.size.height/5)
                                 .padding(.bottom,-geometry.size.height/5)
                         }
@@ -49,13 +49,19 @@ struct Profile: View {
                             Text("Name: \(self.user.name)")
                                 .frame(width:300)
                             
+                            Text("Username: \(self.user.username)")
+                            .frame(width:300)
+                            
                             Text("Email: \(self.user.email)")
                                 .frame(width:300)
+                            
+                            Text("Address: \(self.user.address)")
+                                .frame(width:300,height:100,alignment: .top)
                         
-                            Toggle(isOn:self.$user.messaging) {
-                                Text("Allow Messages:")
-                            }
-                            .frame(width:210)
+//                            Toggle(isOn:self.$user.messaging) {
+//                                Text("Allow Messages:")
+//                            }
+//                            .frame(width:210)
                         }
                         .padding(.bottom,20)
                         .padding(.top,50)
