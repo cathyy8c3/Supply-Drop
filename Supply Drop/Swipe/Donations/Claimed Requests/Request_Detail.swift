@@ -21,7 +21,7 @@ struct Request_Detail: View {
                     VStack {
                         
                         VStack {
-                            MapView()
+                            MapView(address: self.order.address.getLoc())
                                 .edgesIgnoringSafeArea([.top])
                                 .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
                             

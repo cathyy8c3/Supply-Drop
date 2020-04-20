@@ -22,7 +22,7 @@ struct Donation_List_Detail: View {
                         
                         VStack {
                             ZStack {
-                                MapView()
+                                MapView(address: self.order.address.getLoc())
                                     .edgesIgnoringSafeArea([.top])
                                     .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
                             }

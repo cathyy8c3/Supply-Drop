@@ -20,8 +20,7 @@ struct Request_Form_2: View {
         NavigationView{
             GeometryReader{geometry in
                 VStack {
-                    //fix coordinates
-                    MapView()
+                    MapView(address: self.order.address.getLoc())
                         .frame(height:geometry.size.height/1.5)
                         .offset(y:-40)
                     

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Your_Request_Details: View {
     @ObservedObject  var order:Order
+    @EnvironmentObject var user:User
     @State  var received:Bool = false
     
     var body: some View {
@@ -20,7 +21,7 @@ struct Your_Request_Details: View {
                     VStack {
                         
                         VStack {
-                            MapView()
+                            MapView(address: self.order.address.getLoc())
                                 .edgesIgnoringSafeArea([.top])
                                 .frame(height:geometry.size.height/4)
                             
@@ -133,6 +134,6 @@ struct Your_Request_Details: View {
 
 struct Your_Request_Details_Previews: PreviewProvider {
     static var previews: some View {
-        Your_Request_Details(order: Order())
+        Your_Request_Details(order: Order()).environmentObject(User())
     }
 }
