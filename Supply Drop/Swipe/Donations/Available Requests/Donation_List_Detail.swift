@@ -54,6 +54,7 @@ struct Donation_List_Detail: View {
                             
                             VStack {
                                 Text("Address: \(self.order.address.getLoc())")
+                                    .frame(width:300,height:100,alignment: .top)
                             }
                             .padding(.bottom,20)
                         }

@@ -60,6 +60,8 @@ struct Your_Request_Details: View {
                             Text("You requested \(String(self.order.num)) \(self.order.item).")
     //                            .font(.title)
                             
+                            Text("Contact them at \(self.order.donor.email).")
+                            
                             VStack {
                                 Text("Address: \(self.order.address.getLoc())")
                                     .frame(width:300,height:100,alignment: .top)

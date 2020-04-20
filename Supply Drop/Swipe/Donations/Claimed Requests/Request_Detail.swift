@@ -50,8 +50,11 @@ struct Request_Detail: View {
                             Text("Asking for \(String(self.order.num)) \(self.order.item)")
     //                            .font(.title)
                             
+                            Text("Contact them at \(self.order.requester.email).")
+                            
                             VStack {
                                 Text("Address: \(self.order.address.getLoc())")
+                                    .frame(width:300,height:100,alignment: .top)
                             }
                             .padding(.bottom,20)
                         }
@@ -94,7 +97,7 @@ struct Request_Detail: View {
                             Text("Update Status")
                                 .foregroundColor(Color.purple)
                         }
-                        .padding(.bottom,10)
+//                        .padding(.bottom,10)
                         
 //                        Spacer()
 
@@ -131,7 +134,7 @@ struct Request_Detail: View {
                                 self.order.setDonor(u:User())
                                 }, .cancel()])
                         }
-                        .padding(.bottom,50)
+                        .padding(.bottom,60)
                         
                         
                         Spacer()
