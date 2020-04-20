@@ -153,8 +153,8 @@ class Request:ObservableObject,Codable,Identifiable{
 }
 
 extension Api{
-    func getOrder(completion: @escaping(Request,Bool) -> ()){
-        guard let url = URL(string: "https://reqres.in/api/") else{
+    func getAvailable(completion: @escaping([Request]) -> ()){
+        guard let url = URL(string: "http://localhost:1500/api/requests/unfulfilled") else{
             return
         }
         
@@ -162,22 +162,117 @@ extension Api{
             
             if(error==nil && !(data==nil)){
                 do{
-                    
-                    let order1 = try!JSONDecoder().decode(Request.self, from: data!)
+                    let order1 = try!JSONDecoder().decode([Request].self, from: data!)
                     
                     if(type(of:data)==String.self){
-                        completion(order1,false)
+                        completion(order1)
                     }
                     
-                    completion(order1,true)
+                    completion(order1)
                 }
                 
-                catch{
-                    print("Error in JSON parsing.")
-                }
+//                catch{
+//                    print("Error in JSON parsing.")
+//                }
             }else{
                 print("Error")
                 return
+            }
+        }.resume()
+    }
+    
+    func createRequest(order:Request){
+        guard let url = URL(string: "http://localhost:1500/api/requests/new") else{
+            print("no url")
+            return
+        }
+        
+        guard let finalBody = try? JSONEncoder().encode(order) else {
+            print("Failed to encode order")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+                print("working")
+                print(finalData)
+            } else{
+                print("error")
+            }
+        }.resume()
+    }
+    
+    func updateRequest(order:Request){
+        guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
+            print("no url")
+            return
+        }
+        
+        guard let finalBody = try? JSONEncoder().encode(order) else {
+            print("Failed to encode order")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+                print("working")
+                print(finalData)
+            } else{
+                print("error")
+            }
+        }.resume()
+    }
+    
+    func deleteRequest(order:Request){
+        guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
+            print("no url")
+            return
+        }
+        
+        guard let finalBody = try? JSONEncoder().encode(order) else {
+            print("Failed to encode order")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+                print("working")
+                print(finalData)
+            } else{
+                print("error")
             }
         }.resume()
     }

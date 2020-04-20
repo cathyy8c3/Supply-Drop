@@ -103,17 +103,17 @@ struct tempUser:Codable{
 class Api:ObservableObject{
     var authenticated:Bool = false
     
-    func authenticate(username:String, password:String){
+    func authenticate(user:User){
         
         guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
             print("no url")
             return
         }
         
-        let body:[String:String] = ["Username": username, "Password": password]
-
-        
-        let finalBody = try!JSONSerialization.data(withJSONObject: body)
+        guard let finalBody = try? JSONEncoder().encode(user) else {
+            print("Failed to encode order")
+            return
+        }
         
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
@@ -142,6 +142,114 @@ class Api:ObservableObject{
             return
         }
         
+        guard let finalBody = try? JSONEncoder().encode(user) else {
+            print("Failed to encode order")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+                print("working")
+                print(finalData)
+            } else{
+                print("error")
+            }
+        }.resume()
+    }
+    
+    func getDonations(id:String,completion: @escaping([Request]) -> ()){
+        guard let url = URL(string: "http://localhost:1500/api/users/id/donations") else{
+                return
+        }
+        
+        let body:[String:String] = ["ID": id]
+        let finalBody = try!JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if(error==nil && !(data==nil)){
+                do{
+                    let order1 = try!JSONDecoder().decode([Request].self, from: data!)
+                    
+                    if(type(of:data)==String.self){
+                        
+                        completion(order1)
+                    }
+                    
+                    completion(order1)
+                }
+                
+//                catch{
+//                    print("Error in JSON parsing.")
+//                }
+            }else{
+                print("Error")
+                return
+            }
+        }.resume()
+    }
+    
+    func getRequests(id:String,completion: @escaping([Request]) -> ()){
+        guard let url = URL(string: "http://localhost:1500/api/users/id/requests") else{
+                return
+        }
+        
+        let body:[String:String] = ["ID": id]
+        let finalBody = try!JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if(error==nil && !(data==nil)){
+                do{
+                    let order1 = try!JSONDecoder().decode([Request].self, from: data!)
+                    
+                    if(type(of:data)==String.self){
+                        
+                        completion(order1)
+                    }
+                    
+                    completion(order1)
+                }
+                
+//                catch{
+//                    print("Error in JSON parsing.")
+//                }
+            }else{
+                print("Error")
+                return
+            }
+        }.resume()
+    }
+    
+    func updateUser(user:User){
+        guard let url = URL(string: "http://localhost:1500/api/id/update") else{
+            print("no url")
+            return
+        }
+        
         let body:[String:String] = ["Username": user.username, "newPassword": user.password, "Email":user.email, "ShippingAddress": user.address,"Name":user.name]
         let finalBody = try!JSONSerialization.data(withJSONObject: body)
         
@@ -165,8 +273,6 @@ class Api:ObservableObject{
             }
         }.resume()
     }
-    
-    
 }
 
 extension String {

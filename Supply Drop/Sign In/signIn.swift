@@ -78,7 +78,7 @@ struct signIn: View {
                         Button(action:{
                             //todo
                             
-                            self.manager.authenticate(username: self.user.username, password: self.user.password)
+                            self.manager.authenticate(user: self.user)
                         }){
                             Text("Submit")
                                 .padding(.top, 10)
