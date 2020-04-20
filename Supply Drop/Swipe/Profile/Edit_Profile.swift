@@ -12,9 +12,6 @@ struct Edit_Profile: View {
     @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
-    @State var name:String = ""
-    @State var username:String = ""
-    @State var email:String = ""
     @State var oldpass:String = ""
     @State var pass1:String = ""
     @State var pass2:String = ""
@@ -22,6 +19,7 @@ struct Edit_Profile: View {
     @State var match:String = ""
     @State var address1:Address = Address()
     @State var valid:String = ""
+    @State var allFields:String = ""
     
     @State var image:Image?
     @State private var showingImagePicker = false
@@ -97,17 +95,17 @@ struct Edit_Profile: View {
                                 .padding(.top,10)
                                 .frame(width:300)
                             
-                            TextField("Name", text: self.$user.name)
+                            TextField("*Name", text: self.$user.name)
                             .padding()
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            TextField("Username", text: self.$user.username)
+                            TextField("*Username", text: self.$user.username)
                             .padding()
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            TextField("Email", text: self.$user.email)
+                            TextField("*Email", text: self.$user.email)
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
@@ -159,7 +157,7 @@ struct Edit_Profile: View {
                             }
                             .padding(.bottom,30)
                                 
-                            SecureField("Current Password", text: self.$oldpass)
+                            SecureField("*Current Password", text: self.$oldpass)
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
@@ -180,40 +178,53 @@ struct Edit_Profile: View {
 //                        .padding(.bottom,25)
                         
 //                        Spacer()
+                    
+                        Text(self.allFields)
+                            .foregroundColor(Color.red)
+                            .font(.subheadline)
                         
                         Button(action: {
                             if(self.oldpass==self.user.password){
                                 self.match=""
                                 if(self.pass1==self.pass2){
-                                    self.user.password=self.pass1
                                     self.match=""
-                                    
-                                    if(!self.isValidPassword(testStr: self.pass1)){
-                                        self.match = "Invalid password."
-                                    }else{
-                                        self.match=""
-                                        if(!self.isValidUsername(username: self.username)){
-                                            self.valid = "Invalid username."
-                                        }else if(!self.isValidEmail(email:self.email)){
-                                            self.valid = "Invalid email."
-                                        }else{
-                                            //todo
-                                            //save
-                                            
-                                            self.valid=""
-                                            
-                                            self.user.setAddress(add:self.user.initAddress)
-                                            
-                                            self.user.password = self.pass1
-                                            
-                                            self.presentMe=true
-                                        }
-                                    }
                                 }else{
                                     self.match = "Passwords don't match."
                                     self.pass1 = ""
                                     self.pass2 = ""
                                 }
+                                
+                                if(self.user.name.count==0 || self.user.username.count==0 || self.user.email.count==0){
+                                    self.allFields = "Please enter all of the required information."
+                                }else{
+                                    self.allFields = ""
+                                }
+                                    
+                                if(!self.isValidPassword(testStr: self.pass1) && !(self.pass1=="")){
+                                    self.match = "Invalid password."
+                                }else{
+                                    self.match=""
+                                }
+                                
+                                if(!self.isValidUsername(username: self.user.username)){
+                                    self.valid = "Invalid username."
+                                }else if(!self.isValidEmail(email:self.user.email)){
+                                    self.valid = "Invalid email."
+                                }else{
+                                    self.valid = ""
+                                }
+                                
+                                if(self.valid=="" && self.match==""){
+                                    //todo
+                                    //save
+                                    
+                                    self.user.setAddress(add:self.user.initAddress)
+                                    
+                                    self.user.password = self.pass1
+                                    
+                                    self.presentMe=true
+                                }
+                                    
                                 
                             }else{
                                 self.match = "Incorrect password."

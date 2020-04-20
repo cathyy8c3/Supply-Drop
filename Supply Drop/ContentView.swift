@@ -12,7 +12,7 @@ import Combine
 struct ContentView: View {
     
     var body: some View {
-        Your_Request_Details(order: Order())
+        Swipe(order: Order())
     }
 }
 

@@ -49,7 +49,7 @@ struct Request_Form_1: View {
                             .border(Color.gray, width:0.5)
                             
                         HStack {
-                            TextField("*Item", text: self.$order.item)
+                            TextField("*Item and Description", text: self.$order.item)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2, height:50)
                                 .border(Color.gray, width:0.5)
