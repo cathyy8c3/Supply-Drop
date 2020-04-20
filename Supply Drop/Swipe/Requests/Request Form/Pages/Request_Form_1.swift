@@ -12,6 +12,7 @@ struct Request_Form_1: View {
     @ObservedObject  var order:Order = Order()
     @EnvironmentObject var user:User
     @State var n:Int = 0
+    @State var next:Bool = false
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
@@ -37,7 +38,7 @@ struct Request_Form_1: View {
                             .border(Color.gray, width:0.5)
                             
                         HStack {
-                            TextField("Item", text: self.$order.item)
+                            TextField("*Item", text: self.$order.item)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2, height:50)
                                 .border(Color.gray, width:0.5)
@@ -45,7 +46,7 @@ struct Request_Form_1: View {
                         }
                         HStack {
                             Stepper(value: self.$n, in: 0...1000) {
-                                Text("# of Items")
+                                Text("*# of Items")
                             }
                             .padding()
                             .frame(width:200, height:80)
@@ -63,7 +64,7 @@ struct Request_Form_1: View {
                         }
                         
                         HStack {
-                            Text("Date Needed:")
+                            Text("*Date Needed:")
                                 .frame(width:150)
                             
                             TextField("MM/DD/YYYY", text: self.$order.date)
@@ -72,51 +73,57 @@ struct Request_Form_1: View {
                                 .border(Color.gray, width:0.5)
                         }
                         
-                        Divider()
+//                        Divider()
                         
                         VStack (spacing:20){
-                            Text("Address")
+                            Text("*Address")
                                 .font(.callout)
                             
-                            TextField("Address Line 1", text: self.$user.initAddress.address1)
+                            TextField("Address Line 1", text: self.$order.address.address1)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
 
                             
-                            TextField("Address Line 2", text: self.$user.initAddress.address2)
+                            TextField("Address Line 2", text: self.$order.address.address2)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
                             HStack {
-                                TextField("City", text: self.$user.initAddress.city)
+                                TextField("City", text: self.$order.address.city)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
                                 .border(Color.gray, width:0.5)
                                 
-                                TextField("State", text: self.$user.initAddress.state)
+                                TextField("State", text: self.$order.address.state)
                                     .padding()
                                     .frame(width:75, height:50)
                                     .border(Color.gray, width:0.5)
                                     
-                                TextField("Zip Code", text: self.$user.initAddress.zip)
+                                TextField("Zip Code", text: self.$order.address.zip)
                                     .keyboardType(.numberPad)
                                     .padding()
                                     .frame(width:geometry.size.width/2.3-75, height:50)
                                     .border(Color.gray, width:0.5)
                             }
                             
-                            TextField("Country", text: self.$user.initAddress.country)
+                            TextField("Country", text: self.$order.address.country)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
+                            
+                            NavigationLink(destination: Request_Form_2(order:self.order),isActive: self.$next){EmptyView()}
                             
                             Button(action:{
                                 //todo
                                 //set order address to user address
                                 
+                                self.user.initAddress = self.order.address
+                                
                                 self.order.num=self.n
+                                
+                                self.next=true
                             }){
                                 Text("Submit")
         //                            .padding(.top, 10)
@@ -125,8 +132,7 @@ struct Request_Form_1: View {
                                     .padding(.bottom, 50)
                             }
                             .frame(width:500)
-                            .disabled(!self.order.valid(n:self.n))
-                            .disabled(self.user.initAddress.getLoc().count<13)
+                            
                         }
                         
                     }

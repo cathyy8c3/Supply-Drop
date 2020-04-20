@@ -98,17 +98,17 @@ struct Edit_Profile: View {
                                 .padding(.top,10)
                                 .frame(width:300)
                             
-                            TextField("Name", text: self.$name)
+                            TextField("Name", text: self.$user1.name)
                             .padding()
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            TextField("Username", text: self.$username)
+                            TextField("Username", text: self.$user1.username)
                             .padding()
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            TextField("Email", text: self.$email)
+                            TextField("Email", text: self.$user1.email)
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
@@ -200,6 +200,8 @@ struct Edit_Profile: View {
                                         }else{
                                             //todo
                                             //save
+                                            
+                                            self.user1.setAddress(add: self.address1)
                                             
                                             self.user.setUser2User(user2: self.user1)
                                         }

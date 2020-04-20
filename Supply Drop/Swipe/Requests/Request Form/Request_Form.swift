@@ -131,6 +131,10 @@ struct Request_Form: View {
             Text("hello2")
         }
         }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarBackButtonHidden(true)
         .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
             print("dismiss")
         }) {

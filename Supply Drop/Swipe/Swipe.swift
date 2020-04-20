@@ -11,7 +11,6 @@ import SwiftUI
 struct Swipe: View {
     @State private var currentPage = 1
     
-    
     var body: some View {
         PagerView(pageCount: 3, currentIndex: $currentPage) {
             //todo

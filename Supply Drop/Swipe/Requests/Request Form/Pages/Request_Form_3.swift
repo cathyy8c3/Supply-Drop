@@ -11,6 +11,7 @@ import SwiftUI
 struct Request_Form_3: View {
     @ObservedObject  var order:Order
     @EnvironmentObject var user:User
+    @State var next:Bool = false
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
@@ -84,8 +85,12 @@ struct Request_Form_3: View {
                             Text("Country: United States")
                             .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
                             
+                            NavigationLink(destination:Request_Form(),isActive: self.$next){EmptyView()}
+                            
                             Button(action:{
                                 //todo
+                                
+                                self.next=true
                                 
                                 self.order.setRequester(u: self.user)
                             }){

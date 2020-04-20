@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct Request_Form_2: View {
-    @State var checked = false
+    @State var checked:Bool = false
+    @State var unchecked:String = ""
+    @State var next:Bool = false
     @ObservedObject var order:Order
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
@@ -43,13 +45,27 @@ struct Request_Form_2: View {
                             }
                         }
                         
-                        Text("I agree that I am not creating a fraudulent request and am following the terms and conditions.")
+                        Text("I agree that I am not creating a fraudulent request.")
                             .frame(width:geometry.size.width/1.4)
                     }
+                    Text(self.unchecked)
+                        .foregroundColor(Color.red)
+                        .font(.subheadline)
+                    
                     Spacer()
+                    
+                    NavigationLink(destination:Request_Form_3(order:self.order),isActive: self.$next){EmptyView()}
                     
                     Button(action: {
                         //todo
+                        
+                        if(!self.checked){
+                            self.unchecked = "Please agree to the terms."
+                        }else{
+                            //location verifier
+                            
+                            self.next=true
+                        }
                     }) {
                         Text("Verify Your Location")
                         .font(.body)
@@ -58,7 +74,6 @@ struct Request_Form_2: View {
                         .foregroundColor(.white)
                             .cornerRadius(10)
                     }
-                    .disabled(!self.checked)
                     
                     Spacer()
                 }

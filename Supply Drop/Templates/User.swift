@@ -17,7 +17,7 @@ class User:Codable, Identifiable, ObservableObject{
     @Published var password:String = ""
     @Published var username:String = ""
     @Published var address:String = ""
-    @Published var id:String = ""
+    @Published var id:String = UUID().uuidString
     
     @Published var initAddress:Address = Address()
     
