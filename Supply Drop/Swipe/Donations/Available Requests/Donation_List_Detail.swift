@@ -53,14 +53,7 @@ struct Donation_List_Detail: View {
     //                            .font(.title)
                             
                             VStack {
-                                Text("Address: \(self.order.address.address1)")
-                                    
-                                
-                                Text("\(self.order.address.address2)")
-                                
-                                Text("\(self.order.address.city), \(self.order.address.state), \(self.order.address.zip)")
-                                
-                                Text("\(self.order.address.country)")
+                                Text("Address: \(self.order.address.getLoc())")
                             }
                             .padding(.bottom,20)
                         }

@@ -32,7 +32,7 @@ struct Request_Detail: View {
                                 .clipShape(Circle())
                                 .shadow(radius: 20)
                                 .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(idealWidth: 200, maxWidth:500)
+                                .frame(idealWidth: 200, maxWidth:300)
                                 .offset(y:-100)
                                 .padding(.bottom,-100)
                         }
@@ -51,14 +51,7 @@ struct Request_Detail: View {
     //                            .font(.title)
                             
                             VStack {
-                                Text("Address: \(self.order.address.address1)")
-                                    
-                                
-                                Text("\(self.order.address.address2)")
-                                
-                                Text("\(self.order.address.city), \(self.order.address.state), \(self.order.address.zip)")
-                                
-                                Text("\(self.order.address.country)")
+                                Text("Address: \(self.order.address.getLoc())")
                             }
                             .padding(.bottom,20)
                         }
@@ -103,21 +96,21 @@ struct Request_Detail: View {
                         }
                         .padding(.bottom,10)
                         
-                        Spacer()
+//                        Spacer()
 
-                        Button(action: {
-                            //todo
-                        }) {
-                            if(self.order.getRequester().messaging){
-                                Text("Send a Message to \(self.order.getRequester().name)")
-                                    .font(.body)
-                                    .padding(10)
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                        }
-                        .padding(.bottom,30)
+//                        Button(action: {
+//                            //todo
+//                        }) {
+//                            if(self.order.getRequester().messaging){
+//                                Text("Send a Message to \(self.order.getRequester().name)")
+//                                    .font(.body)
+//                                    .padding(10)
+//                                    .background(Color.gray)
+//                                    .foregroundColor(.white)
+//                                    .cornerRadius(10)
+//                            }
+//                        }
+//                        .padding(.bottom,30)
                         
                         NavigationLink("", destination:Claimed_Donations(),isActive: self.$showingSheet)
                         
@@ -131,7 +124,7 @@ struct Request_Detail: View {
                                 .foregroundColor(Color.red)
                         }
                         .actionSheet(isPresented: self.$showingSheet) {
-                            ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.default(Text("Cancel Donation")){
+                            ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.destructive(Text("Cancel Donation")){
                                     //todo: remove donation from user list
                                         
                                 self.order.claimed=false

@@ -13,6 +13,8 @@ struct Your_Request_Details: View {
     @EnvironmentObject var user:User
     @State  var received:Bool = false
     
+    @State private var showingSheet = false
+    
     var body: some View {
         NavigationView{
         
@@ -32,12 +34,12 @@ struct Your_Request_Details: View {
                                 .clipShape(Circle())
                                 .shadow(radius: 20)
                                 .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(idealWidth: 200, maxWidth:500)
-                                .offset(y:-170)
-                                .padding(.bottom,-150)
+                                .frame(idealWidth: 200, maxWidth:300)
+                                .offset(y:-100)
+                                .padding(.bottom,-70)
                         }
-                        
                         Spacer()
+
                         
                         VStack(spacing:20) {
                             VStack {
@@ -99,35 +101,52 @@ struct Your_Request_Details: View {
                         }
                         .padding(.bottom,10)
                         
-                        Spacer()
-
+//                        Spacer()
+                        
                         Button(action: {
+                            self.showingSheet = true
+
                             //todo
                         }) {
-                            if(self.order.getDonor().messaging){
-                                Text("Send a Message to \(self.order.getDonor().name)")
-                                    .font(.body)
-                                    .padding(10)
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
+                            Text("Cancel Request")
+                                .foregroundColor(Color.red)
                         }
-                        .padding(.bottom,70)
+                        .actionSheet(isPresented: self.$showingSheet) {
+                            ActionSheet(title: Text("Cancel Request"), message: Text("Are you sure you want to cancel your request?"), buttons: [.destructive(Text("Cancel Request")){
+                                    //todo: delete request
+                                        
+                                self.order.claimed=false
+                                self.order.setDonor(u:User())
+                                }, .cancel()])
+                        }.padding(.bottom,20)
+
+//                        Button(action: {
+//                            //todo
+//                        }) {
+//                            if(self.order.getDonor().messaging){
+//                                Text("Send a Message to \(self.order.getDonor().name)")
+//                                    .font(.body)
+//                                    .padding(10)
+//                                    .background(Color.gray)
+//                                    .foregroundColor(.white)
+//                                    .cornerRadius(10)
+//                            }
+//                        }
+//                        .padding(.bottom,70)
                         
                         Spacer()
                     }
                 //}
                 //.frame(height:geometry.size.height)
             }
-//            .navigationBarTitle("")
-//            .navigationBarHidden(true)
-//            .navigationBarBackButtonHidden(true)
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
             .navigationViewStyle(StackNavigationViewStyle())
         }
-//        .navigationBarTitle("")
-//        .navigationBarHidden(true)
-//        .navigationBarBackButtonHidden(true)
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
