@@ -92,7 +92,7 @@ class User:Codable, Identifiable, ObservableObject{
 
 class Api{
     func getUser(completion: @escaping(User,Bool) -> ()){
-        guard let url = URL(string: "http://34.66.208.30:1500/api/users/auth") else{
+        guard let url = URL(string: "https://reqres.in/api/") else{
             return
         }
         

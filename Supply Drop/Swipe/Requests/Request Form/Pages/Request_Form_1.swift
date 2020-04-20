@@ -15,8 +15,17 @@ struct Request_Form_1: View {
     @EnvironmentObject var user:User
     @State var n:Int = 0
     @State var next:Bool = false
+    @State var error:String = ""
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
+    
+    
+    func validDate(date:String)->Bool{
+        let regEx = #"^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"#
+        
+        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return pred.evaluate(with: date)
+    }
     
     var body: some View {
         NavigationView{
@@ -81,50 +90,59 @@ struct Request_Form_1: View {
                             Text("*Address")
                                 .font(.callout)
                             
-                            TextField("Address Line 1", text: self.$order.address.address1)
+                            TextField("Address Line 1", text: self.$user.initAddress.address1)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
 
                             
-                            TextField("Address Line 2", text: self.$order.address.address2)
+                            TextField("Address Line 2", text: self.$user.initAddress.address2)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
                             HStack {
-                                TextField("City", text: self.$order.address.city)
+                                TextField("City", text: self.$user.initAddress.city)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
                                 .border(Color.gray, width:0.5)
                                 
-                                TextField("State", text: self.$order.address.state)
+                                TextField("State", text: self.$user.initAddress.state)
                                     .padding()
                                     .frame(width:75, height:50)
                                     .border(Color.gray, width:0.5)
                                     
-                                TextField("Zip Code", text: self.$order.address.zip)
+                                TextField("Zip Code", text: self.$user.initAddress.zip)
                                     .keyboardType(.numberPad)
                                     .padding()
                                     .frame(width:geometry.size.width/2.3-75, height:50)
                                     .border(Color.gray, width:0.5)
                             }
                             
-                            TextField("Country", text: self.$order.address.country)
+                            TextField("Country", text: self.$user.initAddress.country)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
+                            Text(self.error)
+                                .foregroundColor(Color.red)
+                                .font(.subheadline)
+                            
                             Button(action:{
                                 //todo
                                 
-                                self.user.initAddress = self.order.address
+                                self.order.address.valid()
                                 
-                                self.order.num=self.n
-                                
-                                self.order1.setOrder2Order(order2: self.order)
-                                
-                                self.next=true
+                                if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.user.initAddress.address1.count==0 || self.user.initAddress.city.count==0 || self.user.initAddress.state.count==0 || self.user.initAddress.zip.count==0 || self.user.initAddress.country.count==0){
+                                    self.error = "Please enter all of the required information."
+                                }else if(!self.validDate(date: self.order.date)){
+                                    self.error = "Invalid date."
+                                }else{
+                                    self.order.address = self.user.initAddress
+                                    self.order.num=self.n
+                                    self.order1.setOrder2Order(order2: self.order)
+                                    self.next=true
+                                }
                             }){
                                 Text("Submit")
         //                            .padding(.top, 10)
