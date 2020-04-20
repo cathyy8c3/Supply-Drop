@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C0A9582244D2631004D8B74 /* Thank_You.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0A9581244D2631004D8B74 /* Thank_You.swift */; };
 		4C11835E244B5D0F009E9FAF /* Bools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C11835D244B5D0E009E9FAF /* Bools.swift */; };
 		4C118362244B5F9B009E9FAF /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C118361244B5F9B009E9FAF /* MainView.swift */; };
 		4C29DADE24495FEA006E5476 /* Donations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C29DADD24495FEA006E5476 /* Donations.swift */; };
@@ -93,6 +94,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C0A9581244D2631004D8B74 /* Thank_You.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thank_You.swift; sourceTree = "<group>"; };
 		4C11835D244B5D0E009E9FAF /* Bools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bools.swift; path = "Supply Drop/Templates/Bools.swift"; sourceTree = SOURCE_ROOT; };
 		4C118361244B5F9B009E9FAF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		4C29DADD24495FEA006E5476 /* Donations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Donations.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				4CD72AF524478D3800C75817 /* Request_Form_1.swift */,
 				4C85330F24497A1E00483CC5 /* Request_Form_2.swift */,
 				4CD72B092447D02400C75817 /* Request_Form_3.swift */,
+				4C0A9581244D2631004D8B74 /* Thank_You.swift */,
 				4CD72B102447EA9D00C75817 /* Edit.swift */,
 			);
 			path = Pages;
@@ -667,6 +670,7 @@
 				4CC811BA24468D5400269F00 /* Circle_Logo.swift in Sources */,
 				4CC65C32244BFADA002C8DD9 /* KeyboardResponder.swift in Sources */,
 				4CC8118A2446471100269F00 /* Login.swift in Sources */,
+				4C0A9582244D2631004D8B74 /* Thank_You.swift in Sources */,
 				4C2EEF352448151A00BA5BE3 /* Address.swift in Sources */,
 				4CD72AF624478D3800C75817 /* Request_Form_1.swift in Sources */,
 				4C87B45824490212004B7E78 /* SwiftUIPager_sample.swift in Sources */,
