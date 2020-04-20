@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Selection: View {
-    @ObservedObject var order:Order
+    @ObservedObject var order:Request
     @State var phrase:String
     @EnvironmentObject var user:User
     @State var you:Bool
@@ -60,6 +60,6 @@ struct Selection: View {
 
 struct Selection_Previews: PreviewProvider {
     static var previews: some View {
-        Selection(order: Order(), phrase:"are requesting", you: true)
+        Selection(order: Request(), phrase:"are requesting", you: true)
     }
 }

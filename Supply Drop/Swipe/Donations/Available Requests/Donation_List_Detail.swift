@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Donation_List_Detail: View {
-    @ObservedObject  var order:Order
+    @ObservedObject  var order:Request
     @EnvironmentObject  var user:User
     @State  var claim:String = "Claim Request"
     @State  var message:String = ""
@@ -102,6 +102,6 @@ struct Donation_List_Detail: View {
 
 struct Donation_List_Detail_Previews: PreviewProvider {
     static var previews: some View {
-        Donation_List_Detail(order: Order()).environmentObject(User())
+        Donation_List_Detail(order: Request()).environmentObject(User())
     }
 }

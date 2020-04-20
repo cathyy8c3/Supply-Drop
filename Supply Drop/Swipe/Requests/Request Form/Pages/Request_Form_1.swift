@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct Request_Form_1: View {
-    @ObservedObject  var order1:Order
+    @ObservedObject  var order1:Request
     
-    @State var order:Order = Order()
+    @State var order:Request = Request()
     @EnvironmentObject var user:User
     @State var n:Int = 0
     @State var next:Bool = false
@@ -176,6 +176,6 @@ struct Request_Form_1: View {
 
 struct Request_Form_1_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Form_1(order1: Order()).environmentObject(User())
+        Request_Form_1(order1: Request()).environmentObject(User())
     }
 }

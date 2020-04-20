@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Edit: View {
-    @ObservedObject  var order:Order
+    @ObservedObject  var order:Request
     @State var n:Int
     @State var presentMe:Bool = false
     
@@ -148,6 +148,6 @@ struct Edit: View {
 
 struct Edit_Previews: PreviewProvider {
     static var previews: some View {
-        Edit(order: Order(),n: 0)
+        Edit(order: Request(),n: 0)
     }
 }

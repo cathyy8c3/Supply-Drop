@@ -10,7 +10,7 @@ import SwiftUI
 import MapKit
 
 struct Request_Detail: View {
-    @ObservedObject  var order:Order
+    @ObservedObject  var order:Request
     @State  var sent:Bool = false
     @State private var showingSheet = false
     
@@ -156,6 +156,6 @@ struct Request_Detail: View {
 
 struct Request_Detail_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Detail(order: Order())
+        Request_Detail(order: Request())
     }
 }

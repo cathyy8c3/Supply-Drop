@@ -12,7 +12,7 @@ struct Request_Form_2: View {
     @State var checked:Bool = false
     @State var unchecked:String = ""
     @State var next:Bool = false
-    @ObservedObject var order:Order
+    @ObservedObject var order:Request
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
@@ -92,6 +92,6 @@ struct Request_Form_2: View {
 
 struct Request_Form_2_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Form_2(order: Order())
+        Request_Form_2(order: Request())
     }
 }

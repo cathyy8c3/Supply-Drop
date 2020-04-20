@@ -28,7 +28,7 @@ struct Donations: View {
 //                        .navigationBarTitle("")
 //                        .navigationBarHidden(true)
                     } else if self.viewRouter.itemSelected == 1 {
-                        Available_Donations(order: Order())
+                        Available_Donations(order: Request())
                     }
                     Spacer()
                     ZStack {

@@ -12,7 +12,7 @@ struct Request_Form: View {
     @ObservedObject var viewRouter = MainTabBarData(initialIndex: 0, customItemIndex1: 2,customItemIndex2: 3)
     @EnvironmentObject var user:User
     
-    @ObservedObject  var order:Order
+    @ObservedObject  var order:Request
         
     @State var showPopUp = false
 //    @State var profile:Bool = false
@@ -150,6 +150,6 @@ struct Request_Form: View {
 
 struct Request_Form_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Form(order: Order()).environmentObject(User())
+        Request_Form(order: Request()).environmentObject(User())
     }
 }

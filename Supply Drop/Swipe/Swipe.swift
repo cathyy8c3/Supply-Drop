@@ -11,7 +11,7 @@ import SwiftUI
 struct Swipe: View {
     @State private var currentPage = 1
     
-    @ObservedObject  var order:Order = Order()
+    @ObservedObject  var order:Request = Request()
     
     var body: some View {
         PagerView(pageCount: 3, currentIndex: $currentPage) {
@@ -27,6 +27,6 @@ struct Swipe: View {
 
 struct Swipe_Previews: PreviewProvider {
     static var previews: some View {
-        Swipe(order: Order())
+        Swipe(order: Request())
     }
 }

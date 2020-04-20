@@ -14,7 +14,7 @@ struct Completed: View {
     var body: some View {
         GeometryReader { geometry in
             List {
-                Selection(order: Order(), phrase:"requested", you:true)
+                Selection(order: Request(), phrase:"requested", you:true)
                     .frame(width:geometry.size.width,height:200)
                     .padding(.leading,-20)
             }

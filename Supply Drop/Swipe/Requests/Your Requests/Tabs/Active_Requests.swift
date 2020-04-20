@@ -14,7 +14,7 @@ struct Active_Requests: View {
     var body: some View {
         GeometryReader { geometry in
             List {
-                Selection(order: Order(), phrase: "are requesting", you:true)
+                Selection(order: Request(), phrase: "are requesting", you:true)
                     .frame(width:geometry.size.width,height:200)
                     .padding(.leading,-20)
             }

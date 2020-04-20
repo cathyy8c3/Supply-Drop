@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUIPager
 
 struct Available_Donations: View {
-    @ObservedObject var order:Order
+    @ObservedObject var order:Request
     @EnvironmentObject var user:User
     @State var page: Int = 0
     @State var data = Array(0..<10)
@@ -112,6 +112,6 @@ struct Available_Donations: View {
 
 struct Available_Donations_Previews: PreviewProvider {
     static var previews: some View {
-        Available_Donations(order: Order()).environmentObject(User())
+        Available_Donations(order: Request()).environmentObject(User())
     }
 }

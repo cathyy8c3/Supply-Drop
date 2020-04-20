@@ -8,9 +8,15 @@
 
 import Foundation
 
-class Request: Codable, Identifiable{
-    var ID:String = ""
-    var Username:String = ""
-    var Password:String = ""
-    
-}
+//class Request: Codable, Identifiable{
+//    var order:Order = Order()
+//
+//    enum CodingKeys: String, CodingKey {
+//        case order.org_name = "Name"
+//        case order.num = "Email"
+//        case order.password = "Password"
+//        case username = "Username"
+//        case address = "Address"
+//        case id = "ID"
+//    }
+//}

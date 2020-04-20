@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Edit_Your_Request: View {
-    @ObservedObject  var order:Order
+    @ObservedObject  var order:Request
         @State var n:Int
         @State var presentMe:Bool = false
         
@@ -151,6 +151,6 @@ struct Edit_Your_Request: View {
 
 struct Edit_Your_Request_Previews: PreviewProvider {
     static var previews: some View {
-        Edit_Your_Request(order: Order(), n: 0)
+        Edit_Your_Request(order: Request(), n: 0)
     }
 }

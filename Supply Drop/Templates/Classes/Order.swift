@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class Order:ObservableObject{
+class Request:ObservableObject{
     @Published var org_name: String = ""
     @Published var item: String = ""
     @Published var num: Int = 0
@@ -22,9 +22,7 @@ class Order:ObservableObject{
     @Published var donor:User = User()
     @Published var claimed:Bool = false
     
-    let objectWillChange = ObservableObjectPublisher()
-    
-    func setOrder2Order(order2:Order){
+    func setOrder2Order(order2:Request){
         org_name = order2.org_name
         item = order2.item
         num = order2.num
