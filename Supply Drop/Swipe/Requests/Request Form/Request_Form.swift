@@ -11,6 +11,8 @@ import SwiftUI
 struct Request_Form: View {
     @ObservedObject var viewRouter = MainTabBarData(initialIndex: 0, customItemIndex1: 2,customItemIndex2: 3)
     @EnvironmentObject var user:User
+    
+    @ObservedObject  var order:Order
         
     @State var showPopUp = false
 //    @State var profile:Bool = false
@@ -26,7 +28,7 @@ struct Request_Form: View {
                     if self.viewRouter.itemSelected == 1 {
                         Request_List()
                     } else if self.viewRouter.itemSelected == 0 {
-                        Request_Form_1(order: Order())
+                        Request_Form_1(order1: self.order)
                     }
                     
                     Spacer()
@@ -148,6 +150,6 @@ struct Request_Form: View {
 
 struct Request_Form_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Form().environmentObject(User())
+        Request_Form(order: Order()).environmentObject(User())
     }
 }

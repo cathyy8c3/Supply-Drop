@@ -76,19 +76,20 @@ struct Request_Form_3: View {
                                     .frame(width: geometry.size.width/3.6-25, height:50, alignment: .leading)
                                     .padding([.leading,.trailing])
                                 
-                                Text("Zip Code: 95111")
+                                Text("Zip Code: \(self.order.address.zip)")
                                     .frame(width: geometry.size.width/3.6-25, height:50, alignment: .leading)
                                     .padding([.leading,.trailing])
 
                             }
                             
-                            Text("Country: United States")
+                            Text("Country: \(self.order.address.country)")
                             .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
                             
-                            NavigationLink(destination:Request_Form(),isActive: self.$next){EmptyView()}
                             
                             Button(action:{
                                 //todo
+                                
+                                //send request
                                 
                                 self.next=true
                                 
@@ -102,6 +103,8 @@ struct Request_Form_3: View {
                                     .padding(.top,10)
                             }
                             .frame(width:500)
+                            
+                            NavigationLink(destination:Thank_You(),isActive: self.$next){EmptyView()}
                         }
                         
                     }

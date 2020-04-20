@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct Request_Form_1: View {
-    @ObservedObject  var order:Order = Order()
+    @ObservedObject  var order1:Order
+    
+    @State var order:Order = Order()
     @EnvironmentObject var user:User
     @State var n:Int = 0
     @State var next:Bool = false
@@ -113,15 +115,14 @@ struct Request_Form_1: View {
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            NavigationLink(destination: Request_Form_2(order:self.order),isActive: self.$next){EmptyView()}
-                            
                             Button(action:{
                                 //todo
-                                //set order address to user address
                                 
                                 self.user.initAddress = self.order.address
                                 
                                 self.order.num=self.n
+                                
+                                self.order1.setOrder2Order(order2: self.order)
                                 
                                 self.next=true
                             }){
@@ -132,6 +133,8 @@ struct Request_Form_1: View {
                                     .padding(.bottom, 50)
                             }
                             .frame(width:500)
+                            
+                            NavigationLink(destination: Request_Form_2(order:self.order1),isActive: self.$next){EmptyView()}
                             
                         }
                         
@@ -155,6 +158,6 @@ struct Request_Form_1: View {
 
 struct Request_Form_1_Previews: PreviewProvider {
     static var previews: some View {
-        Request_Form_1(order:Order()).environmentObject(User())
+        Request_Form_1(order1: Order()).environmentObject(User())
     }
 }

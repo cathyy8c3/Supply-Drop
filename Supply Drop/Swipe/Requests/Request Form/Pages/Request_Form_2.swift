@@ -54,8 +54,6 @@ struct Request_Form_2: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination:Request_Form_3(order:self.order),isActive: self.$next){EmptyView()}
-                    
                     Button(action: {
                         //todo
                         
@@ -74,6 +72,8 @@ struct Request_Form_2: View {
                         .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+                    
+                    NavigationLink(destination:Request_Form_3(order:self.order),isActive: self.$next){EmptyView()}
                     
                     Spacer()
                 }

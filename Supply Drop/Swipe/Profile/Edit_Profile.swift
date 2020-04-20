@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct Edit_Profile: View {
-    @ObservedObject var user1:User
     @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
@@ -64,7 +63,7 @@ struct Edit_Profile: View {
                             self.showingImagePicker=true
                         }) {
                             ZStack (alignment:.bottom){
-                                self.user1.profile
+                                self.user.profile
                                     .renderingMode(.original)
                                     .resizable()
                                     .scaledToFit()
@@ -98,17 +97,17 @@ struct Edit_Profile: View {
                                 .padding(.top,10)
                                 .frame(width:300)
                             
-                            TextField("Name", text: self.$user1.name)
+                            TextField("Name", text: self.$user.name)
                             .padding()
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            TextField("Username", text: self.$user1.username)
+                            TextField("Username", text: self.$user.username)
                             .padding()
                                 .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            TextField("Email", text: self.$user1.email)
+                            TextField("Email", text: self.$user.email)
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
@@ -121,36 +120,36 @@ struct Edit_Profile: View {
                                         .font(.body)
                                         .padding(.top,20)
                                     
-                                    TextField("Address Line 1", text: self.$address1.address1)
+                                TextField("Address Line 1", text: self.$user.initAddress.address1)
                                     .padding()
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
 
                                     
-                                    TextField("Address Line 2", text: self.$address1.address2)
+                                    TextField("Address Line 2", text: self.$user.initAddress.address2)
                                     .padding()
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
                                     
                                     HStack {
-                                        TextField("City", text: self.$address1.city)
+                                        TextField("City", text: self.$user.initAddress.city)
                                         .padding()
                                         .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
                                         .border(Color.gray, width:0.5)
                                         
-                                        TextField("State", text: self.$address1.state)
+                                        TextField("State", text: self.$user.initAddress.state)
                                             .padding()
                                             .frame(width:75, height:50)
                                             .border(Color.gray, width:0.5)
                                             
-                                        TextField("Zip Code", text: self.$address1.zip)
+                                        TextField("Zip Code", text: self.$user.initAddress.zip)
                                             .keyboardType(.numberPad)
                                             .padding()
                                             .frame(width:geometry.size.width/2.3-75, height:50)
                                             .border(Color.gray, width:0.5)
                                     }
                                     
-                                    TextField("Country", text: self.$address1.country)
+                                    TextField("Country", text: self.$user.initAddress.country)
                                     .padding()
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
@@ -160,7 +159,7 @@ struct Edit_Profile: View {
                             }
                             .padding(.bottom,30)
                                 
-                            SecureField("Old Password", text: self.$oldpass)
+                            SecureField("Current Password", text: self.$oldpass)
                             .padding()
                             .frame(width:275, height:50)
                             .border(Color.gray, width:0.5)
@@ -182,28 +181,32 @@ struct Edit_Profile: View {
                         
 //                        Spacer()
                         
-                        NavigationLink(destination: Profile(), isActive: self.$presentMe) { EmptyView() }
-                        
                         Button(action: {
-                            if(self.oldpass==self.user1.password){
+                            if(self.oldpass==self.user.password){
+                                self.match=""
                                 if(self.pass1==self.pass2){
-                                    self.user1.password=self.pass1
-                                    self.presentMe=true
+                                    self.user.password=self.pass1
+                                    self.match=""
                                     
                                     if(!self.isValidPassword(testStr: self.pass1)){
                                         self.match = "Invalid password."
                                     }else{
-                                        if(self.isValidUsername(username: self.username)){
+                                        self.match=""
+                                        if(!self.isValidUsername(username: self.username)){
                                             self.valid = "Invalid username."
-                                        }else if(self.isValidEmail(email:self.email)){
+                                        }else if(!self.isValidEmail(email:self.email)){
                                             self.valid = "Invalid email."
                                         }else{
                                             //todo
                                             //save
                                             
-                                            self.user1.setAddress(add: self.address1)
+                                            self.valid=""
                                             
-                                            self.user.setUser2User(user2: self.user1)
+                                            self.user.setAddress(add:self.user.initAddress)
+                                            
+                                            self.user.password = self.pass1
+                                            
+                                            self.presentMe=true
                                         }
                                     }
                                 }else{
@@ -214,6 +217,7 @@ struct Edit_Profile: View {
                                 
                             }else{
                                 self.match = "Incorrect password."
+                                
                             }
                         }) {
                             Text("Save")
@@ -222,6 +226,8 @@ struct Edit_Profile: View {
                         }
                         .frame(width:500)
                         
+                        NavigationLink(destination: Profile(), isActive: self.$presentMe) { EmptyView() }
+                    
                         Spacer()
                     }
                 }
@@ -249,6 +255,6 @@ struct Edit_Profile: View {
 
 struct Edit_Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Edit_Profile(user1: User()).environmentObject(User())
+        Edit_Profile().environmentObject(User())
     }
 }

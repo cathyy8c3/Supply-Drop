@@ -22,6 +22,24 @@ class Order:ObservableObject{
     @Published var donor:User = User()
     @Published var claimed:Bool = false
     
+    let objectWillChange = ObservableObjectPublisher()
+    
+    func setOrder2Order(order2:Order){
+        org_name = order2.org_name
+        item = order2.item
+        num = order2.num
+        date = order2.date
+        address = order2.address
+    }
+    
+    func setOrder(item2:String){
+        item = item2
+    }
+    
+    func getItem()->String{
+        return item
+    }
+    
     //todo
     let id = UUID().uuidString
     

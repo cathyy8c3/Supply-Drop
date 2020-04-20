@@ -69,7 +69,7 @@ struct Profile: View {
 //                        Spacer()
                         
                         VStack {
-                            NavigationLink(destination:Edit_Profile(user1: self.user)){
+                            NavigationLink(destination:Edit_Profile()){
                                 Text("Edit Your Profile")
                                 .foregroundColor(Color.purple)
                             }

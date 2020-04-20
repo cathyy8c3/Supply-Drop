@@ -111,7 +111,6 @@ struct Edit: View {
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
-                            NavigationLink(destination: Request_Form_3(order:self.order), isActive: self.$presentMe) { EmptyView() }
                             
                             Button(action: {
                                 self.presentMe = true
@@ -125,20 +124,13 @@ struct Edit: View {
                                 .padding(.bottom, 20)
                             }
                             .frame(width:500)
-
                             
-//                            NavigationLink(destination:Request_Form_3(order:self.order)){
-//                                Text("Submit")
-//                                    .font(.title)
-//                                    .foregroundColor(Color.purple)
-//                                    .padding(.bottom, 20)
-//                            }
-//                            .frame(width:500)
+                            NavigationLink(destination: Request_Form_3(order:self.order), isActive: self.$presentMe) { EmptyView() }
+
                         }
                         
                     }
                 }
-        //                .frame(maxHeight:1000)
             
             }
             .navigationBarTitle("")

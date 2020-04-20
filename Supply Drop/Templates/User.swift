@@ -23,10 +23,6 @@ class User:Codable, Identifiable, ObservableObject{
     
     @Published var profile:Image = Image("logo_profile")
     @Published var messaging:Bool = true
-    
-    func setAddress(){
-        address = initAddress.getLoc()
-    }
 //
 //    @Published var requests:[Int] = []
 //    @Published var donations:[Int] = []
