@@ -131,7 +131,7 @@ struct Request_Form_1: View {
                             Button(action:{
                                 //todo
                                 
-                                self.order.address.valid()
+//                                self.order.address.valid()
                                 
                                 if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.user.initAddress.address1.count==0 || self.user.initAddress.city.count==0 || self.user.initAddress.state.count==0 || self.user.initAddress.zip.count==0 || self.user.initAddress.country.count==0){
                                     self.error = "Please enter all of the required information."
@@ -141,7 +141,6 @@ struct Request_Form_1: View {
                                     self.order.address = self.user.initAddress
                                     self.order.num=self.n
                                     self.order1.setOrder2Order(order2: self.order)
-                                    self.next=true
                                 }
                             }){
                                 Text("Submit")

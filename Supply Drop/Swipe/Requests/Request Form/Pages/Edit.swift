@@ -12,8 +12,17 @@ struct Edit: View {
     @ObservedObject  var order:Request
     @State var n:Int
     @State var presentMe:Bool = false
+    @State var error:String = ""
+    @State var manager:Api = Api()
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
+    
+    func validDate(date:String)->Bool{
+        let regEx = #"^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"#
+        
+        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return pred.evaluate(with: date)
+    }
     
     var body: some View {
         NavigationView{
@@ -111,12 +120,23 @@ struct Edit: View {
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
                             
+                            Text(self.error)
+                                .foregroundColor(Color.red)
+                                .font(.subheadline)
                             
-                            Button(action: {
-                                self.presentMe = true
-                                self.order.num=self.n
+                            Button(action: { 
+                                if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.order.address.address1.count==0 || self.order.address.city.count==0 || self.order.address.state.count==0 || self.order.address.zip.count==0 || self.order.address.country.count==0){
+                                    self.error = "Please enter all of the required information."
+                                }else if(!self.validDate(date: self.order.date)){
+                                    self.error = "Invalid date."
+                                }else{
+                                    self.order.num=self.n
+                                    
+                                    self.manager.createRequest(order: self.order)
+                                    
+                                    self.presentMe=true
+                                }
                                 
-                                //todo
                             }) {
                                 Text("Submit")
                                 .font(.title)

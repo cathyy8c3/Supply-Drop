@@ -76,8 +76,6 @@ struct signIn: View {
                             .foregroundColor(Color.red)
                         
                         Button(action:{
-                            //todo
-                            
                             self.manager.authenticate(user: self.user)
                         }){
                             Text("Submit")

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Request_List: View {
     @State var completed:Int = 0
+    @State var availableList = [Request]()
         
     var body: some View {
         NavigationView{

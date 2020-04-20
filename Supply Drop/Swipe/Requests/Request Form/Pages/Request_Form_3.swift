@@ -13,6 +13,8 @@ struct Request_Form_3: View {
     @EnvironmentObject var user:User
     @State var next:Bool = false
     
+    @State var manager:Api = Api()
+    
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     var body: some View {
