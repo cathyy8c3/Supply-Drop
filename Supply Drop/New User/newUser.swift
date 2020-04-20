@@ -18,6 +18,8 @@ struct newUser: View {
     @State var emailUsernameError:String = ""
     @State var height:CGFloat = 0
     
+    @State var manager:Api = Api()
+    
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     func isValidEmail(email:String?) -> Bool {
@@ -168,6 +170,11 @@ struct newUser: View {
                                     if(self.passError=="" && self.emailUsernameError==""){
                                         //todo
                                         //submit
+                                        
+                                        self.user.setAddress(add: self.user.initAddress)
+                                        self.user.setPass(pass: self.password1)
+                                        
+                                        self.manager.createUser(user: self.user)
                                     }
                                 }){
                                     Text("Create Your Account")
@@ -207,37 +214,7 @@ struct newUser: View {
         }
         
     }
-    
-//    func submitSignIn(){
-//            guard let encoded = try? JSONEncoder().encode(User)
-//                else{
-//                    print("Failed to encode user.")
-//                    return
-//            }
-//            
-//    //        print("hello")
-//            
-//            let url = URL(string: "https://reqres.in/api/Users")!
-//            
-//            var request = URLRequest(url: url)
-//            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//            request.httpMethod = "POST"
-//            request.httpBody = encoded
-//            
-//            URLSession.shared.dataTask(with: request) { data, response, error in
-//                // handle the result here.
-//                guard let data = data else {
-//                    print("No data in response: \(error?.localizedDescription ?? "Unknown error").")
-//                    return
-//                }
-//                
-//                if (try? JSONDecoder().decode(User.self, from: data)) != nil {
-//                    self.confirmationMessage = "Signed in."
-//                    self.showingConfirmation = true
-//                } else {
-//                    print("Invalid response from server")
-//                }
-//            }.resume()
+            
 }
 
 struct newUser_Previews: PreviewProvider {

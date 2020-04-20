@@ -15,6 +15,8 @@ struct signIn: View {
     @State var validUser:Bool = false
     @State var error:String = ""
     
+    @State var manager:Api = Api()
+    
     @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
@@ -41,13 +43,13 @@ struct signIn: View {
                         .shadow(radius: 10)
                     
                     VStack (spacing: 10){
-                        TextField("Enter your username.", text: $username)
+                        TextField("Enter your username.", text: self.$user.username)
                             .padding()
                             .frame(width:300, height:50)
                             .border(Color.gray, width:0.5)
                             
                         
-                        SecureField("Enter your password.",text: $password)
+                        SecureField("Enter your password.",text: self.$user.password)
                             .padding()
                             .frame(width:300, height:50)
                             .border(Color.gray, width:0.5)
@@ -76,15 +78,7 @@ struct signIn: View {
                         Button(action:{
                             //todo
                             
-                            Api().getUser{user1,exists  in
-                                if(exists){
-                                    self.user.setUser2User(user2: user1)
-                                    
-                                    self.validUser=true
-                                }else{
-                                    self.error = "Incorrect password or username."
-                                }
-                            }
+                            self.manager.authenticate(username: self.user.username, password: self.user.password)
                         }){
                             Text("Submit")
                                 .padding(.top, 10)
@@ -92,7 +86,7 @@ struct signIn: View {
                                 .foregroundColor(Color.purple)
                         }
                         .frame(width:300)
-                        .disabled(username.count==0 || password.count==0)
+                        .disabled(self.user.username.count==0 || self.user.password.count==0)
                         
                         Button(action:{
                             

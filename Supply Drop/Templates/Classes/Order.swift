@@ -26,7 +26,7 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var donor:User = User()
     @Published var claimed:Bool = false
     
-    var id = UUID().uuidString
+    var id = ""
     
     init(){}
     

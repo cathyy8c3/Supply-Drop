@@ -17,12 +17,14 @@ class User:Codable, Identifiable, ObservableObject{
     @Published var password:String = ""
     @Published var username:String = ""
     @Published var address:String = ""
-    @Published var id:String = UUID().uuidString
+    @Published var id:String = ""
     
     @Published var initAddress:Address = Address()
     
     @Published var profile:Image = Image("logo_profile")
     @Published var messaging:Bool = true
+    
+    
 //
 //    @Published var requests:[Int] = []
 //    @Published var donations:[Int] = []
@@ -32,7 +34,7 @@ class User:Codable, Identifiable, ObservableObject{
         case email = "Email"
         case password = "Password"
         case username = "Username"
-        case address = "Address"
+        case address = "ShippingAddress"
         case id = "ID"
     }
     
@@ -71,6 +73,10 @@ class User:Codable, Identifiable, ObservableObject{
         address = add.getLoc()
     }
     
+    func setPass(pass:String){
+        password = pass
+    }
+    
     func setUser(name2:String, email2:String, password2:String, username2:String, address2:String, id2:String){
         name=name2
         email=email2
@@ -90,35 +96,77 @@ class User:Codable, Identifiable, ObservableObject{
     }
 }
 
-class Api{
-    func getUser(completion: @escaping(User,Bool) -> ()){
-        guard let url = URL(string: "https://reqres.in/api/") else{
+struct tempUser:Codable{
+    var Name,Username,Password,ShippingAddress,Email,ID:String
+}
+
+class Api:ObservableObject{
+    var authenticated:Bool = false
+    
+    func authenticate(username:String, password:String){
+        
+        guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
+            print("no url")
             return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if(error==nil && !(data==nil)){
-                do{
-                    
-                    let user1 = try!JSONDecoder().decode(User.self, from: data!)
-                    
-                    if(type(of:data)==String.self){
-                        completion(user1,false)
-                    }
-                    
-                    completion(user1,true)
-                }
-                
-                catch{
-                    print("Error in JSON parsing.")
-                }
-            }else{
-                print("Error")
+        let body:[String:String] = ["Username": username, "Password": password]
+
+        
+        let finalBody = try!JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
                 return
+            }
+            
+            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+                print("working")
+                print(finalData)
+            } else{
+                print("error")
             }
         }.resume()
     }
+    
+    func createUser(user:User){
+        guard let url = URL(string: "http://localhost:1500/api/users/new") else{
+            print("no url")
+            return
+        }
+        
+        let body:[String:String] = ["Username": user.username, "newPassword": user.password, "Email":user.email, "ShippingAddress": user.address,"Name":user.name]
+        let finalBody = try!JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+                print("working")
+                print(finalData)
+            } else{
+                print("error")
+            }
+        }.resume()
+    }
+    
+    
 }
 
 extension String {
