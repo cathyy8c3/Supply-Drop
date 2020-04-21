@@ -17,7 +17,7 @@ class User:Codable, Identifiable, ObservableObject{
     @Published var password:String = ""
     @Published var username:String = ""
     @Published var address:String = ""
-    @Published var id:String = ""
+    @Published var id:Int = -1
     
     @Published var initAddress:Address = Address()
     
@@ -46,7 +46,7 @@ class User:Codable, Identifiable, ObservableObject{
         password = try values.decode(String.self, forKey: .password)
         username = try values.decode(String.self, forKey: .username)
         address = try values.decode(String.self, forKey: .address)
-        id = try values.decode(String.self, forKey: .id)
+        id = try values.decode(Int.self, forKey: .id)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -77,7 +77,7 @@ class User:Codable, Identifiable, ObservableObject{
         password = pass
     }
     
-    func setUser(name2:String, email2:String, password2:String, username2:String, address2:String, id2:String){
+    func setUser(name2:String, email2:String, password2:String, username2:String, address2:String, id2:Int){
         name=name2
         email=email2
         password=password2
@@ -97,23 +97,23 @@ class User:Codable, Identifiable, ObservableObject{
 }
 
 struct tempUser:Codable{
-    var Name,Username,Password,ShippingAddress,Email,ID:String
+    var Name,Username,ShippingAddress,Email:String
+    var ID:Int
 }
 
 class Api:ObservableObject{
     var authenticated:Bool = false
     
-    func authenticate(user:User){
+    func authenticate(user:User, completion: @escaping(Bool) -> ()){
         
         guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
             print("no url")
             return
         }
         
-        guard let finalBody = try? JSONEncoder().encode(user) else {
-            print("Failed to encode order")
-            return
-        }
+        
+        let body:[String:String] = ["Username": user.username, "Password": user.password]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
@@ -127,11 +127,30 @@ class Api:ObservableObject{
                 return
             }
             
-            if let finalData = try? JSONDecoder().decode(User.self, from:data){
+//            if(type(of: data)==String.self){
+//                self.authenticated = false
+//
+//            }else{
+//                self.authenticated = true
+//            }
+
+            if let finalData = try? JSONDecoder().decode([tempUser].self, from:data){
                 print("working")
                 print(finalData)
+
+                self.authenticated = true
+                
+                completion(true)
+                
             } else{
+                print(String(data: data, encoding: .utf8)!)
                 print("error")
+                
+                print(String(data: data, encoding: .utf8)!)
+
+                self.authenticated = false
+                
+                completion(false)
             }
         }.resume()
     }
@@ -154,17 +173,8 @@ class Api:ObservableObject{
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else{
-                print("No data.")
-                return
-            }
-            
-            if let finalData = try? JSONDecoder().decode(User.self, from:data){
-                print("working")
-                print(finalData)
-            } else{
-                print("error")
-            }
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
     

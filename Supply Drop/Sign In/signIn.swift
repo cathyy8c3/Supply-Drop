@@ -76,8 +76,14 @@ struct signIn: View {
                             .foregroundColor(Color.red)
                         
                         Button(action:{
-                            self.manager.authenticate(user: self.user)
-                        }){
+                            self.manager.authenticate(user: self.user, completion: { done in
+                                if(done){
+                                    self.validUser = true
+                                }else{
+                                    self.error = "Incorrect username or password."
+                                }})
+                            }
+                        ){
                             Text("Submit")
                                 .padding(.top, 10)
                                 .font(.title)

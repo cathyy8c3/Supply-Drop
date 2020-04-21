@@ -19,14 +19,14 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var address:Address = Address()
     @Published var addressString:String = ""
     
-    @Published var requesterID:String = ""
-    @Published var donorID:String = ""
+    @Published var requesterID:Int = -1
+    @Published var donorID:Int = -1
+    
+    @Published var id:Int = -1
     
     @Published var requester:User = User()
     @Published var donor:User = User()
     @Published var claimed:Bool = false
-    
-    var id = ""
     
     init(){}
     
@@ -54,10 +54,10 @@ class Request:ObservableObject,Codable,Identifiable{
         num = try values.decode(Int.self, forKey: .num)
         addressString = try values.decode(String.self, forKey: .addressString)
         date = try values.decode(String.self, forKey: .date)
-        id = try values.decode(String.self, forKey: .id)
+        id = try values.decode(Int.self, forKey: .id)
         status = try values.decode(Int.self, forKey: .status)
-        requesterID = try values.decode(String.self, forKey: .requesterID)
-        donorID = try values.decode(String.self, forKey: .donorID)
+        requesterID = try values.decode(Int.self, forKey: .requesterID)
+        donorID = try values.decode(Int.self, forKey: .donorID)
     }
 
     public func encode(to encoder: Encoder) throws {

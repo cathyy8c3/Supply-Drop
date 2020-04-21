@@ -17,6 +17,7 @@ struct newUser: View {
     @State var passError:String = ""
     @State var emailUsernameError:String = ""
     @State var height:CGFloat = 0
+    @State var next:Bool = false
     
     @State var manager:Api = Api()
     
@@ -175,6 +176,8 @@ struct newUser: View {
                                         self.user.setPass(pass: self.password1)
                                         
                                         self.manager.createUser(user: self.user)
+                                        
+                                        self.next = true
                                     }
                                 }){
                                     Text("Create Your Account")
@@ -184,6 +187,8 @@ struct newUser: View {
                                 }
                                 .disabled(self.user.name.count==0 || self.user.name.count==0 || self.password1.count==0 || self.password2.count==0)
         //                                Spacer()
+                                
+                                NavigationLink(destination:signIn(),isActive: self.$next){EmptyView()}
                                 
                                 Text("or")
                                     .font(.body)
