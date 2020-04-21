@@ -18,7 +18,7 @@ struct Active_Requests: View {
                     .frame(width:geometry.size.width,height:200)
                     .padding(.leading,-20)
             }
-            .onAppear { UITableView.appearance().separatorStyle = .none } .onDisappear { UITableView.appearance().separatorStyle = .singleLine }
+            
         }
     }
 }
