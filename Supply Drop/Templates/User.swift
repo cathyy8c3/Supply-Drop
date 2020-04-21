@@ -24,6 +24,16 @@ class User:Codable, Identifiable, ObservableObject{
     @Published var profile:Image = Image("logo_profile")
     @Published var messaging:Bool = true
     
+    func tempUser2User(user2:tempUser){
+        DispatchQueue.main.async {
+            self.name = user2.Name
+            self.email = user2.Email
+            self.username = user2.Username
+            self.address = user2.ShippingAddress
+            self.initAddress = user2.ShippingAddress.toAddress(address: user2.ShippingAddress)
+            self.id = user2.ID
+        }
+    }
     
 //
 //    @Published var requests:[Int] = []
@@ -70,7 +80,7 @@ class User:Codable, Identifiable, ObservableObject{
     init(){}
     
     func setAddress(add:Address){
-        address = add.getLoc()
+        address = add.storeLoc()
     }
     
     func setPass(pass:String){
@@ -104,7 +114,7 @@ struct tempUser:Codable{
 class Api:ObservableObject{
     var authenticated:Bool = false
     
-    func authenticate(user:User, completion: @escaping(Bool) -> ()){
+    func authenticate(user:User, completion: @escaping(Bool,[tempUser]) -> ()){
         
         guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
             print("no url")
@@ -140,17 +150,15 @@ class Api:ObservableObject{
 
                 self.authenticated = true
                 
-                completion(true)
+                completion(true,finalData)
                 
             } else{
                 print(String(data: data, encoding: .utf8)!)
                 print("error")
-                
-                print(String(data: data, encoding: .utf8)!)
 
                 self.authenticated = false
                 
-                completion(false)
+                completion(false,[])
             }
         }.resume()
     }
@@ -288,5 +296,19 @@ class Api:ObservableObject{
 extension String {
     var isAlphanumeric: Bool {
         return !isEmpty && range(of: "[^a-zA-Z0-9]", options: .regularExpression) == nil
+    }
+    
+    func toAddress(address:String)->Address{
+        let tempAdd = address.components(separatedBy: "\n")
+        
+        let finAdd = Address()
+        finAdd.address1 = tempAdd[0]
+        finAdd.address2 = tempAdd[1]
+        finAdd.city = tempAdd[2]
+        finAdd.state = tempAdd[3]
+        finAdd.zip = tempAdd[4]
+        finAdd.country = tempAdd[5]
+        
+        return finAdd
     }
 }

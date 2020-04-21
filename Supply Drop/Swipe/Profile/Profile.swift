@@ -55,7 +55,7 @@ struct Profile: View {
                             Text("Email: \(self.user.email)")
                                 .frame(width:300)
                             
-                            Text("Address: \(self.user.initAddress.getLoc())")
+                            Text("Address: \(self.user.address)")
                                 .frame(width:300,height:100,alignment: .top)
                         
 //                            Toggle(isOn:self.$user.messaging) {

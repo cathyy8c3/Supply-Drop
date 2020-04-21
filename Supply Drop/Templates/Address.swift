@@ -22,6 +22,10 @@ class Address{
         return "\(address1)\n\(address2)\n\(city), \(state) \(zip)\n\(country)"
     }
     
+    func storeLoc()->String{
+        return "\(address1)\n\(address2)\n\(city)\n\(state)\n\(zip)\n\(country)"
+    }
+    
     func valid()->String{
         if(address1.count==0 || city.count==0 || state.count==0 || zip.count==0 || country.count==0){
             return "Please enter information into all required fields."

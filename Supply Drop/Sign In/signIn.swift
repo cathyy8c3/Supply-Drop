@@ -54,13 +54,13 @@ struct signIn: View {
                             .frame(width:300, height:50)
                             .border(Color.gray, width:0.5)
                         
-                        Button(action:{
-                            //todo
-                        }){
-                            Text("Forget your password?")
-                                .font(.subheadline)
-                                .foregroundColor(Color.purple)
-                        }
+//                        Button(action:{
+//                            //todo
+//                        }){
+//                            Text("Forget your password?")
+//                                .font(.subheadline)
+//                                .foregroundColor(Color.purple)
+//                        }
                         
                         NavigationLink(destination:newUser(user: self.user)){
                             Text("Create an account.")
@@ -76,8 +76,9 @@ struct signIn: View {
                             .foregroundColor(Color.red)
                         
                         Button(action:{
-                            self.manager.authenticate(user: self.user, completion: { done in
+                            self.manager.authenticate(user: self.user, completion: { done,user2 in
                                 if(done){
+                                    self.user.tempUser2User(user2: user2[0])
                                     self.validUser = true
                                 }else{
                                     self.error = "Incorrect username or password."
