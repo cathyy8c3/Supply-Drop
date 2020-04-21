@@ -26,6 +26,8 @@ struct Edit_Profile: View {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     
+    @State var manager:Api = Api()
+    
     func isValidEmail(email:String?) -> Bool {
         
         guard email != nil else { return false }
@@ -221,9 +223,13 @@ struct Edit_Profile: View {
                                     
                                     self.user.setAddress(add:self.user.initAddress)
                                     
-                                    self.user.password = self.pass1
+                                    if(!(self.pass1=="")){
+                                        self.user.password = self.pass1
+                                    }
                                     
                                     self.presentMe=true
+                                    
+                                    self.manager.updateUser(user: self.user)
                                 }
                                     
                                 

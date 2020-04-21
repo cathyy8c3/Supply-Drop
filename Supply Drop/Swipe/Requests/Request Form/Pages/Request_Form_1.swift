@@ -28,7 +28,7 @@ struct Request_Form_1: View {
     }
     
     var body: some View {
-        NavigationView{
+        VStack{
             GeometryReader{ geometry in
                 ScrollView{
                     Spacer()
@@ -141,6 +141,7 @@ struct Request_Form_1: View {
                                     self.order.address = self.user.initAddress
                                     self.order.num=self.n
                                     self.order1.setOrder2Order(order2: self.order)
+                                    self.next=true
                                 }
                             }){
                                 Text("Submit")

@@ -13,7 +13,8 @@ import Combine
 class Request:ObservableObject,Codable,Identifiable{
     @Published var org_name: String = ""
     @Published var item: String = ""
-    @Published var num: Int = 0
+    @Published var num:Int = 0
+    @Published var numString:String = ""
     @Published var date:String = ""
     
     @Published var address:Address = Address()
@@ -37,13 +38,17 @@ class Request:ObservableObject,Codable,Identifiable{
     enum CodingKeys: String, CodingKey {
         case org_name = "Title"
         case item = "Item"
-        case num = "AffiliateLinks"
+        case numString = "Links"
         case addressString = "ShippingAddress"
         case date = "Description"
         case id = "ID"
         case status = "State"
-        case requesterID = "Requester"
-        case donorID = "Donor"
+        case requesterID = "RequesterID"
+        case donorID = "DonorID"
+    }
+    
+    func setNumString(){
+        numString = String(num)
     }
     
     required init(from decoder:Decoder) throws {
@@ -51,7 +56,7 @@ class Request:ObservableObject,Codable,Identifiable{
         
         org_name = try values.decode(String.self, forKey: .org_name)
         item = try values.decode(String.self, forKey: .item)
-        num = try values.decode(Int.self, forKey: .num)
+        numString = try values.decode(String.self, forKey: .numString)
         addressString = try values.decode(String.self, forKey: .addressString)
         date = try values.decode(String.self, forKey: .date)
         id = try values.decode(Int.self, forKey: .id)
@@ -65,7 +70,7 @@ class Request:ObservableObject,Codable,Identifiable{
         
         try container.encode(org_name, forKey: .org_name)
         try container.encode(item, forKey: .item)
-        try container.encode(num, forKey: .num)
+        try container.encode(num, forKey: .numString)
         try container.encode(addressString, forKey: .addressString)
         try container.encode(date, forKey: .date)
         try container.encode(id, forKey: .id)
@@ -199,17 +204,8 @@ extension Api{
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else{
-                print("No data.")
-                return
-            }
-            
-            if let finalData = try? JSONDecoder().decode(User.self, from:data){
-                print("working")
-                print(finalData)
-            } else{
-                print("error")
-            }
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
     

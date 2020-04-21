@@ -195,7 +195,7 @@ class Api:ObservableObject{
         let finalBody = try!JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -233,7 +233,7 @@ class Api:ObservableObject{
         let finalBody = try!JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -274,7 +274,7 @@ class Api:ObservableObject{
         }
         
         var request = URLRequest(url:url)
-        request.httpMethod = "POST"
+        request.httpMethod = "PUT"
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

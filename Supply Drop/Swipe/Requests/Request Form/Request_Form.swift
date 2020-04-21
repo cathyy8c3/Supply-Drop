@@ -19,7 +19,7 @@ struct Request_Form: View {
 //    @State var messages:Bool = false
     
     var body: some View {
-        NavigationView {
+        VStack {
             GeometryReader { geometry in
                 VStack {
 //                    Text(String(self.viewRouter.itemSelected))
@@ -105,6 +105,7 @@ struct Request_Form: View {
                                 }
 
                             }
+                            NavigationLink(destination:Profile(previous: 1), isActive:self.$viewRouter.isCustomItemSelected1){EmptyView()}
                             
                             Image(systemName: "list.bullet")
                                 .resizable()
@@ -119,7 +120,7 @@ struct Request_Form: View {
                         .frame(width: geometry.size.width, height: geometry.size.height/10)
                         .background(Color.white.shadow(radius: 2))
                     }
-                    NavigationLink(destination:Profile(previous: 1), isActive:self.$viewRouter.isCustomItemSelected1){EmptyView()}
+                    
                     
                 }.edgesIgnoringSafeArea([.bottom])
                 

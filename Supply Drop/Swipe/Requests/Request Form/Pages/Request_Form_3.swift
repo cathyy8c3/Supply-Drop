@@ -32,7 +32,7 @@ struct Request_Form_3: View {
                         Text("Request Summary")
                             .font(.title)
                         
-                        NavigationLink(destination:Edit(order: self.order, n: self.order.num)){
+                        NavigationLink(destination:Edit(order: self.order, n: Int(self.order.num) ?? 0)){
                             Text("Edit Your Request")
                                 .font(.body)
                                 .foregroundColor(Color.purple)
@@ -46,7 +46,7 @@ struct Request_Form_3: View {
                             Text("Item: \(self.order.item)")
                             .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
                             
-                            Text("# of Items: \(String(self.order.num))")
+                            Text("# of Items: \(self.order.num)")
                             .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
                             
                             Text("Date Needed: \(self.order.date)")
@@ -87,6 +87,8 @@ struct Request_Form_3: View {
                             Text("Country: \(self.order.address.country)")
                             .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
                             
+                            NavigationLink(destination:Thank_You(),isActive: self.$next){EmptyView()}
+                            
                             
                             Button(action:{
                                 //todo
@@ -97,7 +99,12 @@ struct Request_Form_3: View {
                                 
                                 self.order.setRequester(u: self.user)
                                 
+                                self.order.setNumString()
                                 
+                                self.manager.createRequest(order: self.order)
+                                
+                                self.user.setAddress(add:self.user.initAddress)
+                                self.manager.updateUser(user: self.user)
                             }){
                                 Text("Submit")
         //                            .padding(.top, 10)
@@ -108,7 +115,7 @@ struct Request_Form_3: View {
                             }
                             .frame(width:500)
                             
-                            NavigationLink(destination:Thank_You(),isActive: self.$next){EmptyView()}
+                            
                         }
                         
                     }
