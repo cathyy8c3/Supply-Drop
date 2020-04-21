@@ -12,6 +12,8 @@ struct Profile: View {
     @EnvironmentObject var user:User
     @State var presentMe:Bool = false
     @EnvironmentObject var loggedIn:Bools
+    @State var previous:Int
+    @State var back:Bool = false
     
     var body: some View {
         NavigationView{
@@ -20,27 +22,44 @@ struct Profile: View {
                     VStack {
 //                        Spacer()
                         
-                        VStack {
-                            Rectangle()
-                                .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
-                                .edgesIgnoringSafeArea([.top])
-                                .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/2.5, maxHeight:geometry.size.height/2.5)
+                        ZStack {
+                            ZStack {
+                                Rectangle()
+                                    .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
+                                    .edgesIgnoringSafeArea([.top])
+                                    .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/2.5, maxHeight:geometry.size.height/2.5)
+                                
+                                self.user.profile
+                                    .resizable()
+                                    .scaledToFit()
+                                    .aspectRatio(contentMode:.fit)
+                                    .clipShape(Circle())
+                                    .shadow(radius: 20)
+                                    .overlay(Circle().stroke(Color.white,lineWidth: 2))
+                                    .frame(maxWidth:geometry.size.width/3,maxHeight:geometry.size.width/2.5)
+                                    .offset(y:geometry.size.height/8)
+                                    .edgesIgnoringSafeArea(.top)
+                                
+                                
+//                                    .padding(.bottom,-geometry.size.height/5)
+                            }.edgesIgnoringSafeArea(.top)
                             
-                            self.user.profile
-                                .resizable()
-                                .scaledToFit()
-                                .aspectRatio(contentMode:.fit)
-                                .clipShape(Circle())
-                                .shadow(radius: 20)
-                                .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(maxWidth:geometry.size.width/3,maxHeight:geometry.size.width/3)
-                                .offset(y:-geometry.size.height/5)
-                                .padding(.bottom,-geometry.size.height/5)
-                        }
+                           Button(action: {
+                               self.back = true
+                           }){
+                               HStack {
+                                   Image(systemName: "chevron.left")
+                                    Text("Back")
+                               }
+                               .foregroundColor(Color.white)
+                           }.position(x:50,y:geometry.size.height/8)
+                            .edgesIgnoringSafeArea(.top)
+                        }.edgesIgnoringSafeArea(.top)
                         
-//                        Spacer()
+                        Spacer()
                         
                         VStack(spacing:20) {
+                            Spacer()
                             Text("Profile")
                                 .font(.largeTitle)
                                 .padding(.top,10)
@@ -55,7 +74,7 @@ struct Profile: View {
                             Text("Email: \(self.user.email)")
                                 .frame(width:300)
                             
-                            Text("Address: \(self.user.address)")
+                            Text("Address: \(self.user.initAddress.getLoc())")
                                 .frame(width:300,height:100,alignment: .top)
                         
 //                            Toggle(isOn:self.$user.messaging) {
@@ -64,12 +83,12 @@ struct Profile: View {
 //                            .frame(width:210)
                         }
                         .padding(.bottom,20)
-                        .padding(.top,50)
+//                        .padding(.top,50)
                         
-//                        Spacer()
+
                         
                         VStack {
-                            NavigationLink(destination:Edit_Profile()){
+                            NavigationLink(destination:Edit_Profile( previous: self.previous)){
                                 Text("Edit Your Profile")
                                 .foregroundColor(Color.purple)
                             }
@@ -85,17 +104,39 @@ struct Profile: View {
                             }) {
                                 Text("Sign Out")
                                 .foregroundColor(Color.purple)
-                                .padding(.bottom, 20)
+                                    .padding(.bottom,50)
                             }
+                            
+                            if(self.previous==0){
+                                NavigationLink(destination:Donations(),isActive: self.$back){EmptyView()}
+                            }else{
+                                NavigationLink(destination:Request_Form(order: Request()),isActive: self.$back){EmptyView()}
+                            }
+
                         }
                         
                         Spacer()
+                        
+                        
                     }
                     .edgesIgnoringSafeArea([.top])
+                                
+                
                 //}
                 //.frame(height:geometry.size.height)
             }
-            .edgesIgnoringSafeArea([.top])
+//            .navigationBarItems(leading:
+//                Button(action: {
+//                    self.back = true
+//                }){
+//                    HStack {
+//                        Image(systemName: "chevron.left")
+//                        Text("Back")
+//                    }
+//                    .foregroundColor(Color.white)
+//                }
+//            )
+//            .edgesIgnoringSafeArea([.top])
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
@@ -110,6 +151,6 @@ struct Profile: View {
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Profile().environmentObject(User()).environmentObject(Bools())
+        Profile(previous: 0).environmentObject(User()).environmentObject(Bools())
     }
 }

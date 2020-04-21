@@ -20,6 +20,7 @@ struct Edit_Profile: View {
     @State var address1:Address = Address()
     @State var valid:String = ""
     @State var allFields:String = ""
+    @State var previous:Int
     
     @State var image:Image?
     @State private var showingImagePicker = false
@@ -237,7 +238,7 @@ struct Edit_Profile: View {
                         }
                         .frame(width:500)
                         
-                        NavigationLink(destination: Profile(), isActive: self.$presentMe) { EmptyView() }
+                    NavigationLink(destination: Profile(previous:self.previous), isActive: self.$presentMe) { EmptyView() }
                     
                         Spacer()
                     }
@@ -266,6 +267,6 @@ struct Edit_Profile: View {
 
 struct Edit_Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Edit_Profile().environmentObject(User())
+        Edit_Profile(previous: 0).environmentObject(User())
     }
 }

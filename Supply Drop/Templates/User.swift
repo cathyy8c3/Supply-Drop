@@ -263,13 +263,15 @@ class Api:ObservableObject{
     }
     
     func updateUser(user:User){
-        guard let url = URL(string: "http://localhost:1500/api/id/update") else{
+        guard let url = URL(string: "http://localhost:1500/api/users/id/update") else{
             print("no url")
             return
         }
         
-        let body:[String:String] = ["Username": user.username, "newPassword": user.password, "Email":user.email, "ShippingAddress": user.address,"Name":user.name]
-        let finalBody = try!JSONSerialization.data(withJSONObject: body)
+        guard let finalBody = try? JSONEncoder().encode(user) else {
+            print("Failed to encode order")
+            return
+        }
         
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
@@ -278,17 +280,8 @@ class Api:ObservableObject{
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else{
-                print("No data.")
-                return
-            }
-            
-            if let finalData = try? JSONDecoder().decode(User.self, from:data){
-                print("working")
-                print(finalData)
-            } else{
-                print("error")
-            }
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
 }

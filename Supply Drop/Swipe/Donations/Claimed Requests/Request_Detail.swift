@@ -139,17 +139,23 @@ struct Request_Detail: View {
                         
                         Spacer()
                     }
+//                .navigationBarItems(leading:
+//                    {HStack{
+//                        Image(systemName: "chevron.left")
+//                        Text("Back")
+//                    }
+//                    .foregroundColor(Color.purple)
+//                })
                 //}
                 //.frame(height:geometry.size.height)
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-//            .navigationBarBackButtonHidden(true)
+//            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
             .navigationViewStyle(StackNavigationViewStyle())
         }
 //        .navigationBarTitle("")
 //        .navigationBarHidden(true)
-//        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }

@@ -119,6 +119,7 @@ struct Request_Form: View {
                         .frame(width: geometry.size.width, height: geometry.size.height/10)
                         .background(Color.white.shadow(radius: 2))
                     }
+                    NavigationLink(destination:Profile(previous: 1), isActive:self.$viewRouter.isCustomItemSelected1){EmptyView()}
                     
                 }.edgesIgnoringSafeArea([.bottom])
                 
@@ -127,23 +128,23 @@ struct Request_Form: View {
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
-            print("dismiss")
-        }) {
-            Text("hello2")
-        }
+//        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
+//            print("dismiss")
+//        }) {
+//            Text("hello2")
+//        }
         }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .navigationBarBackButtonHidden(true)
-        .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
-            print("dismiss")
-        }) {
-            Profile().environmentObject(self.user)
-
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
+//        .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
+//            print("dismiss")
+//        }) {
+//            Profile().environmentObject(self.user)
+//
+//        }
+//        .navigationViewStyle(StackNavigationViewStyle())
         
     }
 }

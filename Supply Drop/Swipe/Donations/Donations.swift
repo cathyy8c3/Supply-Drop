@@ -113,24 +113,30 @@ struct Donations: View {
                             .frame(width: geometry.size.width, height: geometry.size.height/10)
                         .background(Color.white.shadow(radius: 2))
                     }
+                    NavigationLink(destination:Profile(previous: 0), isActive:self.$viewRouter.isCustomItemSelected1){EmptyView()}
                 }.edgesIgnoringSafeArea([.bottom])
+                
+                
+//                    .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
+//                    print("dismiss")
+//                }) {
+//                    Profile().environmentObject(self.user)
+//
+//                }
             }
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
-                print("dismiss")
-            }) {
-                Text("hello2")
+//        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
+//                print("dismiss")
+//            }) {
+//                Text("hello2")
+//            }
             }
-            }
-            .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
-                print("dismiss")
-            }) {
-                Profile().environmentObject(self.user)
-
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
+//            .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
