@@ -114,6 +114,8 @@ struct tempUser:Codable{
 class Api:ObservableObject{
     var authenticated:Bool = false
     
+    //done
+    
     func authenticate(user:User, completion: @escaping(Bool,[tempUser]) -> ()){
         
         guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
@@ -163,6 +165,8 @@ class Api:ObservableObject{
         }.resume()
     }
     
+    //done
+    
     func createUser(user:User){
         guard let url = URL(string: "http://localhost:1500/api/users/new") else{
             print("no url")
@@ -185,6 +189,8 @@ class Api:ObservableObject{
             print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
+    
+    //get user function
     
     func getDonations(id:String,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/users/id/donations") else{
@@ -261,6 +267,8 @@ class Api:ObservableObject{
             }
         }.resume()
     }
+    
+    //done
     
     func updateUser(user:User){
         guard let url = URL(string: "http://localhost:1500/api/users/id/update") else{

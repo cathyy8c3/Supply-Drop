@@ -12,6 +12,8 @@ struct Edit_Your_Request: View {
     @ObservedObject  var order:Request
         @State var n:Int
         @State var presentMe:Bool = false
+    @EnvironmentObject var user:User
+    @State var manager:Api = Api()
         
         var body: some View {
             NavigationView{
@@ -114,6 +116,11 @@ struct Edit_Your_Request: View {
                                 Button(action: {
                                     self.presentMe = true
                                     self.order.num=self.n
+                                    
+                                    self.user.setAddress(add: self.order.address)
+                                    
+                                    self.manager.updateUser(user: self.user)
+                                    self.manager.updateRequest(order: self.order)
                                 }) {
                                     Text("Submit")
                                     .font(.title)

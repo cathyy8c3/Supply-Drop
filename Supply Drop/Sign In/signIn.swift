@@ -16,6 +16,7 @@ struct signIn: View {
     @State var error:String = ""
     
     @State var manager:Api = Api()
+    @EnvironmentObject var orders:Orders
     
     @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()

@@ -12,6 +12,7 @@ struct Donations: View {
     @ObservedObject var viewRouter = MainTabBarData(initialIndex: 1, customItemIndex1: 2,customItemIndex2: 3)
     
     @EnvironmentObject var user:User
+    @EnvironmentObject var orders:Orders
         
     @State var showPopUp = false
     @State var profile:Bool = false
@@ -28,7 +29,7 @@ struct Donations: View {
 //                        .navigationBarTitle("")
 //                        .navigationBarHidden(true)
                     } else if self.viewRouter.itemSelected == 1 {
-                        Available_Donations(order: Request())
+                        Available_Donations()
                     }
                     Spacer()
                     ZStack {

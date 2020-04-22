@@ -10,6 +10,38 @@ import Foundation
 import SwiftUI
 import Combine
 
+class Orders:ObservableObject,Identifiable{
+    
+    @Published var orders:[Request] = []
+    
+    func getOrders()->[Request]{
+        return orders
+    }
+    
+    //fix
+    
+    func setOrders(order3: [Request]){
+        let manager:Api = Api()
+        var order2:[Request] = []
+        
+        manager.getAvailable(completion: {order1 in
+            print("Orders4:")
+            print(order1)
+            order2 = order1
+            print(order2)
+            DispatchQueue.main.async {
+                self.orders = order1
+            }
+        })
+        
+        for each in order3{
+            DispatchQueue.main.async {
+                self.orders.append(each)
+            }
+        }
+    }
+}
+
 class Request:ObservableObject,Codable,Identifiable{
     @Published var org_name: String = ""
     @Published var item: String = ""
@@ -36,15 +68,15 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var complete:Bool = false
     
     enum CodingKeys: String, CodingKey {
-        case org_name = "Title"
-        case item = "Item"
-        case numString = "Links"
-        case addressString = "ShippingAddress"
-        case date = "Description"
-        case id = "ID"
-        case status = "State"
-        case requesterID = "RequesterID"
-        case donorID = "DonorID"
+        case org_name = "Title" //
+        case item = "Links" //
+        case num = "Item" //
+        case addressString = "ShippingAddress" //
+        case date = "Description" //
+        case id = "ID" //
+        case status = "State" //
+        case requesterID = "RequesterID" //
+        case donorID = "DonorID" //
     }
     
     func setNumString(){
@@ -56,7 +88,7 @@ class Request:ObservableObject,Codable,Identifiable{
         
         org_name = try values.decode(String.self, forKey: .org_name)
         item = try values.decode(String.self, forKey: .item)
-        numString = try values.decode(String.self, forKey: .numString)
+//        num = try values.decode(Int.self, forKey: .num)
         addressString = try values.decode(String.self, forKey: .addressString)
         date = try values.decode(String.self, forKey: .date)
         id = try values.decode(Int.self, forKey: .id)
@@ -70,7 +102,7 @@ class Request:ObservableObject,Codable,Identifiable{
         
         try container.encode(org_name, forKey: .org_name)
         try container.encode(item, forKey: .item)
-        try container.encode(num, forKey: .numString)
+        try container.encode(num, forKey: .num)
         try container.encode(addressString, forKey: .addressString)
         try container.encode(date, forKey: .date)
         try container.encode(id, forKey: .id)
@@ -164,16 +196,48 @@ extension Api{
         }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            print("Data:")
+            print(String(data: data, encoding: .utf8)!)
+            
+            let orders = try!JSONDecoder().decode([Request].self, from: data)
+            
+            print("Orders2:")
+            print(orders)
+            
+            completion(orders)
+                
+        }.resume()
+    }
+    
+    //check if returns array or single request
+    
+    func getRequest(order:Request,completion: @escaping([Request]) -> ()){
+        guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
+            return
+        }
+        
+        let body:[String:Int] = ["ID": order.id]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if(error==nil && !(data==nil)){
                 do{
-                    let order1 = try!JSONDecoder().decode([Request].self, from: data!)
+                    let orders = try!JSONDecoder().decode([Request].self, from: data!)
                     
                     if(type(of:data)==String.self){
-                        completion(order1)
+                        completion(orders)
                     }
                     
-                    completion(order1)
+                    completion(orders)
                 }
                 
 //                catch{
@@ -185,6 +249,8 @@ extension Api{
             }
         }.resume()
     }
+    
+    //done
     
     func createRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/new") else{
@@ -209,6 +275,8 @@ extension Api{
         }.resume()
     }
     
+    //need to test
+    
     func updateRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
             print("no url")
@@ -221,25 +289,18 @@ extension Api{
         }
         
         var request = URLRequest(url:url)
-        request.httpMethod = "POST"
+        request.httpMethod = "PUT"
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else{
-                print("No data.")
-                return
-            }
-            
-            if let finalData = try? JSONDecoder().decode(User.self, from:data){
-                print("working")
-                print(finalData)
-            } else{
-                print("error")
-            }
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
+    
+    //need to test
     
     func deleteRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
@@ -247,10 +308,8 @@ extension Api{
             return
         }
         
-        guard let finalBody = try? JSONEncoder().encode(order) else {
-            print("Failed to encode order")
-            return
-        }
+        let body:[String:Int] = ["ID": order.id]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
@@ -259,17 +318,8 @@ extension Api{
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else{
-                print("No data.")
-                return
-            }
-            
-            if let finalData = try? JSONDecoder().decode(User.self, from:data){
-                print("working")
-                print(finalData)
-            } else{
-                print("error")
-            }
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
         }.resume()
     }
 }

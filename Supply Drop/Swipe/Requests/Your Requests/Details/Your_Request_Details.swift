@@ -12,6 +12,7 @@ struct Your_Request_Details: View {
     @ObservedObject  var order:Request
     @EnvironmentObject var user:User
     @State  var received:Bool = false
+    @State var manager:Api = Api()
     
     @State private var showingSheet = false
     
@@ -116,9 +117,8 @@ struct Your_Request_Details: View {
                         .actionSheet(isPresented: self.$showingSheet) {
                             ActionSheet(title: Text("Cancel Request"), message: Text("Are you sure you want to cancel your request?"), buttons: [.destructive(Text("Cancel Request")){
                                     //todo: delete request
-                                        
-                                self.order.claimed=false
-                                self.order.setDonor(u:User())
+                                
+                                self.manager.deleteRequest(order: self.order)
                                 }, .cancel()])
                         }.padding(.bottom,20)
 

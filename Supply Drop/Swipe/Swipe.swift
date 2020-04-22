@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Swipe: View {
     @State private var currentPage = 1
+    @EnvironmentObject var orders:Orders
     
     @ObservedObject  var order:Request = Request()
     

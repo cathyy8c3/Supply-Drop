@@ -10,10 +10,10 @@ import SwiftUI
 import SwiftUIPager
 
 struct Available_Donations: View {
-    @ObservedObject var order:Request
     @EnvironmentObject var user:User
     @State var page: Int = 0
-    @State var data = Array(0..<10)
+    @State var data = Array(0..<3)
+    @EnvironmentObject var orders:Orders
 
     var body: some View {
         NavigationView{
@@ -81,10 +81,17 @@ struct Available_Donations: View {
             .navigationViewStyle(StackNavigationViewStyle())
         }
         .navigationViewStyle(StackNavigationViewStyle())
+//        .onAppear(perform:{
+//            let manager:Api = Api()
+//
+//            manager.getAvailable { (order1) in
+//                self.orders.setOrders(order3: order1)
+//            }
+//        })
     }
 
     func pageView(_ page: Int) -> some View {
-        NavigationLink(destination: Donation_List_Detail(order:self.order)) {
+        NavigationLink(destination: Donation_List_Detail(order:Request())) {
             
             GeometryReader{geometry in
                 ZStack {
@@ -94,12 +101,6 @@ struct Available_Donations: View {
                         .cornerRadius(10)
                         .shadow(radius: 10)
                         .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
-                    
-                                        
-                    //                    Rectangle()
-                    //                        .fill(LinearGradient(gradient: Gradient(colors: [Color(red: 0.6, green: 0.55, blue: 0.8), Color(red: 0.55, green: 0, blue: 0.8)]),
-                    //                            startPoint: .top,
-                    //                            endPoint: .bottom))
                     
                     Text("Page: \(page)")
                         .fontWeight(.light)
@@ -112,6 +113,6 @@ struct Available_Donations: View {
 
 struct Available_Donations_Previews: PreviewProvider {
     static var previews: some View {
-        Available_Donations(order: Request()).environmentObject(User())
+        Available_Donations().environmentObject(User())
     }
 }
