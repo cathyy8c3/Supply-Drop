@@ -14,9 +14,9 @@ struct signIn: View {
     @State var isModal: Bool = false
     @State var validUser:Bool = false
     @State var error:String = ""
+    @EnvironmentObject var orders:Orders
     
     @State var manager:Api = Api()
-    @EnvironmentObject var orders:Orders
     
     @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()
@@ -84,6 +84,10 @@ struct signIn: View {
                                 }else{
                                     self.error = "Incorrect username or password."
                                 }})
+                            
+                            self.manager.getAvailable { (order1) in
+                                self.orders.setOrders2Orders(order1:order1)
+                            }
                             }
                         ){
                             Text("Submit")
@@ -126,7 +130,6 @@ struct signIn: View {
         .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
         .offset(y: -keyboardResponder.currentHeight*0.9)
-        
     
     }
 }

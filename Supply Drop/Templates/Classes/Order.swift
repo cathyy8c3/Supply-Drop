@@ -14,30 +14,23 @@ class Orders:ObservableObject,Identifiable{
     
     @Published var orders:[Request] = []
     
-    func getOrders()->[Request]{
-        return orders
+    init(){
+        setOrders()
+    }
+    
+    func setOrders2Orders(order1:[Request]){
+        orders = order1
+        
+        print("Ordered:")
+        print(orders)
+        print(order1)
     }
     
     //fix
     
-    func setOrders(order3: [Request]){
-        let manager:Api = Api()
-        var order2:[Request] = []
-        
-        manager.getAvailable(completion: {order1 in
-            print("Orders4:")
-            print(order1)
-            order2 = order1
-            print(order2)
-            DispatchQueue.main.async {
-                self.orders = order1
-            }
-        })
-        
-        for each in order3{
-            DispatchQueue.main.async {
-                self.orders.append(each)
-            }
+    func setOrders(){
+        Api().getAvailable {
+            self.orders = $0
         }
     }
 }
@@ -190,6 +183,7 @@ class Request:ObservableObject,Codable,Identifiable{
 }
 
 extension Api{
+    
     func getAvailable(completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/requests/unfulfilled") else{
             return
@@ -208,7 +202,12 @@ extension Api{
             print("Orders2:")
             print(orders)
             
-            completion(orders)
+            self.orders = orders
+            
+            DispatchQueue.main.async {
+                completion(orders)
+            }
+            
                 
         }.resume()
     }

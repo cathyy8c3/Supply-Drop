@@ -12,7 +12,6 @@ struct Donations: View {
     @ObservedObject var viewRouter = MainTabBarData(initialIndex: 1, customItemIndex1: 2,customItemIndex2: 3)
     
     @EnvironmentObject var user:User
-    @EnvironmentObject var orders:Orders
         
     @State var showPopUp = false
     @State var profile:Bool = false
@@ -128,6 +127,7 @@ struct Donations: View {
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
+            
 //        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
 //                print("dismiss")
 //            }) {
@@ -139,6 +139,7 @@ struct Donations: View {
             .navigationBarBackButtonHidden(true)
 //            .navigationViewStyle(StackNavigationViewStyle())
     }
+//    }
 }
 
 struct Donations_Previews: PreviewProvider {

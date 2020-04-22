@@ -31,9 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UIHostingController(rootView: contentView.environmentObject(userData)
                 .environmentObject(loggedIn)
                 .environmentObject(orders))
-            
-            print("Orders:")
-            print(orders.orders)
                 
             self.window = window
             window.makeKeyAndVisible()

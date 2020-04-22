@@ -19,6 +19,7 @@ struct Available_Donations: View {
         NavigationView{
             GeometryReader { proxy in
                 ZStack {
+                    Text("")
                     
                     VStack {
                         Spacer()
@@ -40,6 +41,8 @@ struct Available_Donations: View {
                                height: proxy.size.height/2.1)
                         .edgesIgnoringSafeArea(.bottom)
                             .offset(y:proxy.size.height/4)
+                        
+                        
                         
                         Spacer()
                     }
@@ -81,17 +84,10 @@ struct Available_Donations: View {
             .navigationViewStyle(StackNavigationViewStyle())
         }
         .navigationViewStyle(StackNavigationViewStyle())
-//        .onAppear(perform:{
-//            let manager:Api = Api()
-//
-//            manager.getAvailable { (order1) in
-//                self.orders.setOrders(order3: order1)
-//            }
-//        })
     }
 
     func pageView(_ page: Int) -> some View {
-        NavigationLink(destination: Donation_List_Detail(order:Request())) {
+        NavigationLink(destination: Donation_List_Detail(order:orders.orders[page])) {
             
             GeometryReader{geometry in
                 ZStack {

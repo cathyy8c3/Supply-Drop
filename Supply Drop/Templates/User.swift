@@ -113,6 +113,7 @@ struct tempUser:Codable{
 
 class Api:ObservableObject{
     var authenticated:Bool = false
+    @Published var orders:[Request] = []
     
     //done
     
