@@ -52,7 +52,7 @@ struct Donation_List_Detail: View {
     //                            .font(.title)
                             
                             VStack {
-                                Text("Address: \(self.order.address.getLoc())")
+                                Text("Address: \(self.order.addressString.toAddress(address: self.order.addressString).getLoc())")
                                     .frame(width:300,height:100,alignment: .top)
                                     .multilineTextAlignment(.center)
                             }

@@ -101,8 +101,9 @@ struct Request_Form_3: View {
                                 
                                 self.order.setNumString()
                                 
-                                self.manager.createRequest(order: self.order)
+                                self.order.setAddress()
                                 
+                                self.manager.createRequest(order: self.order)
                                 self.user.setAddress(add:self.user.initAddress)
                                 self.manager.updateUser(user: self.user)
                             }){

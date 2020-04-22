@@ -59,6 +59,10 @@ class Request:ObservableObject,Codable,Identifiable{
     
     init(){}
     
+    func setAddress(){
+        addressString = address.storeLoc()
+    }
+    
     //0 = not sent, 1 = sent, 2 = received
     @Published var status:Int = 0
     @Published var complete:Bool = false
@@ -201,7 +205,7 @@ class Request:ObservableObject,Codable,Identifiable{
 
 extension Api{
     
-    //update
+    //done
     
     func getAvailable(completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/requests/unfulfilled") else{
@@ -268,7 +272,7 @@ extension Api{
         }.resume()
     }
     
-    //update
+    //done
     
     func createRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/new") else{

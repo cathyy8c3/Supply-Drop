@@ -191,7 +191,7 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //get user function
+    //todo
     
     func getDonations(id:String,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/users/id/donations") else{
@@ -230,6 +230,8 @@ class Api:ObservableObject{
             }
         }.resume()
     }
+    
+    //todo
     
     func getRequests(id:String,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/users/id/requests") else{
@@ -291,6 +293,35 @@ class Api:ObservableObject{
         URLSession.shared.dataTask(with: request){ (data,response,error) in
             guard let data = data else { return }
             print(String(data: data, encoding: .utf8)!)
+        }.resume()
+    }
+    
+    //need to test
+    
+    func getUser(userID:Int, completion: @escaping(User) -> ()){
+        guard let url = URL(string: "http://localhost:1500/api/users/id/update") else{
+            print("no url")
+            return
+        }
+        
+        let body:[String:Int] = ["ID": userID]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "GET"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else { return }
+            
+            let user1 = try!JSONDecoder().decode(User.self, from: data)
+            
+            print(String(data: data, encoding: .utf8)!)
+            print(user1)
+            
+            completion(user1)
         }.resume()
     }
 }
