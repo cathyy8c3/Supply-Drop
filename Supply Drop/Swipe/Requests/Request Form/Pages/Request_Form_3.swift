@@ -32,7 +32,7 @@ struct Request_Form_3: View {
                         Text("Request Summary")
                             .font(.title)
                         
-                        NavigationLink(destination:Edit(order: self.order, n: Int(self.order.num) ?? 0)){
+                        NavigationLink(destination:Edit(order: self.order, n: Int(self.order.num) )){
                             Text("Edit Your Request")
                                 .font(.body)
                                 .foregroundColor(Color.purple)
@@ -40,10 +40,10 @@ struct Request_Form_3: View {
                         .frame(width:500)
                         
                         VStack {
-                            Text("Organization Name: \(self.order.org_name)")
-                                .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
+                            Text("Item: \(self.order.item)\n\(self.order.description)")
+                                .frame(width:geometry.size.width/1.2, height:70, alignment: .topLeading)
                             
-                            Text("Item: \(self.order.item)")
+                            Text("Amazon Link: \(self.order.org_name)")
                             .frame(width:geometry.size.width/1.2, height:50, alignment: .leading)
                             
                             Text("# of Items: \(self.order.num)")

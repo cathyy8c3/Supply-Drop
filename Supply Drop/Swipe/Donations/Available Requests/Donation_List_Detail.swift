@@ -19,7 +19,6 @@ struct Donation_List_Detail: View {
             GeometryReader{geometry in
                 //ScrollView{
                     VStack {
-                        
                         VStack {
                             ZStack {
                                 MapView(address: self.order.address.getLoc())
@@ -46,7 +45,7 @@ struct Donation_List_Detail: View {
                                 .font(.largeTitle)
                                 .padding(.top,70)
                             
-                            Text("Made by \(self.order.getRequester().username)\(self.order.org2string())")
+                            Text("Made by \(self.order.getRequester().username)")
     //                            .font(.title)
                             
                             Text("Asking for \(String(self.order.num)) \(self.order.item)")
@@ -55,6 +54,7 @@ struct Donation_List_Detail: View {
                             VStack {
                                 Text("Address: \(self.order.address.getLoc())")
                                     .frame(width:300,height:100,alignment: .top)
+                                    .multilineTextAlignment(.center)
                             }
                             .padding(.bottom,20)
                         }

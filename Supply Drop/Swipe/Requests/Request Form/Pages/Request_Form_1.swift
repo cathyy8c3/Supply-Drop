@@ -43,13 +43,18 @@ struct Request_Form_1: View {
                             .padding(.bottom,0)
                         
                         
-                        TextField("Organization Name (Optional)", text: self.$order.org_name)
+                        TextField("*Item", text: self.$order.item)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
+                        
+                        TextField("Description", text: self.$order.description)
+                        .padding()
+                        .frame(width:geometry.size.width/1.2, height:50)
+                        .border(Color.gray, width:0.5)
                             
                         HStack {
-                            TextField("*Item and Description", text: self.$order.item)
+                            TextField("*Amazon Link to Item", text: self.$order.org_name)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2, height:50)
                                 .border(Color.gray, width:0.5)
@@ -133,7 +138,7 @@ struct Request_Form_1: View {
                                 
 //                                self.order.address.valid()
                                 
-                                if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.user.initAddress.address1.count==0 || self.user.initAddress.city.count==0 || self.user.initAddress.state.count==0 || self.user.initAddress.zip.count==0 || self.user.initAddress.country.count==0){
+                                if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.user.initAddress.address1.count==0 || self.user.initAddress.city.count==0 || self.user.initAddress.state.count==0 || self.user.initAddress.zip.count==0 || self.user.initAddress.country.count==0 || self.order.org_name==""){
                                     self.error = "Please enter all of the required information."
                                 }else if(!self.validDate(date: self.order.date)){
                                     self.error = "Invalid date."

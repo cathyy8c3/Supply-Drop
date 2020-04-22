@@ -301,15 +301,20 @@ extension String {
     }
     
     func toAddress(address:String)->Address{
-        let tempAdd = address.components(separatedBy: "\n")
+        let tempAdd = address.components(separatedBy: ",")
         
         let finAdd = Address()
-        finAdd.address1 = tempAdd[0]
-        finAdd.address2 = tempAdd[1]
-        finAdd.city = tempAdd[2]
-        finAdd.state = tempAdd[3]
-        finAdd.zip = tempAdd[4]
-        finAdd.country = tempAdd[5]
+        
+        if(tempAdd.count==6){
+            finAdd.address1 = tempAdd[0]
+            finAdd.address2 = tempAdd[1]
+            finAdd.city = tempAdd[2]
+            finAdd.state = tempAdd[3]
+            finAdd.zip = tempAdd[4]
+            finAdd.country = tempAdd[5]
+        }else{
+            finAdd.address1 = address
+        }
         
         return finAdd
     }

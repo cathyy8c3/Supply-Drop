@@ -23,7 +23,7 @@ class Address{
     }
     
     func storeLoc()->String{
-        return "\(address1)\n\(address2)\n\(city)\n\(state)\n\(zip)\n\(country)"
+        return "\(address1),\(address2),\(city),\(state),\(zip),\(country)"
     }
     
     func valid()->String{

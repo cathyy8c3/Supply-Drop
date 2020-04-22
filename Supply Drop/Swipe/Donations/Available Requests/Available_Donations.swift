@@ -12,7 +12,7 @@ import SwiftUIPager
 struct Available_Donations: View {
     @EnvironmentObject var user:User
     @State var page: Int = 0
-    @State var data = Array(0..<3)
+//    @State var data:Array = Array(0..<10)
     @EnvironmentObject var orders:Orders
 
     var body: some View {
@@ -25,7 +25,7 @@ struct Available_Donations: View {
                         Spacer()
                         
                         Pager(page: self.$page,
-                              data: self.data,
+                              data: Array(0..<self.orders.orders.count),
                               id: \.self) {
                                 self.pageView($0)
                                     .frame(width:proxy.size.width/1.1,height:proxy.size.height/4.5)

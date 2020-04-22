@@ -76,6 +76,7 @@ struct Profile: View {
                             
                             Text("Address: \(self.user.initAddress.getLoc())")
                                 .frame(width:300,height:100,alignment: .top)
+                                .multilineTextAlignment(.center)
                         
 //                            Toggle(isOn:self.$user.messaging) {
 //                                Text("Allow Messages:")

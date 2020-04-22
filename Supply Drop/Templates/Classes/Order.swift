@@ -38,15 +38,18 @@ class Orders:ObservableObject,Identifiable{
 class Request:ObservableObject,Codable,Identifiable{
     @Published var org_name: String = ""
     @Published var item: String = ""
+    @Published var description: String = ""
     @Published var num:Int = 0
     @Published var numString:String = ""
     @Published var date:String = ""
+    @Published var affiliateLink:String = ""
+    @Published var expectedArrival:String = ""
     
     @Published var address:Address = Address()
     @Published var addressString:String = ""
     
-    @Published var requesterID:Int = -1
-    @Published var donorID:Int = -1
+    @Published var requesterID:Int? = -1
+    @Published var donorID:Int? = -1
     
     @Published var id:Int = -1
     
@@ -61,15 +64,18 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var complete:Bool = false
     
     enum CodingKeys: String, CodingKey {
-        case org_name = "Title" //
-        case item = "Links" //
-        case num = "Item" //
+        case org_name = "Links" //
+        case item = "Title" //
+        case num = "Quantity" //
+        case description = "Description"
         case addressString = "ShippingAddress" //
-        case date = "Description" //
+        case date = "DateNeeded" //
         case id = "ID" //
         case status = "State" //
         case requesterID = "RequesterID" //
         case donorID = "DonorID" //
+        case affiliateLink = "AffiliateLinks"
+        case expectedArrival = "ExpectedArrival"
     }
     
     func setNumString(){
@@ -81,13 +87,15 @@ class Request:ObservableObject,Codable,Identifiable{
         
         org_name = try values.decode(String.self, forKey: .org_name)
         item = try values.decode(String.self, forKey: .item)
-//        num = try values.decode(Int.self, forKey: .num)
+        num = try values.decode(Int.self, forKey: .num)
         addressString = try values.decode(String.self, forKey: .addressString)
         date = try values.decode(String.self, forKey: .date)
         id = try values.decode(Int.self, forKey: .id)
         status = try values.decode(Int.self, forKey: .status)
         requesterID = try values.decode(Int.self, forKey: .requesterID)
-        donorID = try values.decode(Int.self, forKey: .donorID)
+        donorID = try values.decodeIfPresent(Int.self, forKey: .donorID) ?? -1
+        affiliateLink = try values.decode(String.self, forKey: .affiliateLink)
+        expectedArrival = try values.decode(String.self, forKey: .affiliateLink)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -102,6 +110,8 @@ class Request:ObservableObject,Codable,Identifiable{
         try container.encode(status, forKey: .status)
         try container.encode(requesterID, forKey: .requesterID)
         try container.encode(donorID, forKey: .donorID)
+        try container.encode(affiliateLink, forKey: .affiliateLink)
+        try container.encode(expectedArrival, forKey: .expectedArrival)
     }
     
     func setOrder2Order(order2:Request){
@@ -110,6 +120,13 @@ class Request:ObservableObject,Codable,Identifiable{
         num = order2.num
         date = order2.date
         address = order2.address
+        addressString = order2.addressString
+        description = order2.description
+        affiliateLink = order2.affiliateLink
+        id = order2.id
+        status = order2.status
+        requesterID = order2.requesterID
+        donorID = order2.donorID
     }
     
     func setOrder(item2:String){
@@ -184,6 +201,8 @@ class Request:ObservableObject,Codable,Identifiable{
 
 extension Api{
     
+    //update
+    
     func getAvailable(completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/requests/unfulfilled") else{
             return
@@ -249,7 +268,7 @@ extension Api{
         }.resume()
     }
     
-    //done
+    //update
     
     func createRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/new") else{

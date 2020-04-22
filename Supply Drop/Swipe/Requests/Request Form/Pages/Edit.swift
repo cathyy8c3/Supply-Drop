@@ -40,20 +40,23 @@ struct Edit: View {
                             .padding(.bottom,0)
                         
                         
-                        TextField("Organization Name (optional)", text: self.$order.org_name)
+                        TextField("*Item", text: self.$order.item)
                             .padding()
                             .frame(width:geometry.size.width/1.2, height:50)
                             .border(Color.gray, width:0.5)
+                        
+                        TextField("Description", text: self.$order.description)
+                        .padding()
+                        .frame(width:geometry.size.width/1.2, height:50)
+                        .border(Color.gray, width:0.5)
                             
-                        HStack {
-                            TextField("Item", text: self.$order.item)
+                            TextField("*Amazon Link", text: self.$order.org_name)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2, height:50)
                                 .border(Color.gray, width:0.5)
         //                        .padding(.trailing,150)
-                        }
                         HStack {
-                            Stepper("# of Items", value: self.$n, in: 0...1000)
+                            Stepper("*# of Items", value: self.$n, in: 0...1000)
                                     .padding()
                                 .frame(width:200, height:80)
                             
@@ -71,7 +74,7 @@ struct Edit: View {
                         }
                         
                         HStack {
-                            Text("Date Needed:")
+                            Text("*Date Needed:")
                                 .frame(width:150)
                             
                             TextField("MM/DD/YYYY", text: self.$order.date)
@@ -83,7 +86,7 @@ struct Edit: View {
                         Divider()
                         
                         VStack (spacing:20){
-                            Text("Address")
+                            Text("*Address")
                                 .font(.callout)
                             
                             TextField("Address Line 1", text: self.$order.address.address1)
@@ -125,7 +128,7 @@ struct Edit: View {
                                 .font(.subheadline)
                             
                             Button(action: { 
-                                if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.order.address.address1.count==0 || self.order.address.city.count==0 || self.order.address.state.count==0 || self.order.address.zip.count==0 || self.order.address.country.count==0){
+                                if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.order.address.address1.count==0 || self.order.address.city.count==0 || self.order.address.state.count==0 || self.order.address.zip.count==0 || self.order.address.country.count==0 || self.order.org_name.count==0){
                                     self.error = "Please enter all of the required information."
                                 }else if(!self.validDate(date: self.order.date)){
                                     self.error = "Invalid date."

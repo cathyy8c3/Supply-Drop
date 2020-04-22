@@ -25,9 +25,9 @@ struct Request_List: View {
                 .padding(.horizontal,25)
                 
                 if(self.completed==0){
-                    Active()
+                    Active_Requests()
                 }else{
-                    Completed()
+                    Completed_Requests()
                 }
                 
                 Spacer()
