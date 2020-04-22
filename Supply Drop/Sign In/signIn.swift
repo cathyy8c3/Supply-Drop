@@ -80,15 +80,30 @@ struct signIn: View {
                             self.manager.authenticate(user: self.user, completion: { done,user2 in
                                 if(done){
                                     self.user.tempUser2User(user2: user2[0])
+
+                                    self.manager.getAvailable { (order2) in
+                                        self.orders.setOrders2Orders(order1:order2)
+                                    }
+                                    DispatchQueue.main.async {
+                                        for i in (0..<self.orders.orders.count){
+                                            if(self.orders.orders[i].donorID ?? -1>=0){
+                                                self.manager.getUser(userID: self.orders.orders[i].donorID ?? -1) { (user1) in
+                                                    self.orders.orders[i].donor.tempUser22User(user2:user1[0])
+                                                }
+                                            }
+                                            if(self.orders.orders[i].requesterID>=0){
+                                                self.manager.getUser(userID: self.orders.orders[i].requesterID ) { (user1) in
+                                                    self.orders.orders[i].requester.tempUser22User(user2:user1[0])
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
                                     self.validUser = true
                                 }else{
                                     self.error = "Incorrect username or password."
                                 }})
-                            
-                            self.manager.getAvailable { (order1) in
-                                self.orders.setOrders2Orders(order1:order1)
-                            }
-                            }
+                        }
                         ){
                             Text("Submit")
                                 .padding(.top, 10)

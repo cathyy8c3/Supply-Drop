@@ -35,6 +35,15 @@ class User:Codable, Identifiable, ObservableObject{
         }
     }
     
+    func tempUser22User(user2:tempUser2){
+        DispatchQueue.main.async {
+            self.name = user2.Name
+            self.email = user2.Email
+            self.username = user2.Username
+            self.address = user2.ShippingAddress
+        }
+    }
+    
 //
 //    @Published var requests:[Int] = []
 //    @Published var donations:[Int] = []
@@ -106,9 +115,13 @@ class User:Codable, Identifiable, ObservableObject{
     }
 }
 
-struct tempUser:Codable{
+class tempUser:Codable{
     var Name,Username,ShippingAddress,Email:String
     var ID:Int
+}
+
+class tempUser2:Codable{
+    var Name,Username,ShippingAddress,Email:String
 }
 
 class Api:ObservableObject{
@@ -298,30 +311,33 @@ class Api:ObservableObject{
     
     //need to test
     
-    func getUser(userID:Int, completion: @escaping(User) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/users/id/update") else{
+    func getUser(userID:Int, completion: @escaping([tempUser2]) -> ()){
+        if(userID<0){
+            completion([])
+        }
+        
+        guard let url = URL(string: "http://localhost:1500/api/users/\(String(userID))") else{
             print("no url")
             return
         }
         
-        let body:[String:Int] = ["ID": userID]
-        let finalBody = try! JSONSerialization.data(withJSONObject: body)
-        
-        var request = URLRequest(url:url)
-        request.httpMethod = "GET"
-        request.httpBody = finalBody
-        
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else { return }
+        URLSession.shared.dataTask(with: url){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
             
-            let user1 = try!JSONDecoder().decode(User.self, from: data)
+            if error == nil, let _ = response as? HTTPURLResponse {
+                let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
+                
+                print(user1[0])
+
+                DispatchQueue.main.async {
+                    completion(user1)
+                }
+            }
             
-            print(String(data: data, encoding: .utf8)!)
-            print(user1)
             
-            completion(user1)
         }.resume()
     }
 }

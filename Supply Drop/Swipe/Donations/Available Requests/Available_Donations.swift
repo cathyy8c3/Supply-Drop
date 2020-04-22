@@ -14,6 +14,7 @@ struct Available_Donations: View {
     @State var page: Int = 0
 //    @State var data:Array = Array(0..<10)
     @EnvironmentObject var orders:Orders
+    @State var manager:Api = Api()
 
     var body: some View {
         NavigationView{
@@ -98,9 +99,15 @@ struct Available_Donations: View {
                         .shadow(radius: 10)
                         .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
                     
-                    Text("Page: \(page)")
-                        .fontWeight(.light)
-                        .foregroundColor(Color.black)
+                    Text("\(self.orders.orders[page].requester.username) is requesting \(self.orders.orders[page].num) \(self.orders.orders[page].item)")
+                    .font(.system(size: 40))
+                    .fontWeight(.light)
+                    .foregroundColor(Color.gray)
+                    .frame(height:80,alignment: .leading)
+                    .minimumScaleFactor(0.005)
+                    .padding(.leading,-25)
+                    .padding(.trailing,-20)
+                    .frame(maxWidth:geometry.size.width/1.8)
                 }
             }
         }

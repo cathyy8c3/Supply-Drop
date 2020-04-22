@@ -47,7 +47,7 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var address:Address = Address()
     @Published var addressString:String = ""
     
-    @Published var requesterID:Int? = -1
+    @Published var requesterID:Int = -1
     @Published var donorID:Int? = -1
     
     @Published var id:Int = -1
