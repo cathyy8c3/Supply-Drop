@@ -26,7 +26,6 @@ class Orders:ObservableObject,Identifiable{
         print(order1)
     }
     
-    //fix
     
     func setOrders(){
         Api().getAvailable {

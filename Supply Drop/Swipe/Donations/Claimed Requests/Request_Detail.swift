@@ -34,7 +34,7 @@ struct Request_Detail: View {
                                 .overlay(Circle().stroke(Color.white,lineWidth: 2))
                                 .frame(idealWidth: 200, maxWidth:300)
                                 .offset(y:-100)
-                                .padding(.bottom,-100)
+                                .padding(.bottom,-90)
                         }
                         
                         Spacer()
@@ -49,6 +49,8 @@ struct Request_Detail: View {
                             
                             Text("Asking for \(String(self.order.num)) \(self.order.item)")
     //                            .font(.title)
+                            
+                            Text(self.order.affiliateLink)
                             
                             Text("Contact them at \(self.order.requester.email).")
                             
@@ -134,7 +136,7 @@ struct Request_Detail: View {
                                 self.order.setDonor(u:User())
                                 }, .cancel()])
                         }
-                        .padding(.bottom,60)
+                        .padding(.bottom,200)
                         
                         
                         Spacer()

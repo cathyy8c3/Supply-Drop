@@ -19,132 +19,137 @@ struct Request_Form: View {
 //    @State var messages:Bool = false
     
     var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                VStack {
-//                    Text(String(self.viewRouter.itemSelected))
-                    
-                    Spacer()
-                    if self.viewRouter.itemSelected == 1 {
-                        Request_List()
-                    } else if self.viewRouter.itemSelected == 0 {
-                        Request_Form_1(order1: self.order)
-                    }
-                    
-                    Spacer()
-                    ZStack {
-                        if self.showPopUp {
-                            //menu
-                            
-                            HStack(spacing: 50) {
+        NavigationView {
+            VStack {
+                GeometryReader { geometry in
+                    VStack {
+    //                    Text(String(self.viewRouter.itemSelected))
+                        
+                        Spacer()
+                        if self.viewRouter.itemSelected == 1 {
+                            Request_List()
+                        } else if self.viewRouter.itemSelected == 0 {
+                            Request_Form_1(order1: self.order)
+                        }
+                        
+                        Spacer()
+                        ZStack {
+                            if self.showPopUp {
+                                //menu
+                                
+                                HStack(spacing: 50) {
+                                    ZStack {
+                                        Circle()
+                                            .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
+                                            .frame(width: 70, height: 70)
+                                        Image(systemName: "person.fill")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .padding(20)
+                                            .frame(width: 70, height: 70)
+                                            .foregroundColor(.white)
+                                    }
+                                    .onTapGesture {
+                                        self.viewRouter.itemSelected = 2
+                                    }
+
+    //                                ZStack {
+    //                                    Circle()
+    //                                        .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
+    //                                        .frame(width: 70, height: 70)
+    //                                    Image(systemName: "message.fill")
+    //                                        .resizable()
+    //                                        .aspectRatio(contentMode: .fit)
+    //                                        .padding(20)
+    //                                        .frame(width: 70, height: 70)
+    //                                        .foregroundColor(.white)
+    //                                }
+    //                                .onTapGesture {
+    //                                    self.viewRouter.itemSelected = 3
+    //                                }
+                                }
+                                    .transition(.scale)
+                                .offset(y: -geometry.size.height/6)
+                                
+                                //end of menu
+                            }
+                            HStack {
+                                Image(systemName: "square.and.pencil")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(20)
+                                    .frame(width: geometry.size.width/3, height: 75)
+                                    .foregroundColor(self.viewRouter.itemSelected == 0 ? Color(red: 0.55, green: 0, blue: 0.8, opacity: 1) : .gray)
+                                    .onTapGesture {
+                                        self.viewRouter.itemSelected = 0
+                                    }
                                 ZStack {
                                     Circle()
-                                        .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
-                                        .frame(width: 70, height: 70)
-                                    Image(systemName: "person.fill")
+                                        .foregroundColor(Color.white)
+                                        .frame(width: 75, height: 75)
+                                    Image(systemName: "plus")
                                         .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(20)
-                                        .frame(width: 70, height: 70)
+                                        .scaledToFit()
+                                        .aspectRatio(contentMode:.fit)
+                                    .padding()
+                                        .background(LinearGradient(gradient: Gradient(colors: [Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.3), Color(red: 0.55, green: 0, blue: 0.8, opacity: 1)]), startPoint: .top, endPoint: .bottom))
+                                        .clipShape(Circle())
+                                        .shadow(radius: 20)
+                                        .frame(width: 75, height: 75)
                                         .foregroundColor(.white)
+                                        .rotationEffect(Angle(degrees: self.showPopUp ? 90 : 0))
                                 }
+                                .offset(y: -geometry.size.height/10/2)
                                 .onTapGesture {
-                                    self.viewRouter.itemSelected = 2
-                                }
+                                    withAnimation {
+                                       self.showPopUp.toggle()
+                                    }
 
-//                                ZStack {
-//                                    Circle()
-//                                        .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
-//                                        .frame(width: 70, height: 70)
-//                                    Image(systemName: "message.fill")
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .padding(20)
-//                                        .frame(width: 70, height: 70)
-//                                        .foregroundColor(.white)
-//                                }
-//                                .onTapGesture {
-//                                    self.viewRouter.itemSelected = 3
-//                                }
-                            }
-                                .transition(.scale)
-                            .offset(y: -geometry.size.height/6)
-                            
-                            //end of menu
-                        }
-                        HStack {
-                            Image(systemName: "square.and.pencil")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .padding(20)
-                                .frame(width: geometry.size.width/3, height: 75)
-                                .foregroundColor(self.viewRouter.itemSelected == 0 ? Color(red: 0.55, green: 0, blue: 0.8, opacity: 1) : .gray)
-                                .onTapGesture {
-                                    self.viewRouter.itemSelected = 0
                                 }
-                            ZStack {
-                                Circle()
-                                    .foregroundColor(Color.white)
-                                    .frame(width: 75, height: 75)
-                                Image(systemName: "plus")
+                                NavigationLink(destination:Profile(previous: 1), isActive:self.$viewRouter.isCustomItemSelected1){EmptyView()}
+                                
+                                Image(systemName: "list.bullet")
                                     .resizable()
-                                    .scaledToFit()
-                                    .aspectRatio(contentMode:.fit)
-                                .padding()
-                                    .background(LinearGradient(gradient: Gradient(colors: [Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.3), Color(red: 0.55, green: 0, blue: 0.8, opacity: 1)]), startPoint: .top, endPoint: .bottom))
-                                    .clipShape(Circle())
-                                    .shadow(radius: 20)
-                                    .frame(width: 75, height: 75)
-                                    .foregroundColor(.white)
-                                    .rotationEffect(Angle(degrees: self.showPopUp ? 90 : 0))
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(20)
+                                    .frame(width: geometry.size.width/3, height: 75)
+                                    .foregroundColor(self.viewRouter.itemSelected == 1 ? Color(red: 0.55, green: 0, blue: 0.8, opacity: 1) : .gray)
+                                    .onTapGesture {
+                                        self.viewRouter.itemSelected = 1
+                                    }
                             }
-                            .offset(y: -geometry.size.height/10/2)
-                            .onTapGesture {
-                                withAnimation {
-                                   self.showPopUp.toggle()
-                                }
-
-                            }
-                            NavigationLink(destination:Profile(previous: 1), isActive:self.$viewRouter.isCustomItemSelected1){EmptyView()}
-                            
-                            Image(systemName: "list.bullet")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .padding(20)
-                                .frame(width: geometry.size.width/3, height: 75)
-                                .foregroundColor(self.viewRouter.itemSelected == 1 ? Color(red: 0.55, green: 0, blue: 0.8, opacity: 1) : .gray)
-                                .onTapGesture {
-                                    self.viewRouter.itemSelected = 1
-                                }
+                            .frame(width: geometry.size.width, height: geometry.size.height/10)
+                            .background(Color.white.shadow(radius: 2))
                         }
-                        .frame(width: geometry.size.width, height: geometry.size.height/10)
-                        .background(Color.white.shadow(radius: 2))
-                    }
+                        
+                        
+                    }.edgesIgnoringSafeArea([.bottom])
                     
-                    
-                }.edgesIgnoringSafeArea([.bottom])
                 
-            
-            }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
-//        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
-//            print("dismiss")
-//        }) {
-//            Text("hello2")
-//        }
-        }
+                }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            .navigationBarBackButtonHidden(true)
+    //        .sheet(isPresented: self.$viewRouter.isCustomItemSelected2, onDismiss: {
+    //            print("dismiss")
+    //        }) {
+    //            Text("hello2")
+    //        }
+            }
+                .navigationBarTitle("")
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+            
+        }
 //        .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
 //            print("dismiss")
 //        }) {
 //            Profile().environmentObject(self.user)
 //
 //        }
+        .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
 //        .navigationViewStyle(StackNavigationViewStyle())
         
     }

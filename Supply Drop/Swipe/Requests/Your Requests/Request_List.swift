@@ -39,7 +39,7 @@ struct Request_List: View {
             .navigationBarTitle("Your Requests")
             
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+//        .navigationViewStyle(StackNavigationViewStyle())
             
     }
 }

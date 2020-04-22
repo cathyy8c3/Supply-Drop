@@ -109,6 +109,6 @@ struct Available_Donations: View {
 
 struct Available_Donations_Previews: PreviewProvider {
     static var previews: some View {
-        Available_Donations().environmentObject(User())
+        Available_Donations().environmentObject(User()).environmentObject(Orders())
     }
 }
