@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct Donation_List_Detail: View {
-    @State  var claim:String = "Claim Request"
-    @State  var message:String = ""
+    @State var claim:String = "Claim Request"
+    @State var message:String = ""
+    @State var manager:Api = Api()
     
     @EnvironmentObject  var user:User
     
@@ -60,25 +61,37 @@ struct Donation_List_Detail: View {
                 Spacer()
 
                 Button(action: {
-                    if(self.order.claimed==false){
+                    if(self.order.donorID == -1){
                         self.order.setDonor(u:self.user)
                         self.order.claimed = true
                         self.claim = "Claimed"
+                        
+                        self.order.setDonor(u: self.user)
+                        self.manager.updateRequest(order: self.order)
                     } else{
                         self.order.setDonor(u:User())
                         self.order.claimed = false
                         self.claim = "Claim Request"
+                        
+                        self.order.setDonor(u: User())
+                        self.manager.updateRequest(order: self.order)
                     }
-                    
-                    //todo
-                    //add / remove from user donation list
                 }) {
-                    Text("\(self.claim)")
-                        .font(.body)
-                        .padding(10)
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    if(self.order.donorID == -1){
+                        Text("Claim Request")
+                            .font(.body)
+                            .padding(10)
+                            .background(Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    } else{
+                        Text("Claimed")
+                            .font(.body)
+                            .padding(10)
+                            .background(Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
                 }
                 .padding(.bottom,70)
                 

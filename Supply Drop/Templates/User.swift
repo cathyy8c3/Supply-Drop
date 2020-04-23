@@ -212,13 +212,13 @@ class Api:ObservableObject{
     //done
     
     func updateUser(user:User){
-        guard let url = URL(string: "http://localhost:1500/api/users/id/update") else{
+        guard let url = URL(string: "http://localhost:1500/api/users/\(user.id)/update") else{
             print("no url")
             return
         }
         
         guard let finalBody = try? JSONEncoder().encode(user) else {
-            print("Failed to encode order")
+            print("Failed to encode user")
             return
         }
         

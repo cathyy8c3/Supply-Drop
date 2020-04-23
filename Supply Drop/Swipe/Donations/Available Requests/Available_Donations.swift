@@ -23,21 +23,33 @@ struct Available_Donations: View {
                     VStack {
                         Spacer()
                         
-                        Pager(page: self.$page,
-                              data: Array(0..<self.orders.orders.count),
-                              id: \.self) {
-                                self.pageView($0)
-                                    .frame(width:proxy.size.width/1.1,height:proxy.size.height/4.5)
-                        }
-                        .vertical()
-                        .itemSpacing(-proxy.size.height/20)
-                        .interactive(0.8)
-                        .itemAspectRatio(1.5,alignment: .center)
-                        .padding(.horizontal)
-                        .frame(width: proxy.size.width,
-                               height: proxy.size.height/2.1)
-                        .edgesIgnoringSafeArea(.bottom)
+                        if(self.orders.orders.count>0){
+                            Pager(page: self.$page,
+                                  data: Array(0..<self.orders.orders.count),
+                                  id: \.self) {
+                                    self.pageView($0)
+                                        .frame(width:proxy.size.width/1.1,height:proxy.size.height/4.5)
+                            }
+                            .vertical()
+                            .itemSpacing(-proxy.size.height/20)
+                            .interactive(0.8)
+                            .itemAspectRatio(1.5,alignment: .center)
+                            .padding(.horizontal)
+                            .frame(width: proxy.size.width,
+                                   height: proxy.size.height/2.1)
+                            .edgesIgnoringSafeArea(.bottom)
                             .offset(y:proxy.size.height/4)
+                        } else{
+                            Text("There are 0 available requests. Come back later!")
+                                .font(.title)
+                                .fontWeight(.light)
+                                .foregroundColor(Color.gray)
+                                .frame(width: proxy.size.width/1.1,
+                                       height: proxy.size.height/2.1)
+                                .edgesIgnoringSafeArea(.bottom)
+                                .offset(y:proxy.size.height/4)
+                                .multilineTextAlignment(.center)
+                        }
                         
                         Spacer()
                     }
@@ -63,6 +75,7 @@ struct Available_Donations: View {
                         .shadow(radius: 13)
                         .foregroundColor(Color(red: 0.6, green: 0.2, blue: 0.8))
                         .offset(y:-proxy.size.height/25)
+                    
                     Text("Scroll Down for More")
                         .fontWeight(.ultraLight)
                         .shadow(radius: 13)

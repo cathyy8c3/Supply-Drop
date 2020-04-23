@@ -239,18 +239,16 @@ extension Api{
         }.resume()
     }
     
-    //done
+    //fix
     
     func updateRequest(order:Request){
-        guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
+        guard let url = URL(string: "http://localhost:1500/api/requests/\(order.id)") else{
             print("no url")
             return
         }
         
-        guard let finalBody = try? JSONEncoder().encode(order) else {
-            print("Failed to encode order")
-            return
-        }
+        let body:[String:Int] = ["ID": order.id]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
         request.httpMethod = "PUT"
@@ -264,25 +262,26 @@ extension Api{
         }.resume()
     }
     
-    //test
+    //done
     
     func deleteRequest(order:Request){
-        guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
+        guard let url = URL(string: "http://localhost:1500/api/requests/\(order.id)") else{
             print("no url")
             return
         }
-        
+
         let body:[String:Int] = ["ID": order.id]
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
-        
+
         var request = URLRequest(url:url)
         request.httpMethod = "DELETE"
         request.httpBody = finalBody
-        
+
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
             guard let data = data else { return }
+            print("Canceled:")
             print(String(data: data, encoding: .utf8)!)
         }.resume()
     }

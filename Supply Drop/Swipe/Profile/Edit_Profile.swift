@@ -52,7 +52,6 @@ struct Edit_Profile: View {
     }
     
     var body: some View {
-        NavigationView {
             GeometryReader {geometry in
                 ScrollView {
                     VStack {
@@ -235,12 +234,6 @@ struct Edit_Profile: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-        }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
-        .offset(y: -keyboardResponder.currentHeight*0.9)
     }
 }
 

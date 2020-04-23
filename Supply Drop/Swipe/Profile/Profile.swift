@@ -17,101 +17,95 @@ struct Profile: View {
     @EnvironmentObject var loggedIn:Bools
     
     var body: some View {
-        NavigationView{
-            GeometryReader{geometry in
-                VStack {
+        GeometryReader{geometry in
+            VStack {
+                ZStack {
                     ZStack {
-                        ZStack {
-                            Rectangle()
-                                .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
-                                .edgesIgnoringSafeArea([.top])
-                                .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/2.5, maxHeight:geometry.size.height/2.5)
-                            
-                            self.user.profile
-                                .resizable()
-                                .scaledToFit()
-                                .aspectRatio(contentMode:.fit)
-                                .clipShape(Circle())
-                                .shadow(radius: 20)
-                                .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(maxWidth:geometry.size.width/3,maxHeight:geometry.size.width/2.5)
-                                .offset(y:geometry.size.height/8)
-                                .edgesIgnoringSafeArea(.top)
-                        }.edgesIgnoringSafeArea(.top)
+                        Rectangle()
+                            .foregroundColor(Color(red: 0.55, green: 0, blue: 0.8, opacity: 0.8))
+                            .edgesIgnoringSafeArea([.top])
+                            .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/2.5, maxHeight:geometry.size.height/2.5)
                         
-                       Button(action: {
-                           self.back = true
-                       }){
-                           HStack {
-                               Image(systemName: "chevron.left")
-                                Text("Back")
-                           }
-                           .foregroundColor(Color.white)
+                        self.user.profile
+                            .resizable()
+                            .scaledToFit()
+                            .aspectRatio(contentMode:.fit)
+                            .clipShape(Circle())
+                            .shadow(radius: 20)
+                            .overlay(Circle().stroke(Color.white,lineWidth: 2))
+                            .frame(maxWidth:geometry.size.width/3,maxHeight:geometry.size.width/2.5)
+                            .offset(y:geometry.size.height/8)
+                            .edgesIgnoringSafeArea(.top)
+                    }.edgesIgnoringSafeArea(.top)
+                    
+                   Button(action: {
+                       self.back = true
+                   }){
+                       HStack {
+                           Image(systemName: "chevron.left")
+                            Text("Back")
                        }
-                       .position(x:50,y:geometry.size.height/8)
-                        .edgesIgnoringSafeArea(.top)
-                    }
+                       .foregroundColor(Color.white)
+                   }
+                   .position(x:50,y:geometry.size.height/8)
                     .edgesIgnoringSafeArea(.top)
-                    
-                    Spacer()
-                    
-                    VStack(spacing:20) {
-                        Spacer()
-                        Text("Profile")
-                            .font(.largeTitle)
-                            .padding(.top,10)
-                            .frame(width:300)
-                        
-                        Text("Name: \(self.user.name)")
-                            .frame(width:300)
-                        
-                        Text("Username: \(self.user.username)")
-                        .frame(width:300)
-                        
-                        Text("Email: \(self.user.email)")
-                            .frame(width:300)
-                        
-                        Text("Address: \(self.user.initAddress.getLoc())")
-                            .frame(width:300,height:100,alignment: .top)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.bottom,20)
-
-                    VStack {
-                        NavigationLink(destination:Edit_Profile( previous: self.previous)){
-                            Text("Edit Your Profile")
-                            .foregroundColor(Color.purple)
-                        }
-                        .padding(.bottom,10)
-                        
-                        NavigationLink(destination: signIn(), isActive: self.$presentMe) { EmptyView() }
-                        
-                        Button(action: {
-                            //todo
-                            self.loggedIn.setBools(value: false)
-                            
-                            self.presentMe = true
-                        }) {
-                            Text("Sign Out")
-                            .foregroundColor(Color.purple)
-                                .padding(.bottom,50)
-                        }
-                        
-                        if(self.previous==0){
-                            NavigationLink(destination:Donations(),isActive: self.$back){EmptyView()}
-                        } else{
-                            NavigationLink(destination:Request_Form(order: Request()),isActive: self.$back){EmptyView()}
-                        }
-                    }
-                    
-                    Spacer()
                 }
-                .edgesIgnoringSafeArea([.top])
+                .edgesIgnoringSafeArea(.top)
+                
+                Spacer()
+                
+                VStack(spacing:20) {
+                    Spacer()
+                    Text("Profile")
+                        .font(.largeTitle)
+                        .padding(.top,10)
+                        .frame(width:300)
+                    
+                    Text("Name: \(self.user.name)")
+                        .frame(width:300)
+                    
+                    Text("Username: \(self.user.username)")
+                    .frame(width:300)
+                    
+                    Text("Email: \(self.user.email)")
+                        .frame(width:300)
+                    
+                    Text("Address: \(self.user.initAddress.getLoc())")
+                        .frame(width:300,height:100,alignment: .top)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.bottom,20)
+
+                VStack {
+                    NavigationLink(destination:Edit_Profile( previous: self.previous)){
+                        Text("Edit Your Profile")
+                        .foregroundColor(Color.purple)
+                    }
+                    .padding(.bottom,10)
+                    
+                    NavigationLink(destination: signIn(), isActive: self.$presentMe) { EmptyView() }
+                    
+                    Button(action: {
+                        //todo
+                        self.loggedIn.setBools(value: false)
+                        
+                        self.presentMe = true
+                    }) {
+                        Text("Sign Out")
+                        .foregroundColor(Color.purple)
+                            .padding(.bottom,50)
+                    }
+                    
+                    if(self.previous==0){
+                        NavigationLink(destination:Donations(),isActive: self.$back){EmptyView()}
+                    } else{
+                        NavigationLink(destination:Request_Form(order: Request()),isActive: self.$back){EmptyView()}
+                    }
+                }
+                
+                Spacer()
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
+            .edgesIgnoringSafeArea([.top])
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)

@@ -116,7 +116,7 @@ struct Edit_Your_Request: View {
                             Text("Submit")
                                 .font(.title)
                                 .foregroundColor(Color.purple)
-                                .padding(.bottom, 20)
+                                .padding(.bottom, 70)
                         }
                         .frame(width:500)
                     }
