@@ -39,6 +39,24 @@ struct Available_Donations: View {
                                    height: proxy.size.height/2.1)
                             .edgesIgnoringSafeArea(.bottom)
                             .offset(y:proxy.size.height/4)
+                            .onAppear(perform:{
+                                self.manager.getAvailable { (order2) in
+                                    self.orders.setOrders2Orders(order1:order2)
+                                    
+                                    for i in (0..<self.orders.orders.count){
+                                        if(self.orders.orders[i].donorID ?? -1>=0){
+                                            self.manager.getUser(userID: self.orders.orders[i].donorID ?? -1) { (user1) in
+                                                self.orders.orders[i].donor.tempUser22User(user2:user1[0])
+                                            }
+                                        }
+                                        if(self.orders.orders[i].requesterID>=0){
+                                            self.manager.getUser(userID: self.orders.orders[i].requesterID ) { (user1) in
+                                                self.orders.orders[i].requester.tempUser22User(user2:user1[0])
+                                            }
+                                        }
+                                    }
+                                }
+                            })
                         } else{
                             Text("There are 0 available requests. Come back later!")
                                 .font(.title)
@@ -88,24 +106,30 @@ struct Available_Donations: View {
 
     func pageView(_ page: Int) -> some View {
         NavigationLink(destination: Donation_List_Detail(order:orders.orders[page])) {
-            GeometryReader{geometry in
-                ZStack {
-                    Rectangle()
-                        .fill(Color.gray)
-                        .opacity(0.08)
-                        .cornerRadius(10)
-                        .shadow(radius: 10)
-                        .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
-                    
-                    Text("\(self.orders.orders[page].num) \(self.orders.orders[page].item)")
-                        .font(.system(size: 40))
-                        .fontWeight(.light)
-                        .foregroundColor(Color.gray)
-                        .frame(height:80,alignment: .leading)
-                        .minimumScaleFactor(0.005)
-                        .padding(.leading,-25)
-                        .padding(.trailing,-20)
-                        .frame(maxWidth:geometry.size.width/1.8)
+            ZStack {
+                if(orders.orders[page].requesterID != user.id){
+                    GeometryReader{geometry in
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.gray)
+                                .opacity(0.08)
+                                .cornerRadius(10)
+                                .shadow(radius: 10)
+                                .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
+                            
+                            Text("\(self.orders.orders[page].num) \(self.orders.orders[page].item)")
+                                .font(.system(size: 40))
+                                .fontWeight(.light)
+                                .foregroundColor(Color.gray)
+                                .frame(height:80,alignment: .leading)
+                                .minimumScaleFactor(0.005)
+                                .padding(.leading,-25)
+                                .padding(.trailing,-20)
+                                .frame(maxWidth:geometry.size.width/1.8)
+                        }
+                    }
+                } else{
+                    EmptyView()
                 }
             }
         }

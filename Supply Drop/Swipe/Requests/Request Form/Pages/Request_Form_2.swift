@@ -17,73 +17,66 @@ struct Request_Form_2: View {
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     var body: some View {
-        NavigationView {
-            GeometryReader {geometry in
-                VStack {
-                    MapView(address: self.order.address.getLoc())
-                        .frame(height:geometry.size.height/1.5)
-                        .offset(y:-40)
-                    
-                    Spacer()
-                    
-                    Divider()
-                    
-                    Spacer()
-                    
-                    HStack{
-                        Button(action:{
-                            self.checked.toggle()
-                        }) {
-                            if(self.checked){
-                                Image(systemName: "checkmark.square.fill")
-                                .renderingMode(.original)
-                            }
-                            else{
-                                Image(systemName: "square")
-                                .renderingMode(.original)
-                            }
-                        }
-                        
-                        Text("I agree that I am not creating a fraudulent request.")
-                            .frame(width:geometry.size.width/1.4)
-                    }
-                    
-                    Text(self.unchecked)
-                        .foregroundColor(Color.red)
-                        .font(.subheadline)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        if(!self.checked){
-                            self.unchecked = "Please agree to the terms."
-                        }else{
-                            self.next=true
-                        }
+        GeometryReader {geometry in
+            VStack {
+                MapView(address: self.order.address.getLoc())
+                    .frame(height:geometry.size.height/1.5)
+                    .offset(y:-40)
+                
+                Spacer()
+                
+                Divider()
+                
+                Spacer()
+                
+                HStack{
+                    Button(action:{
+                        self.checked.toggle()
                     }) {
-                        Text("Verify Your Location")
-                            .font(.body)
-                            .padding(10)
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                        if(self.checked){
+                            Image(systemName: "checkmark.square.fill")
+                            .renderingMode(.original)
+                        }
+                        else{
+                            Image(systemName: "square")
+                            .renderingMode(.original)
+                        }
                     }
                     
-                    NavigationLink(destination:Request_Form_3(order:self.order),isActive: self.$next){EmptyView()}
-                    
-                    Spacer()
+                    Text("I agree that I am not creating a fraudulent request.")
+                        .frame(width:geometry.size.width/1.4)
                 }
+                
+                Text(self.unchecked)
+                    .foregroundColor(Color.red)
+                    .font(.subheadline)
+                
+                Spacer()
+                
+                Button(action: {
+                    if(!self.checked){
+                        self.unchecked = "Please agree to the terms."
+                    }else{
+                        self.next=true
+                    }
+                }) {
+                    Text("Verify Your Location")
+                        .font(.body)
+                        .padding(10)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                
+                NavigationLink(destination:Request_Form_3(order:self.order),isActive: self.$next){EmptyView()}
+                
+                Spacer()
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
-        .offset(y: -keyboardResponder.currentHeight*0.9)
     }
 }
 

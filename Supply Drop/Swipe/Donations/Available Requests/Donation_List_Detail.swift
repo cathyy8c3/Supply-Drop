@@ -52,7 +52,7 @@ struct Donation_List_Detail: View {
                     
                     VStack {
                         Text("Address: \(self.order.addressString.toAddress(address: self.order.addressString).getLoc())")
-                            .frame(width:300,height:100,alignment: .top)
+                            .frame(width:300,height:90,alignment: .top)
                             .multilineTextAlignment(.center)
                     }
                     .padding(.bottom,20)
@@ -65,6 +65,7 @@ struct Donation_List_Detail: View {
                         self.order.setDonor(u:self.user)
                         self.order.claimed = true
                         self.claim = "Claimed"
+                        self.order.status = 1
                         
                         self.order.setDonor(u: self.user)
                         self.manager.updateRequest(order: self.order)
@@ -72,6 +73,7 @@ struct Donation_List_Detail: View {
                         self.order.setDonor(u:User())
                         self.order.claimed = false
                         self.claim = "Claim Request"
+                        self.order.status = 0
                         
                         self.order.setDonor(u: User())
                         self.manager.updateRequest(order: self.order)

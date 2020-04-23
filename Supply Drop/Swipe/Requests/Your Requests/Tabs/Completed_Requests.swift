@@ -17,13 +17,15 @@ struct Completed_Requests: View {
     var body: some View {
         GeometryReader { geometry in
             List (self.requestList){current in
-                Group{
-                    if(current.status<2){
-                        Selection(order: current, phrase: "requested", you:true)
-                            .frame(width:geometry.size.width,height:200)
-                            .padding(.leading,-20)
-                    } else{
-                        EmptyView().hidden()
+                NavigationLink(destination:Your_Request_Details(order: current)){
+                    Group{
+                        if(current.status>=2){
+                            Selection(order: current, phrase: "requested", you:true)
+                                .frame(width:geometry.size.width,height:200)
+                                .padding(.leading,-20)
+                        } else{
+                            EmptyView().hidden()
+                        }
                     }
                 }
             }
@@ -31,7 +33,19 @@ struct Completed_Requests: View {
                 self.manager.getRequests(userID: self.user.id) { (requests) in
                     self.requestList = []
                     for each in requests{
-                        if(each.status>2){
+                        if(each.status>=2){
+                            each.setAdress(add: each.addressString.toAddress(address: each.addressString))
+                            
+                            if(each.donorID ?? -1 > -1){
+                                self.manager.getUser(userID: each.donorID ?? -1) { donor in
+                                    each.donor.tempUser22User(user2:donor[0])
+                                }
+                            }
+                            
+                            self.manager.getUser(userID: each.requesterID) { donor in
+                                each.requester.tempUser22User(user2:donor[0])
+                            }
+                            
                             self.requestList.append(each)
                         }
                     }

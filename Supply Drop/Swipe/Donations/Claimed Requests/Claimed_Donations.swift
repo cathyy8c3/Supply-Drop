@@ -33,7 +33,6 @@ struct Claimed_Donations: View {
             }
             .navigationBarTitle("Your Donations")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

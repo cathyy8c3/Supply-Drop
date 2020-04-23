@@ -52,24 +52,32 @@ struct Your_Request_Details: View {
                         }
                     }
                     
-                    Text("Claimed by \(self.order.getDonor().username)")
+                    if(self.order.donorID != -1){
+                        Text("Claimed by \(self.order.getDonor().username)")
+                    }
                     
                     Text("You requested \(String(self.order.num)) \(self.order.item).")
                     
-                    Text("Contact the donor at \(self.order.donor.email).")
+                    if(self.order.donorID != -1){
+                        Text("Contact the donor at \(self.order.donor.email).")
+                            .frame(width:geometry.size.width/1.5, height:70)
+                            .multilineTextAlignment(.center)
+                    }
                     
                     VStack {
                         Text("Address: \(self.order.address.getLoc())")
-                            .frame(width:300,height:100,alignment: .top)
+                            .frame(width:300,height:90,alignment: .top)
                             .multilineTextAlignment(.center)
                     }
                 }
                 
                 HStack {
-                    Toggle(isOn:self.$received) {
-                        Text("Received")
+                    if(self.order.status>0){
+                        Toggle(isOn:self.$received) {
+                            Text("Received")
+                        }
+                        .frame(width:130)
                     }
-                    .frame(width:130)
                     
                     Button(action: {
                     }) {
@@ -80,18 +88,26 @@ struct Your_Request_Details: View {
                         else{
                             Text("Status: Not Received")
                                 .foregroundColor(Color.black)
-                                .multilineTextAlignment(.trailing)
+                                .multilineTextAlignment(.center)
                         }
                     }
                     .padding(.leading,40)
-                    .frame(alignment:.trailing)
+                    .frame(alignment:.center)
                 }
                 .frame(width:geometry.size.width/1.5)
                 .padding(.bottom,10)
                 
                 Button(action: {
-                    if(self.received){
+                    if(self.order.status < 2){
                         self.order.status=2
+                        self.manager.updateRequest(order: self.order)
+                    } else{
+                        if(self.order.donorID != -1){
+                            self.order.status = 1
+                        } else{
+                            self.order.status = 0
+                        }
+                        self.manager.updateRequest(order: self.order)
                     }
                 }) {
                     Text("Update Status")
