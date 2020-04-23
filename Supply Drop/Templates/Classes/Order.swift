@@ -239,7 +239,7 @@ extension Api{
         }.resume()
     }
     
-    //fix
+    //done
     
     func updateRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/\(order.id)") else{
@@ -247,8 +247,10 @@ extension Api{
             return
         }
         
-        let body:[String:Int] = ["ID": order.id]
-        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        guard let finalBody = try? JSONEncoder().encode(order) else {
+            print("Failed to encode user")
+            return
+        }
         
         var request = URLRequest(url:url)
         request.httpMethod = "PUT"
