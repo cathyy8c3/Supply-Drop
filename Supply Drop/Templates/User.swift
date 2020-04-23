@@ -120,27 +120,8 @@ class tempUser:Codable{
     var ID:Int
 }
 
-class tempUser2:Decodable,ObservableObject{
-    @Published var Name:String
-    @Published var Username:String
-    @Published var ShippingAddress:String
-    @Published var Email:String
-    
-    enum CodingKeys: String, CodingKey {
-        case Name = "Name"
-        case Email = "Email"
-        case Username = "Username"
-        case ShippingAddress = "ShippingAddress"
-    }
-    
-    required init(from decoder:Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        
-        Name = try values.decode(String.self, forKey: .Name)
-        Email = try values.decode(String.self, forKey: .Email)
-        Username = try values.decode(String.self, forKey: .Username)
-        ShippingAddress = try values.decode(String.self, forKey: .ShippingAddress)
-    }
+class tempUser2:Codable{
+    var Name,Username,ShippingAddress,Email:String
 }
 
 class Api:ObservableObject{

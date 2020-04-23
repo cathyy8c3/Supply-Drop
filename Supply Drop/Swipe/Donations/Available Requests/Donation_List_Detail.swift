@@ -91,12 +91,12 @@ struct Donation_List_Detail: View {
             .navigationBarTitle("")
             .navigationBarHidden(true)
 //            .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
+//            .navigationViewStyle(StackNavigationViewStyle())
         }
 //        .navigationBarTitle("")
 //        .navigationBarHidden(true)
 //        .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+//        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

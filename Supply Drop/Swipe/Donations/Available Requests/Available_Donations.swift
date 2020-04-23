@@ -80,11 +80,11 @@ struct Available_Donations: View {
                 }
             }
 //                .navigationBarTitle("")
-            .navigationBarHidden(true)
+//            .navigationBarHidden(true)
 //                .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
+//            .navigationViewStyle(StackNavigationViewStyle())
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+//        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     func pageView(_ page: Int) -> some View {
