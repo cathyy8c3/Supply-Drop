@@ -19,7 +19,7 @@ struct Request_Form: View {
 //    @State var messages:Bool = false
     
     var body: some View {
-        NavigationView {
+//        NavigationView {
             VStack {
                 GeometryReader { geometry in
                     VStack {
@@ -138,18 +138,18 @@ struct Request_Form: View {
             }
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
-                .navigationBarBackButtonHidden(true)
+//                .navigationBarBackButtonHidden(true)
             
-        }
-//        .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
-//            print("dismiss")
-//        }) {
-//            Profile().environmentObject(self.user)
-//
 //        }
-        .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
+////        .sheet(isPresented: self.$viewRouter.isCustomItemSelected1, onDismiss: {
+////            print("dismiss")
+////        }) {
+////            Profile().environmentObject(self.user)
+////
+////        }
+//        .navigationBarTitle("")
+//            .navigationBarHidden(true)
+//            .navigationBarBackButtonHidden(true)
 //        .navigationViewStyle(StackNavigationViewStyle())
         
     }

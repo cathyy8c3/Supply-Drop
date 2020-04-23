@@ -14,7 +14,7 @@ struct MainView: View {
     var body: some View {
         VStack{
             if(loggedIn.getBools()){
-                Swipe()
+                Swipe(currentPage:1)
             }else{
                 Login()
             }

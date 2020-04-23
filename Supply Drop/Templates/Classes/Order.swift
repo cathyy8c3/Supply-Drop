@@ -234,43 +234,6 @@ extension Api{
         }.resume()
     }
     
-    //check if returns array or single request
-    
-    func getRequest(order:Request,completion: @escaping([Request]) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
-            return
-        }
-        
-        let body:[String:Int] = ["ID": order.id]
-        let finalBody = try! JSONSerialization.data(withJSONObject: body)
-        
-        var request = URLRequest(url:url)
-        request.httpMethod = "POST"
-        request.httpBody = finalBody
-        
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if(error==nil && !(data==nil)){
-                do{
-                    let orders = try!JSONDecoder().decode([Request].self, from: data!)
-                    
-                    if(type(of:data)==String.self){
-                        completion(orders)
-                    }
-                    
-                    completion(orders)
-                }
-                
-//                catch{
-//                    print("Error in JSON parsing.")
-//                }
-            }else{
-                print("Error")
-                return
-            }
-        }.resume()
-    }
-    
     //done
     
     func createRequest(order:Request){
@@ -296,7 +259,7 @@ extension Api{
         }.resume()
     }
     
-    //need to test
+    //done
     
     func updateRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/id") else{
@@ -333,7 +296,7 @@ extension Api{
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
-        request.httpMethod = "PUT"
+        request.httpMethod = "DELETE"
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

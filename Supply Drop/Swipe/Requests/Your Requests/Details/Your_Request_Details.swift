@@ -17,8 +17,6 @@ struct Your_Request_Details: View {
     @State private var showingSheet = false
     
     var body: some View {
-        NavigationView{
-        
             GeometryReader{geometry in
                 //ScrollView{
                     VStack {
@@ -55,19 +53,18 @@ struct Your_Request_Details: View {
                                 }
                             }
                             
-                            Text("Claimed by \(self.order.getDonor().username)\(self.order.org2string())")
+                            Text("Claimed by \(self.order.getDonor().username)")
     //                            .font(.title)
                             
                             Text("You requested \(String(self.order.num)) \(self.order.item).")
     //                            .font(.title)
                             
-                            Text("Contact them at \(self.order.donor.email).")
+                            Text("Contact the donor at \(self.order.donor.email).")
                             
                             VStack {
                                 Text("Address: \(self.order.address.getLoc())")
                                     .frame(width:300,height:100,alignment: .top)
                             }
-                            .padding(.bottom,20)
                         }
                         
                         HStack {
@@ -113,6 +110,7 @@ struct Your_Request_Details: View {
                         }) {
                             Text("Cancel Request")
                                 .foregroundColor(Color.red)
+                                .padding(.bottom,80)
                         }
                         .actionSheet(isPresented: self.$showingSheet) {
                             ActionSheet(title: Text("Cancel Request"), message: Text("Are you sure you want to cancel your request?"), buttons: [.destructive(Text("Cancel Request")){
@@ -143,15 +141,6 @@ struct Your_Request_Details: View {
                 //}
                 //.frame(height:geometry.size.height)
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
-        }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

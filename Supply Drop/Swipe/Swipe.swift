@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Swipe: View {
-    @State private var currentPage = 1
+    @State var currentPage:Int
     @EnvironmentObject var orders:Orders
     @ObservedObject var manager:Api = Api()
     
@@ -45,6 +45,6 @@ struct Swipe: View {
 
 struct Swipe_Previews: PreviewProvider {
     static var previews: some View {
-        Swipe(order: Request())
+        Swipe(currentPage: 1)
     }
 }

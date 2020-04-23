@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Thank_You: View {
     var body: some View {
-        NavigationView {
+//        NavigationView {
             VStack {
                 Circle_logo_3()
                 .padding([.leading, .trailing],140)
@@ -24,7 +24,7 @@ struct Thank_You: View {
                     .shadow(color:Color.purple,radius: 35)
                     .padding(.bottom,100)
                 
-                NavigationLink(destination:Swipe()){
+                NavigationLink(destination:Swipe(currentPage:1)){
                     Text("Return")
                         .font(.title)
                         .fontWeight(.light)
@@ -36,11 +36,11 @@ struct Thank_You: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .navigationViewStyle(StackNavigationViewStyle())
-        }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+//        }
+//        .navigationBarTitle("")
+//        .navigationBarHidden(true)
+//        .navigationBarBackButtonHidden(true)
+//        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

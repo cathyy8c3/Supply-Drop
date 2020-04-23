@@ -204,7 +204,7 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //test
+    //done
     
     func getDonations(userID:Int,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:1500/api/users/\(String(userID))/donations") else{

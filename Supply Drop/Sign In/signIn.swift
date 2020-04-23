@@ -73,7 +73,7 @@ struct signIn: View {
                         }
                     }
                     
-                    NavigationLink(destination:Swipe(),isActive: self.$validUser){EmptyView()}
+                    NavigationLink(destination:Swipe(currentPage: 1),isActive: self.$validUser){EmptyView()}
                     
                     VStack{
                         Text(error)

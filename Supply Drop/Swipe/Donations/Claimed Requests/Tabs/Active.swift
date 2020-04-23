@@ -14,30 +14,32 @@ struct Active: View {
     @State var donationList:[Request] = []
 
     var body: some View {
-        GeometryReader { geometry in
-            List(self.donationList) {current in
-                Group{
-                    if(current.status<2){
-                        Selection(order: current, phrase: "is requesting", you:false)
-                            .frame(width:geometry.size.width,height:200)
-                            .padding(.leading,-20)
-                    }else{
-                        EmptyView().hidden()
+            GeometryReader { geometry in
+                List(self.donationList) {current in
+                    Group{
+                        if(current.status<2){
+                            Selection(order: current, phrase: "is requesting", you:false)
+                                .frame(width:geometry.size.width,height:200)
+                                .padding(.leading,-20)
+                        }else{
+                            EmptyView().hidden()
+                        }
                     }
                 }
-            }
-        .onAppear(perform: {
-            self.manager.getDonations(userID: self.user.id) { (requests) in
-                for each in requests{
-                    if(each.status<2){
-                        self.donationList.append(each)
+            .onAppear(perform: {
+                self.manager.getDonations(userID: self.user.id) { (requests) in
+                    self.donationList = []
+                    for each in requests{
+                        if(each.status<2){
+                            self.donationList.append(each)
+                        }
                     }
                 }
-            }
-        })
+            })
 
-            
-        }
+                
+            }
+        
     }
 }
 

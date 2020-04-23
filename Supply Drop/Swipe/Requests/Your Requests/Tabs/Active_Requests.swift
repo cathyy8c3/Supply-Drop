@@ -14,29 +14,35 @@ struct Active_Requests: View {
     @State var requestList:[Request] = []
     
     var body: some View {
-        GeometryReader { geometry in
-            List(self.requestList) {current in
-                Group{
-                    if(current.status<2){
-                        Selection(order: current, phrase: "are requesting", you:true)
-                            .frame(width:geometry.size.width,height:200)
-                            .padding(.leading,-20)
-                    }else{
-                        EmptyView().hidden()
+        
+            GeometryReader { geometry in
+                List(self.requestList) {current in
+                    NavigationLink(destination:Your_Request_Details(order: current)){
+                        Group{
+                            if(current.status<2){
+                                Selection(order: current, phrase: "are requesting", you:true)
+                                    .frame(width:geometry.size.width,height:200)
+                                    .padding(.leading,-20)
+                            }else{
+                                EmptyView().hidden()
+                            }
+                        }
                     }
                 }
-            }
-        .onAppear(perform: {
-            self.manager.getRequests(userID: self.user.id) { (requests) in
-                for each in requests{
-                    if(each.status<2){
-                        self.requestList.append(each)
+            .onAppear(perform: {
+                self.manager.getRequests(userID: self.user.id) { (requests) in
+                    self.requestList = []
+                    
+                    for each in requests{
+                        if(each.status<2){
+                            self.requestList.append(each)
+                        }
                     }
                 }
-            }
-        })
+            })
 
-            
+                
+
         }
     }
 }

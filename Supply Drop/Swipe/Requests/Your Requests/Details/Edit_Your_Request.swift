@@ -11,12 +11,11 @@ import SwiftUI
 struct Edit_Your_Request: View {
     @ObservedObject  var order:Request
         @State var n:Int
-        @State var presentMe:Bool = false
+        @State var presentMe2:Bool = false
     @EnvironmentObject var user:User
     @State var manager:Api = Api()
         
         var body: some View {
-            NavigationView{
                 GeometryReader{ geometry in
                     ScrollView{
                         Spacer()
@@ -111,10 +110,10 @@ struct Edit_Your_Request: View {
                                 .frame(width:geometry.size.width/1.2, height:50)
                                 .border(Color.gray, width:0.5)
                                 
-                                NavigationLink(destination: Your_Request_Details(order:self.order), isActive: self.$presentMe) { EmptyView() }
+                                
                                 
                                 Button(action: {
-                                    self.presentMe = true
+                                    self.presentMe2 = true
                                     self.order.num=self.n
                                     
                                     self.user.setAddress(add: self.order.address)
@@ -128,31 +127,22 @@ struct Edit_Your_Request: View {
                                     .padding(.bottom, 20)
                                 }
                                 .frame(width:500)
-
-                                
-    //                            NavigationLink(destination:Request_Form_3(order:self.order)){
-    //                                Text("Submit")
-    //                                    .font(.title)
-    //                                    .foregroundColor(Color.purple)
-    //                                    .padding(.bottom, 20)
-    //                            }
-    //                            .frame(width:500)
                             }
                             
                         }
+                        
+//                        NavigationLink(destination: Swipe(currentPage: 1), isActive: self.$presentMe2) { EmptyView() }
                     }
+                    
+                    
             //                .frame(maxHeight:1000)
+                    
                 
                 }
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
                 .navigationBarBackButtonHidden(true)
-                .navigationViewStyle(StackNavigationViewStyle())
-            }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
+
         }
 }
 
