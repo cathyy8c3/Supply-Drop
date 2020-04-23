@@ -21,7 +21,7 @@ struct Completed_Requests: View {
                     Group{
                         if(current.status>=2){
                             Selection(order: current, phrase: "requested", you:true)
-                                .frame(width:geometry.size.width,height:200)
+                                .frame(width:geometry.size.width,height:120)
                                 .padding(.leading,-20)
                         } else{
                             EmptyView().hidden()
@@ -30,6 +30,7 @@ struct Completed_Requests: View {
                 }
             }
             .onAppear(perform: {
+                UITableView.appearance().separatorColor = .clear
                 self.manager.getRequests(userID: self.user.id) { (requests) in
                     self.requestList = []
                     for each in requests{

@@ -83,7 +83,7 @@ class Request:ObservableObject,Codable,Identifiable{
         requesterID = try values.decode(Int.self, forKey: .requesterID)
         donorID = try values.decodeIfPresent(Int.self, forKey: .donorID) ?? -1
         affiliateLink = try values.decode(String.self, forKey: .affiliateLink)
-        expectedArrival = try values.decode(String.self, forKey: .affiliateLink)
+        expectedArrival = try values.decode(String.self, forKey: .expectedArrival)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -207,7 +207,6 @@ extension Api{
                 return
             }
             let orders = try!JSONDecoder().decode([Request].self, from: data)
-            self.orders = orders
             DispatchQueue.main.async {
                 completion(orders)
             }

@@ -18,6 +18,7 @@ struct signIn: View {
     
     @EnvironmentObject var orders:Orders
     @EnvironmentObject var user:User
+    @EnvironmentObject var loggedIn:Bools
     
     @ObservedObject var manager:Api = Api()
     @ObservedObject var keyboardResponder = KeyboardResponder()
@@ -84,6 +85,8 @@ struct signIn: View {
                                         }
                                         self.orders.objectWillChange.send()
                                     }
+                                    self.loggedIn.setBools(value: true)
+                                    UserDefaults.standard.set(true, forKey: "LoggedIn")
                                     self.validUser = true
                                 }else{
                                     self.error = "Incorrect username or password."

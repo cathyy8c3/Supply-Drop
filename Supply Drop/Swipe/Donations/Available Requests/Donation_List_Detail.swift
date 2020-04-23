@@ -34,7 +34,7 @@ struct Donation_List_Detail: View {
                         .clipShape(Circle())
                         .shadow(radius: 20)
                         .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                        .frame(idealWidth: 200, maxWidth:500)
+                        .frame(idealWidth: 200, maxWidth:300)
                         .offset(y:-100)
                         .padding(.bottom,-130)
                 }

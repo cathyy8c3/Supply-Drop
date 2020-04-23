@@ -13,8 +13,45 @@ struct Request_Detail: View {
     @State var sent:Bool = false
     @State private var showingSheet = false
     @State var manager:Api = Api()
+    @State var validDateString:String = ""
     
     @ObservedObject  var order:Request
+    
+    func validDate(date:String)->Bool{
+        let curr = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: curr)
+        let month = calendar.component(.month, from: curr)
+        let day = calendar.component(.day, from: curr)
+        
+        let regEx = #"^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"#
+        
+        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+        
+        if(pred.evaluate(with: date)){
+            let date2 = date.split(separator: "/")
+            
+            if(Int(String(date2[2])) ?? -1>year){
+                return true
+            } else if(Int(String(date2[2])) ?? -1 == year){
+                if(Int(String(date2[0])) ?? -1>month){
+                    return true
+                } else if(Int(String(date2[0])) ?? -1 == month){
+                    if(Int(String(date2[1])) ?? -1>day){
+                        return true
+                    } else{
+                        return false
+                    }
+                } else{
+                    return false
+                }
+            } else{
+                return false
+            }
+        } else{
+            return false
+        }
+    }
     
     var body: some View {
         GeometryReader{geometry in
@@ -22,31 +59,65 @@ struct Request_Detail: View {
                 VStack {
                     MapView(address: self.order.address.getLoc())
                         .edgesIgnoringSafeArea([.top])
-                        .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
+                        .frame(minHeight:geometry.size.height/4,idealHeight:geometry.size.height/4, maxHeight:geometry.size.height/4)
                     
                     self.order.getRequester().profile
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(contentMode:.fit)
                         .clipShape(Circle())
-                        .shadow(radius: 20)
+                        .shadow(radius: 10)
                         .overlay(Circle().stroke(Color.white,lineWidth: 2))
                         .frame(idealWidth: 200, maxWidth:300)
                         .offset(y:-100)
-                        .padding(.bottom,-50)
+                        .padding(.bottom,-130)
+                        .zIndex(5)
+                    
+                    NavigationView{
+                        VStack {
+                            HStack {
+                                Text("Expected Arrival Date: ")
+                                    .navigationBarTitle("")
+                                    .navigationBarHidden(true)
+                                    .multilineTextAlignment(.center)
+                                
+                                TextField("MM/DD/YYYY", text: self.$order.expectedArrival)
+                                    .padding()
+                                    .border(Color.gray, width:0.5)
+                                    .padding(.leading,10)
+                                    .frame(width:150)
+                            }
+                            
+                            Text(self.validDateString)
+                                .foregroundColor(Color.red)
+                                .padding(.bottom,10)
+                            
+                            Button(action: {
+                                if(self.validDate(date: self.order.expectedArrival)){
+                                    self.order.expectedArrival = self.order.expectedArrival
+                                    self.manager.updateRequest(order: self.order)
+                                    self.validDateString = "Saved."
+                                } else{
+                                    self.validDateString = "Invalid date."
+                                }
+                            }) {
+                                Text("Save")
+                                    .foregroundColor(Color.purple)
+                            }
+                        }
+                    }
+                    .frame(width:350, height:geometry.size.height/5.5)
+                    .padding(.top,30)
+                    .navigationViewStyle(StackNavigationViewStyle())
                 }
                 
-                Spacer()
-                
-                VStack(spacing:20) {
+                VStack(spacing:10) {
                     Text("Request")
                         .font(.largeTitle)
                                         
                     Text("Made by \(self.order.getRequester().name)")
                     
                     Text("Asking for \(String(self.order.num)) \(self.order.item)")
-                    
-//                    Text(self.order.affiliateLink)
                     
                     Text("Contact them at \(self.order.requester.email).")
                     
@@ -73,24 +144,19 @@ struct Request_Detail: View {
                 
                 Button(action: {
                     self.showingSheet = true
-                    
-                    //todo
-                    //remove from user donation list
                 }) {
                     Text("Cancel Donation")
                         .foregroundColor(Color.red)
                 }
                 .actionSheet(isPresented: self.$showingSheet) {
                     ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.destructive(Text("Cancel Donation")){
-                            //todo: remove donation from user list
-                                
                         self.order.claimed=false
                         self.order.status = 0
                         self.order.setDonor(u:User())
                         self.manager.updateRequest(order: self.order)
                         }, .cancel()])
                 }
-                .padding(.bottom,40)
+                .padding(.bottom,60)
                 
                 Spacer()
             }

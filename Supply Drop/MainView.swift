@@ -12,12 +12,21 @@ struct MainView: View {
     @EnvironmentObject var loggedIn:Bools
     
     var body: some View {
-        VStack{
-            if(loggedIn.getBools()){
-                Swipe(currentPage:1)
-            }else{
-                Login()
+        GeometryReader { geometry in
+            ZStack{
+                if(self.loggedIn.boo){
+                    Swipe(currentPage:1)
+                        .transition(.scale)
+                }else{
+                    Login()
+                        .transition(.scale)
+                }
             }
+            .onAppear{
+                self.loggedIn.setBools(value: UserDefaults.standard.bool(forKey: "LoggedIn"))
+            }
+            .transition(.slide)
+            .frame(width:geometry.size.width, height:geometry.size.height)
         }
     }
 }
@@ -25,6 +34,6 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
 
     static var previews: some View {
-        MainView().environmentObject(Bools())
+        MainView()
     }
 }

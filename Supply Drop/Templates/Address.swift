@@ -16,7 +16,6 @@ class Address{
     var state:String = ""
     var zip:String = ""
     var country:String = ""
-    var work:Bool = true
     
     func getLoc()->String{
         if(address2==""){
@@ -29,16 +28,7 @@ class Address{
         return "\(address1),\(address2),\(city),\(state),\(zip),\(country)"
     }
     
-    //todo
-    //check if address is valid
-    
-    func valid()->String{
-        if(address1.count==0 || city.count==0 || state.count==0 || zip.count==0 || country.count==0){
-            return "Please enter information into all required fields."
-        }
-        
-        self.work=true
-        
+    func isValid(completion: @escaping(Bool) -> ()){
         let geoCoder = CLGeocoder()
         
         geoCoder.geocodeAddressString(getLoc()) { (placemarks, error) in
@@ -46,14 +36,17 @@ class Address{
                 let placemarks = placemarks,
                 let _ = placemarks.first?.location
             else {
-                self.work=false
-                // handle no location found
+                completion(false)
                 return
             }
-            
-            // Use your location
         }
         
-        return ""
+        completion(true)
+    }
+    
+    func validAddress()->Bool{
+        let works:Bool = true
+        
+        return works
     }
 }

@@ -23,13 +23,13 @@ struct Selection: View {
                     .cornerRadius(10)
                     .shadow(radius: 10)
                     .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
-                    .padding(.all,50)
+                    .padding(.horizontal,50)
                     .offset(x:geometry.size.width/50)
                 
                 HStack {
                     Spacer()
                     
-                    Text("\(self.you ? "You": self.order.getRequester().username) \(self.phrase) \(self.order.num) \(self.order.item)")
+                    Text("\(self.order.num) \(self.order.item)")
                         .font(.system(size: 40))
                         .fontWeight(.light)
                         .frame(height:80,alignment: .leading)
@@ -45,7 +45,7 @@ struct Selection: View {
                         .foregroundColor(Color.gray)
                 }
             }
-            .frame(width:geometry.size.width,height:200)
+            .frame(width:geometry.size.width,height:100)
             .padding(.leading,-20)
         }
     }

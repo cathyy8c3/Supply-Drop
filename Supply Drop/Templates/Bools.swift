@@ -13,7 +13,9 @@ class Bools:ObservableObject{
     @Published var boo:Bool = false
     
     func setBools(value:Bool){
-        boo=value
+        DispatchQueue.main.async {
+            self.boo=value
+        }
     }
     
     func getBools()->Bool{

@@ -52,188 +52,189 @@ struct Edit_Profile: View {
     }
     
     var body: some View {
-            GeometryReader {geometry in
-                ScrollView {
-                    VStack {
-                        Spacer()
-                        
-                        Button(action: {
-                            self.showingImagePicker=true
-                        }) {
-                            ZStack (alignment:.bottom){
-                                self.user.profile
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .aspectRatio(contentMode:.fit)
-                                    .clipShape(Circle())
-                                    .shadow(radius: 20)
-                                    .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                    .frame(width:geometry.size.width/2,height:geometry.size.width/2)
-                                
-                                self.image?
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .aspectRatio(contentMode:.fit)
-                                    .clipShape(Circle())
-                                    .shadow(radius: 20)
-                                    .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                    .frame(width:geometry.size.width/2,height:geometry.size.width/2)
-                            }
-                            .frame(width:geometry.size.width/2,height:geometry.size.width/2)
-                            .padding(.top,50)
+        GeometryReader {geometry in
+            ScrollView {
+                VStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        self.showingImagePicker=true
+                    }) {
+                        ZStack (alignment:.bottom){
+                            self.user.profile
+                                .renderingMode(.original)
+                                .resizable()
+                                .scaledToFit()
+                                .aspectRatio(contentMode:.fit)
+                                .clipShape(Circle())
+                                .shadow(radius: 20)
+                                .overlay(Circle().stroke(Color.white,lineWidth: 2))
+                                .frame(width:geometry.size.width/2,height:geometry.size.width/2)
+                            
+                            self.image?
+                                .renderingMode(.original)
+                                .resizable()
+                                .scaledToFit()
+                                .aspectRatio(contentMode:.fit)
+                                .clipShape(Circle())
+                                .shadow(radius: 20)
+                                .overlay(Circle().stroke(Color.white,lineWidth: 2))
+                                .frame(width:geometry.size.width/2,height:geometry.size.width/2)
                         }
+                        .frame(width:geometry.size.width/2,height:geometry.size.width/2)
+                        .padding(.top,50)
+                    }
+                    
+                    VStack(spacing:20) {
+                        Text("Profile")
+                            .font(.largeTitle)
+                            .padding(.top,10)
+                            .frame(width:300)
                         
-                        VStack(spacing:20) {
-                            Text("Profile")
-                                .font(.largeTitle)
-                                .padding(.top,10)
-                                .frame(width:300)
+                        TextField("*Name", text: self.$user.name)
+                            .padding()
+                            .frame(width:275, height:50)
+                            .border(Color.gray, width:0.5)
+                        
+                        TextField("*Username", text: self.$user.username)
+                            .padding()
+                            .frame(width:275, height:50)
+                            .border(Color.gray, width:0.5)
+                        
+                        TextField("*Email", text: self.$user.email)
+                            .padding()
+                            .frame(width:275, height:50)
+                            .border(Color.gray, width:0.5)
+                        
+                        Text(self.valid)
+                            .foregroundColor(Color.red)
                             
-                            TextField("*Name", text: self.$user.name)
-                                .padding()
-                                .frame(width:275, height:50)
-                                .border(Color.gray, width:0.5)
-                            
-                            TextField("*Username", text: self.$user.username)
-                                .padding()
-                                .frame(width:275, height:50)
-                                .border(Color.gray, width:0.5)
-                            
-                            TextField("*Email", text: self.$user.email)
-                                .padding()
-                                .frame(width:275, height:50)
-                                .border(Color.gray, width:0.5)
-                            
-                            Text(self.valid)
-                                .foregroundColor(Color.red)
+                        VStack(spacing:20){
+                            Text("Address")
+                                .font(.body)
                                 
-                            VStack(spacing:20){
-                                Text("Address")
-                                    .font(.body)
-                                    .padding(.top,20)
-                                    
-                                TextField("Address Line 1", text: self.$user.initAddress.address1)
+                            TextField("Address Line 1", text: self.$user.initAddress.address1)
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
+                                
+                                TextField("Address Line 2", text: self.$user.initAddress.address2)
                                     .padding()
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
+                                
+                                HStack {
+                                    TextField("City", text: self.$user.initAddress.city)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
+                                    .border(Color.gray, width:0.5)
                                     
-                                    TextField("Address Line 2", text: self.$user.initAddress.address2)
+                                    TextField("State", text: self.$user.initAddress.state)
                                         .padding()
-                                        .frame(width:geometry.size.width/1.2, height:50)
-                                        .border(Color.gray, width:0.5)
-                                    
-                                    HStack {
-                                        TextField("City", text: self.$user.initAddress.city)
-                                        .padding()
-                                        .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
+                                        .frame(width:75, height:50)
                                         .border(Color.gray, width:0.5)
                                         
-                                        TextField("State", text: self.$user.initAddress.state)
-                                            .padding()
-                                            .frame(width:75, height:50)
-                                            .border(Color.gray, width:0.5)
-                                            
-                                        TextField("Zip Code", text: self.$user.initAddress.zip)
-                                            .keyboardType(.numberPad)
-                                            .padding()
-                                            .frame(width:geometry.size.width/2.3-75, height:50)
-                                            .border(Color.gray, width:0.5)
-                                    }
-                                    
-                                    TextField("Country", text: self.$user.initAddress.country)
+                                    TextField("Zip Code", text: self.$user.initAddress.zip)
+                                        .keyboardType(.numberPad)
                                         .padding()
-                                        .frame(width:geometry.size.width/1.2, height:50)
+                                        .frame(width:geometry.size.width/2.3-75, height:50)
                                         .border(Color.gray, width:0.5)
-                                }.padding(.bottom, 20)
-                            }
-                            .padding(.bottom,30)
+                                }
                                 
-                            SecureField("*Current Password", text: self.$oldpass)
-                            .padding()
-                            .frame(width:275, height:50)
-                            .border(Color.gray, width:0.5)
-                            
-                            SecureField("Type Your New Password", text: self.$pass1)
-                            .padding()
-                            .frame(width:275, height:50)
-                            .border(Color.gray, width:0.5)
-                            
-                            SecureField("Type Your New Password Again", text: self.$pass2)
-                            .padding()
-                            .frame(width:275, height:50)
-                            .border(Color.gray, width:0.5)
-                            
-                            Text("\(self.match)")
-                                .foregroundColor(Color.red)
+                                TextField("Country", text: self.$user.initAddress.country)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2, height:50)
+                                    .border(Color.gray, width:0.5)
+                            }
                         }
-                    
-                        Text(self.allFields)
+                        .padding(.bottom,30)
+                            
+                        SecureField("*Current Password", text: self.$oldpass)
+                        .padding()
+                        .frame(width:275, height:50)
+                        .border(Color.gray, width:0.5)
+                        
+                        SecureField("Type Your New Password", text: self.$pass1)
+                        .padding()
+                        .frame(width:275, height:50)
+                        .border(Color.gray, width:0.5)
+                        
+                        SecureField("Type Your New Password Again", text: self.$pass2)
+                        .padding()
+                        .frame(width:275, height:50)
+                        .border(Color.gray, width:0.5)
+                        
+                        Text("\(self.match)")
                             .foregroundColor(Color.red)
-                            .font(.subheadline)
-                        
-                        Button(action: {
-                            if(self.oldpass==self.user.password){
-                                self.match=""
-                                
-                                if(self.pass1==self.pass2){
-                                    self.match=""
-                                } else{
-                                    self.match = "Passwords don't match."
-                                    self.pass1 = ""
-                                    self.pass2 = ""
-                                }
-                                
-                                if(self.user.name.count==0 || self.user.username.count==0 || self.user.email.count==0){
-                                    self.allFields = "Please enter all of the required information."
-                                } else{
-                                    self.allFields = ""
-                                }
-                                    
-                                if(!self.isValidPassword(testStr: self.pass1) && !(self.pass1=="")){
-                                    self.match = "Invalid password."
-                                }else{
-                                    self.match=""
-                                }
-                                
-                                if(!self.isValidUsername(username: self.user.username)){
-                                    self.valid = "Invalid username."
-                                } else if(!self.isValidEmail(email:self.user.email)){
-                                    self.valid = "Invalid email."
-                                } else{
-                                    self.valid = ""
-                                }
-                                
-                                if(self.valid=="" && self.match==""){
-                                    self.user.setAddress(add:self.user.initAddress)
-                                    
-                                    if(!(self.pass1=="")){
-                                        self.user.password = self.pass1
-                                    }
-                                    
-                                    self.presentMe=true
-                                    
-                                    self.manager.updateUser(user: self.user)
-                                }
-                            } else{
-                                self.match = "Incorrect password."
-                            }
-                        }) {
-                            Text("Save")
-                                .foregroundColor(Color.purple)
-                                .padding([.bottom,.top],30)
-                        }
-                        .frame(width:500)
-                        
-                    NavigationLink(destination: Profile(previous:self.previous), isActive: self.$presentMe) { EmptyView() }
+                    }
+                
+                    Text(self.allFields)
+                        .foregroundColor(Color.red)
+                        .font(.subheadline)
                     
-                        Spacer()
-                }
+                    Button(action: {
+                        if(self.oldpass==self.user.password){
+                            self.match=""
+                            
+                            if(self.pass1==self.pass2){
+                                self.match=""
+                            } else{
+                                self.match = "Passwords don't match."
+                                self.pass1 = ""
+                                self.pass2 = ""
+                            }
+                            
+                            if(self.user.name.count==0 || self.user.username.count==0 || self.user.email.count==0){
+                                self.allFields = "Please enter all of the required information."
+                            } else if(!self.user.initAddress.validAddress()){
+                                self.allFields = "Invalid address."
+                            } else{
+                                self.allFields = ""
+                            }
+                                
+                            if(!self.isValidPassword(testStr: self.pass1) && !(self.pass1=="")){
+                                self.match = "Invalid password."
+                            }else{
+                                self.match=""
+                            }
+                            
+                            if(!self.isValidUsername(username: self.user.username)){
+                                self.valid = "Invalid username."
+                            } else if(!self.isValidEmail(email:self.user.email)){
+                                self.valid = "Invalid email."
+                            } else{
+                                self.valid = ""
+                            }
+                            
+                            if(self.valid=="" && self.match=="" && self.allFields==""){
+                                self.user.setAddress(add:self.user.initAddress)
+                                
+                                if(!(self.pass1=="")){
+                                    self.user.password = self.pass1
+                                }
+                                
+                                self.presentMe=true
+                                
+                                self.manager.updateUser(user: self.user)
+                            }
+                        } else{
+                            self.match = "Incorrect password."
+                        }
+                    }) {
+                        Text("Save")
+                            .foregroundColor(Color.purple)
+                            .padding([.bottom,.top],30)
+                    }
+                    .frame(width:500)
+                    
+                NavigationLink(destination: Profile(previous:self.previous), isActive: self.$presentMe) { EmptyView() }
+                
+                    Spacer()
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
+        }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

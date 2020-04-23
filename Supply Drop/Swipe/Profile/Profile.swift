@@ -13,8 +13,8 @@ struct Profile: View {
     @State var previous:Int
     @State var back:Bool = false
     
-    @EnvironmentObject var user:User
     @EnvironmentObject var loggedIn:Bools
+    @EnvironmentObject var user:User
     
     var body: some View {
         GeometryReader{geometry in
@@ -56,9 +56,10 @@ struct Profile: View {
                 
                 VStack(spacing:20) {
                     Spacer()
+                    
                     Text("Profile")
                         .font(.largeTitle)
-                        .padding(.top,10)
+                        .padding(.top,geometry.size.height/10)
                         .frame(width:300)
                     
                     Text("Name: \(self.user.name)")
@@ -81,26 +82,24 @@ struct Profile: View {
                         Text("Edit Your Profile")
                         .foregroundColor(Color.purple)
                     }
-                    .padding(.bottom,10)
                     
-                    NavigationLink(destination: signIn(), isActive: self.$presentMe) { EmptyView() }
-                    
-                    Button(action: {
-                        //todo
-                        self.loggedIn.setBools(value: false)
-                        
-                        self.presentMe = true
-                    }) {
-                        Text("Sign Out")
-                        .foregroundColor(Color.purple)
-                            .padding(.bottom,50)
-                    }
+//                    Button(action: {
+//                        UserDefaults.standard.set(false, forKey: "LoggedIn")
+//                        self.loggedIn.setBools(value: false)
+//                        self.presentMe = true
+//                    }) {
+//                        Text("Sign Out")
+//                            .foregroundColor(Color.red)
+//                            .padding(.bottom,50)
+//                    }
                     
                     if(self.previous==0){
                         NavigationLink(destination:Donations(),isActive: self.$back){EmptyView()}
                     } else{
                         NavigationLink(destination:Request_Form(order: Request()),isActive: self.$back){EmptyView()}
                     }
+                    
+                    Spacer()
                 }
                 
                 Spacer()
@@ -110,12 +109,12 @@ struct Profile: View {
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Profile(previous: 0).environmentObject(User()).environmentObject(Bools())
+        Profile(previous: 0).environmentObject(User())
     }
 }

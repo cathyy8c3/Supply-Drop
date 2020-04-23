@@ -21,7 +21,7 @@ struct Active: View {
                     Group{
                         if(current.status<2){
                             Selection(order: current, phrase: "is requesting", you:false)
-                                .frame(width:geometry.size.width,height:200)
+                                .frame(width:geometry.size.width,height:120)
                                 .padding(.leading,-20)
                         } else{
                             EmptyView().hidden()
@@ -30,6 +30,7 @@ struct Active: View {
                 }
             }
             .onAppear(perform: {
+                UITableView.appearance().separatorColor = .clear
                 self.manager.getDonations(userID: self.user.id) { (requests) in
                     self.donationList = []
                     for each in requests{
@@ -42,8 +43,8 @@ struct Active: View {
                                 }
                             }
                             
-                            self.manager.getUser(userID: each.requesterID) { donor in
-                                each.requester.tempUser22User(user2:donor[0])
+                            self.manager.getUser(userID: each.requesterID) { requester in
+                                each.requester.tempUser22User(user2:requester[0])
                             }
                             
                             self.donationList.append(each)

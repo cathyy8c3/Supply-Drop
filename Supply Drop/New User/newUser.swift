@@ -18,6 +18,7 @@ struct newUser: View {
     @State var emailUsernameError:String = ""
     @State var height:CGFloat = 0
     @State var next:Bool = false
+    @State var validAddress:String = ""
     
     @ObservedObject var manager:Api = Api()
     @ObservedObject var keyboardResponder = KeyboardResponder()
@@ -139,6 +140,9 @@ struct newUser: View {
                                     .border(Color.gray, width:0.5)
                                 }.padding(.bottom, 20)
                             }
+                            
+                            Text(self.validAddress)
+                                .foregroundColor(Color.red)
                              
                             VStack{
                                 Button(action:{
@@ -161,7 +165,17 @@ struct newUser: View {
                                         self.emailUsernameError=""
                                     }
                                     
-                                    if(self.passError=="" && self.emailUsernameError==""){
+                                    if(!self.user.initAddress.validAddress()){
+                                        if(self.user.initAddress.address1 == "" && self.user.initAddress.address2 == "" && self.user.initAddress.city == "" && self.user.initAddress.state == "" && self.user.initAddress.zip == "" && self.user.initAddress.country == ""){
+                                            self.validAddress = ""
+                                        } else{
+                                            self.validAddress = "Invalid Address."
+                                        }
+                                    } else{
+                                        self.validAddress = ""
+                                    }
+                                    
+                                    if(self.passError=="" && self.emailUsernameError=="" && self.validAddress==""){
                                         self.user.setAddress(add: self.user.initAddress)
                                         self.user.setPass(pass: self.password1)
                                         

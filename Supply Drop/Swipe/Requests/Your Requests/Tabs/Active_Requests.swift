@@ -21,7 +21,7 @@ struct Active_Requests: View {
                     Group{
                         if(current.status<2){
                             Selection(order: current, phrase: "are requesting", you:true)
-                                .frame(width:geometry.size.width,height:200)
+                                .frame(width:geometry.size.width,height:120)
                                 .padding(.leading,-20)
                         } else{
                             EmptyView().hidden()
@@ -30,6 +30,7 @@ struct Active_Requests: View {
                 }
             }
             .onAppear(perform: {
+                UITableView.appearance().separatorColor = .clear
                 self.manager.getRequests(userID: self.user.id) { (requests) in
                     self.requestList = []
                     for each in requests{
@@ -57,6 +58,6 @@ struct Active_Requests: View {
 
 struct Active_Requests_Previews: PreviewProvider {
     static var previews: some View {
-        Active_Requests()
+        Active_Requests().environmentObject(User())
     }
 }
