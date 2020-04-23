@@ -30,7 +30,7 @@ struct Completed_Requests: View {
             .onAppear(perform: {
                 self.manager.getRequests(userID: self.user.id) { (requests) in
                     for each in requests{
-                        if(each.status<2){
+                        if(each.status>2){
                             self.requestList.append(each)
                         }
                     }
