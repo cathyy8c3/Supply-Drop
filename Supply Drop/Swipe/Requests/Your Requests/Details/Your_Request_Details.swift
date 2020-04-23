@@ -118,6 +118,8 @@ struct Your_Request_Details: View {
                             ActionSheet(title: Text("Cancel Request"), message: Text("Are you sure you want to cancel your request?"), buttons: [.destructive(Text("Cancel Request")){
                                     //todo: delete request
                                 
+                                
+                                
                                 self.manager.deleteRequest(order: self.order)
                                 }, .cancel()])
                         }.padding(.bottom,20)

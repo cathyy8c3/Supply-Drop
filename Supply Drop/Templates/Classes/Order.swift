@@ -333,7 +333,7 @@ extension Api{
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
         
         var request = URLRequest(url:url)
-        request.httpMethod = "POST"
+        request.httpMethod = "PUT"
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

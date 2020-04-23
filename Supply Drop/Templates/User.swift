@@ -244,43 +244,21 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //todo
+    //done
     
-    func getRequests(id:String,completion: @escaping([Request]) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/users/id/requests") else{
+    func getRequests(userID:Int,completion: @escaping([Request]) -> ()){
+        guard let url = URL(string: "http://localhost:1500/api/users/\(String(userID))/requests") else{
                 return
         }
         
-        let body:[String:String] = ["ID": id]
-        let finalBody = try!JSONSerialization.data(withJSONObject: body)
-        
-        var request = URLRequest(url:url)
-        request.httpMethod = "GET"
-        request.httpBody = finalBody
-        
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else { return }
             
-            if(error==nil && !(data==nil)){
-                do{
-                    let order1 = try!JSONDecoder().decode([Request].self, from: data!)
-                    
-                    if(type(of:data)==String.self){
-                        
-                        completion(order1)
-                    }
-                    
-                    completion(order1)
-                }
-                
-//                catch{
-//                    print("Error in JSON parsing.")
-//                }
-            }else{
-                print("Error")
-                return
-            }
+            print(String(data: data, encoding: .utf8)!)
+            
+            let requests = try!JSONDecoder().decode([Request].self, from: data)
+            
+            completion(requests)
         }.resume()
     }
     
@@ -309,7 +287,7 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //need to test
+    //done
     
     func getUser(userID:Int, completion: @escaping([tempUser2]) -> ()){
         if(userID<0){

@@ -54,6 +54,8 @@ struct Selection: View {
                         .foregroundColor(Color.gray)
                 }
             }
+            .frame(width:geometry.size.width,height:200)
+            .padding(.leading,-20)
         }
     }
 }
