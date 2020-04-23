@@ -20,10 +20,6 @@ class Orders:ObservableObject,Identifiable{
     
     func setOrders2Orders(order1:[Request]){
         orders = order1
-        
-        print("Ordered:")
-        print(orders)
-        print(order1)
     }
     
     
@@ -60,6 +56,10 @@ class Request:ObservableObject,Codable,Identifiable{
     
     func setAddress(){
         addressString = address.storeLoc()
+    }
+    
+    func setAdress(add:Address){
+        address = add
     }
     
     //0 = not sent, 1 = sent, 2 = received

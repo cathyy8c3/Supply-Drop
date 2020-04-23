@@ -64,6 +64,7 @@ struct Your_Request_Details: View {
                             VStack {
                                 Text("Address: \(self.order.address.getLoc())")
                                     .frame(width:300,height:100,alignment: .top)
+                                    .multilineTextAlignment(.center)
                             }
                         }
                         

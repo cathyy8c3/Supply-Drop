@@ -36,6 +36,7 @@ struct Active_Requests: View {
                     for each in requests{
                         if(each.status<2){
                             self.requestList.append(each)
+                            each.setAdress(add: each.addressString.toAddress(address: each.addressString))
                         }
                     }
                 }

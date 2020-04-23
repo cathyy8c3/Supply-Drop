@@ -10,8 +10,8 @@ import SwiftUI
 
 struct Edit_Your_Request: View {
     @ObservedObject  var order:Request
-        @State var n:Int
-        @State var presentMe2:Bool = false
+    @State var n:Int
+    @State var presentMe2:Bool = false
     @EnvironmentObject var user:User
     @State var manager:Api = Api()
         
@@ -118,6 +118,8 @@ struct Edit_Your_Request: View {
                                     
                                     self.user.setAddress(add: self.order.address)
                                     
+                                    self.order.setAddress()
+                                    
                                     self.manager.updateUser(user: self.user)
                                     self.manager.updateRequest(order: self.order)
                                 }) {
@@ -131,7 +133,7 @@ struct Edit_Your_Request: View {
                             
                         }
                         
-//                        NavigationLink(destination: Swipe(currentPage: 1), isActive: self.$presentMe2) { EmptyView() }
+//                        NavigationLink(destination: Swipe(currentPage: 1), isActive: self.$Me2) { EmptyView() }
                     }
                     
                     

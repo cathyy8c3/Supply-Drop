@@ -15,7 +15,7 @@ struct Donation_List_Detail: View {
     @State  var message:String = ""
     
     var body: some View {
-        NavigationView{
+//        NavigationView{
             GeometryReader{geometry in
                 //ScrollView{
                     VStack {
@@ -87,9 +87,9 @@ struct Donation_List_Detail: View {
                     }
                 //}
                 //.frame(height:geometry.size.height)
-            }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
+//            }
+//            .navigationBarTitle("")
+//            .navigationBarHidden(true)
 //            .navigationBarBackButtonHidden(true)
 //            .navigationViewStyle(StackNavigationViewStyle())
         }

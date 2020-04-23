@@ -19,6 +19,9 @@ class Address{
     var work:Bool = true
     
     func getLoc()->String{
+        if(address2==""){
+            return "\(address1)\n\(city), \(state) \(zip)\n\(country)"
+        }
         return "\(address1)\n\(address2)\n\(city), \(state) \(zip)\n\(country)"
     }
     
