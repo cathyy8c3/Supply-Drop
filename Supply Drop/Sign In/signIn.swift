@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct signIn: View {
     @State var username: String = ""
@@ -14,9 +15,11 @@ struct signIn: View {
     @State var isModal: Bool = false
     @State var validUser:Bool = false
     @State var error:String = ""
+    
+    
     @EnvironmentObject var orders:Orders
     
-    @State var manager:Api = Api()
+    @ObservedObject var manager:Api = Api()
     
     @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()
@@ -77,6 +80,7 @@ struct signIn: View {
                             .foregroundColor(Color.red)
                         
                         Button(action:{
+                            
                             self.manager.authenticate(user: self.user, completion: { done,user2 in
                                 if(done){
                                     self.user.tempUser2User(user2: user2[0])
@@ -97,7 +101,10 @@ struct signIn: View {
                                                 }
                                             }
                                         }
+                                        
+                                        self.orders.objectWillChange.send()
                                     }
+                                    
                                     
                                     self.validUser = true
                                 }else{

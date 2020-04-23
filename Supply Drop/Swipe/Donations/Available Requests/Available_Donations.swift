@@ -99,7 +99,7 @@ struct Available_Donations: View {
                         .shadow(radius: 10)
                         .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
                     
-                    Text("\(self.orders.orders[page].requester.username) is requesting \(self.orders.orders[page].num) \(self.orders.orders[page].item)")
+                    Text("\(self.orders.orders[page].num) \(self.orders.orders[page].item)")
                     .font(.system(size: 40))
                     .fontWeight(.light)
                     .foregroundColor(Color.gray)

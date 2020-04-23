@@ -19,7 +19,7 @@ struct newUser: View {
     @State var height:CGFloat = 0
     @State var next:Bool = false
     
-    @State var manager:Api = Api()
+    @ObservedObject var manager:Api = Api()
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
