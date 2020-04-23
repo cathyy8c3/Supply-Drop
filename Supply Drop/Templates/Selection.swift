@@ -15,10 +15,8 @@ struct Selection: View {
     @State var you:Bool
     
     var body: some View {
-        
         GeometryReader{geometry in
             ZStack {
-                
                 Rectangle()
                     .fill(Color.gray)
                     .opacity(0.04)
@@ -29,12 +27,6 @@ struct Selection: View {
                     .offset(x:geometry.size.width/50)
                 
                 HStack {
-//                    self.order.getRequester().profile
-//                        .resizable()
-//                        .scaledToFit()
-//                        .clipShape(Circle())
-//                        .overlay(Circle().stroke(Color.white,lineWidth: 2))
-//                        .frame(minWidth:150,maxWidth:200,minHeight:150,maxHeight:250)
                     Spacer()
                     
                     Text("\(self.you ? "You": self.order.getRequester().username) \(self.phrase) \(self.order.num) \(self.order.item)")
@@ -46,7 +38,6 @@ struct Selection: View {
                         .padding(.trailing,-20)
                         .frame(maxWidth:geometry.size.width/1.8)
 
-                        
                     Spacer()
                     
                     Image(systemName: "chevron.right.2")

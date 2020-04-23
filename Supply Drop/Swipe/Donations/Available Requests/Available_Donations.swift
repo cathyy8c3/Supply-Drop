@@ -10,18 +10,16 @@ import SwiftUI
 import SwiftUIPager
 
 struct Available_Donations: View {
-    @EnvironmentObject var user:User
     @State var page: Int = 0
-//    @State var data:Array = Array(0..<10)
-    @EnvironmentObject var orders:Orders
     @State var manager:Api = Api()
+    
+    @EnvironmentObject var user:User
+    @EnvironmentObject var orders:Orders
 
     var body: some View {
         NavigationView{
             GeometryReader { proxy in
                 ZStack {
-                    Text("")
-                    
                     VStack {
                         Spacer()
                         
@@ -33,17 +31,13 @@ struct Available_Donations: View {
                         }
                         .vertical()
                         .itemSpacing(-proxy.size.height/20)
-//                        .itemSpacing(proxy.size.height/4-proxy.size.height/3)
                         .interactive(0.8)
-//                            .rotation3D()
                         .itemAspectRatio(1.5,alignment: .center)
                         .padding(.horizontal)
                         .frame(width: proxy.size.width,
                                height: proxy.size.height/2.1)
                         .edgesIgnoringSafeArea(.bottom)
                             .offset(y:proxy.size.height/4)
-                        
-                        
                         
                         Spacer()
                     }
@@ -58,8 +52,7 @@ struct Available_Donations: View {
                     Image("change_hands")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: proxy.size.width*2,
-                               height: proxy.size.height/1.7)
+                        .frame(width: proxy.size.width*2, height: proxy.size.height/1.7)
                         .offset(y:-proxy.size.height/2.3)
                         .opacity(0.75)
                         .edgesIgnoringSafeArea(.top)
@@ -71,25 +64,17 @@ struct Available_Donations: View {
                         .foregroundColor(Color(red: 0.6, green: 0.2, blue: 0.8))
                         .offset(y:-proxy.size.height/25)
                     Text("Scroll Down for More")
-                    .fontWeight(.ultraLight)
-                    .shadow(radius: 13)
-                    .foregroundColor(Color(red: 0.6, green: 0.2, blue: 0.8))
-                    .offset(y:+proxy.size.height/80)
-                    
-//                    Spacer()
+                        .fontWeight(.ultraLight)
+                        .shadow(radius: 13)
+                        .foregroundColor(Color(red: 0.6, green: 0.2, blue: 0.8))
+                        .offset(y:+proxy.size.height/80)
                 }
             }
-//                .navigationBarTitle("")
-//            .navigationBarHidden(true)
-//                .navigationBarBackButtonHidden(true)
-//            .navigationViewStyle(StackNavigationViewStyle())
         }
-//        .navigationViewStyle(StackNavigationViewStyle())
     }
 
     func pageView(_ page: Int) -> some View {
         NavigationLink(destination: Donation_List_Detail(order:orders.orders[page])) {
-            
             GeometryReader{geometry in
                 ZStack {
                     Rectangle()
@@ -100,14 +85,14 @@ struct Available_Donations: View {
                         .frame(maxWidth: geometry.size.width/1.2, maxHeight:100)
                     
                     Text("\(self.orders.orders[page].num) \(self.orders.orders[page].item)")
-                    .font(.system(size: 40))
-                    .fontWeight(.light)
-                    .foregroundColor(Color.gray)
-                    .frame(height:80,alignment: .leading)
-                    .minimumScaleFactor(0.005)
-                    .padding(.leading,-25)
-                    .padding(.trailing,-20)
-                    .frame(maxWidth:geometry.size.width/1.8)
+                        .font(.system(size: 40))
+                        .fontWeight(.light)
+                        .foregroundColor(Color.gray)
+                        .frame(height:80,alignment: .leading)
+                        .minimumScaleFactor(0.005)
+                        .padding(.leading,-25)
+                        .padding(.trailing,-20)
+                        .frame(maxWidth:geometry.size.width/1.8)
                 }
             }
         }

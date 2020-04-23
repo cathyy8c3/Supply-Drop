@@ -12,13 +12,13 @@ struct Request_Form_2: View {
     @State var checked:Bool = false
     @State var unchecked:String = ""
     @State var next:Bool = false
-    @ObservedObject var order:Request
     
+    @ObservedObject var order:Request
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     var body: some View {
-        NavigationView{
-            GeometryReader{geometry in
+        NavigationView {
+            GeometryReader {geometry in
                 VStack {
                     MapView(address: self.order.address.getLoc())
                         .frame(height:geometry.size.height/1.5)
@@ -47,6 +47,7 @@ struct Request_Form_2: View {
                         Text("I agree that I am not creating a fraudulent request.")
                             .frame(width:geometry.size.width/1.4)
                     }
+                    
                     Text(self.unchecked)
                         .foregroundColor(Color.red)
                         .font(.subheadline)
@@ -54,21 +55,17 @@ struct Request_Form_2: View {
                     Spacer()
                     
                     Button(action: {
-                        //todo
-                        
                         if(!self.checked){
                             self.unchecked = "Please agree to the terms."
                         }else{
-                            //location verifier
-                            
                             self.next=true
                         }
                     }) {
                         Text("Verify Your Location")
-                        .font(.body)
+                            .font(.body)
                             .padding(10)
-                        .background(Color.gray)
-                        .foregroundColor(.white)
+                            .background(Color.gray)
+                            .foregroundColor(.white)
                             .cornerRadius(10)
                     }
                     

@@ -9,9 +9,6 @@
 import SwiftUI
 
 struct Edit_Profile: View {
-    @EnvironmentObject var user:User
-    @ObservedObject var keyboardResponder = KeyboardResponder()
-    
     @State var oldpass:String = ""
     @State var pass1:String = ""
     @State var pass2:String = ""
@@ -21,15 +18,16 @@ struct Edit_Profile: View {
     @State var valid:String = ""
     @State var allFields:String = ""
     @State var previous:Int
-    
     @State var image:Image?
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
-    
     @State var manager:Api = Api()
     
+    @EnvironmentObject var user:User
+    
+    @ObservedObject var keyboardResponder = KeyboardResponder()
+    
     func isValidEmail(email:String?) -> Bool {
-        
         guard email != nil else { return false }
         
         let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -54,9 +52,9 @@ struct Edit_Profile: View {
     }
     
     var body: some View {
-        NavigationView{
-            GeometryReader{geometry in
-                ScrollView{
+        NavigationView {
+            GeometryReader {geometry in
+                ScrollView {
                     VStack {
                         Spacer()
                         
@@ -73,10 +71,6 @@ struct Edit_Profile: View {
                                     .shadow(radius: 20)
                                     .overlay(Circle().stroke(Color.white,lineWidth: 2))
                                     .frame(width:geometry.size.width/2,height:geometry.size.width/2)
-                                
-//                                Text("Edit")
-//                                    .foregroundColor(Color.purple)
-//                                    .padding(.bottom, geometry.size.width/9)
                                 
                                 self.image?
                                     .renderingMode(.original)
@@ -99,38 +93,37 @@ struct Edit_Profile: View {
                                 .frame(width:300)
                             
                             TextField("*Name", text: self.$user.name)
-                            .padding()
+                                .padding()
                                 .frame(width:275, height:50)
-                            .border(Color.gray, width:0.5)
+                                .border(Color.gray, width:0.5)
                             
                             TextField("*Username", text: self.$user.username)
-                            .padding()
+                                .padding()
                                 .frame(width:275, height:50)
-                            .border(Color.gray, width:0.5)
+                                .border(Color.gray, width:0.5)
                             
                             TextField("*Email", text: self.$user.email)
-                            .padding()
-                            .frame(width:275, height:50)
-                            .border(Color.gray, width:0.5)
+                                .padding()
+                                .frame(width:275, height:50)
+                                .border(Color.gray, width:0.5)
                             
                             Text(self.valid)
                                 .foregroundColor(Color.red)
                                 
                             VStack(spacing:20){
-                                    Text("Address")
-                                        .font(.body)
-                                        .padding(.top,20)
+                                Text("Address")
+                                    .font(.body)
+                                    .padding(.top,20)
                                     
                                 TextField("Address Line 1", text: self.$user.initAddress.address1)
                                     .padding()
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
-
                                     
                                     TextField("Address Line 2", text: self.$user.initAddress.address2)
-                                    .padding()
-                                    .frame(width:geometry.size.width/1.2, height:50)
-                                    .border(Color.gray, width:0.5)
+                                        .padding()
+                                        .frame(width:geometry.size.width/1.2, height:50)
+                                        .border(Color.gray, width:0.5)
                                     
                                     HStack {
                                         TextField("City", text: self.$user.initAddress.city)
@@ -151,12 +144,10 @@ struct Edit_Profile: View {
                                     }
                                     
                                     TextField("Country", text: self.$user.initAddress.country)
-                                    .padding()
-                                    .frame(width:geometry.size.width/1.2, height:50)
-                                    .border(Color.gray, width:0.5)
+                                        .padding()
+                                        .frame(width:geometry.size.width/1.2, height:50)
+                                        .border(Color.gray, width:0.5)
                                 }.padding(.bottom, 20)
-                                    
-                                
                             }
                             .padding(.bottom,30)
                                 
@@ -178,9 +169,6 @@ struct Edit_Profile: View {
                             Text("\(self.match)")
                                 .foregroundColor(Color.red)
                         }
-//                        .padding(.bottom,25)
-                        
-//                        Spacer()
                     
                         Text(self.allFields)
                             .foregroundColor(Color.red)
@@ -189,9 +177,10 @@ struct Edit_Profile: View {
                         Button(action: {
                             if(self.oldpass==self.user.password){
                                 self.match=""
+                                
                                 if(self.pass1==self.pass2){
                                     self.match=""
-                                }else{
+                                } else{
                                     self.match = "Passwords don't match."
                                     self.pass1 = ""
                                     self.pass2 = ""
@@ -199,7 +188,7 @@ struct Edit_Profile: View {
                                 
                                 if(self.user.name.count==0 || self.user.username.count==0 || self.user.email.count==0){
                                     self.allFields = "Please enter all of the required information."
-                                }else{
+                                } else{
                                     self.allFields = ""
                                 }
                                     
@@ -211,16 +200,13 @@ struct Edit_Profile: View {
                                 
                                 if(!self.isValidUsername(username: self.user.username)){
                                     self.valid = "Invalid username."
-                                }else if(!self.isValidEmail(email:self.user.email)){
+                                } else if(!self.isValidEmail(email:self.user.email)){
                                     self.valid = "Invalid email."
-                                }else{
+                                } else{
                                     self.valid = ""
                                 }
                                 
                                 if(self.valid=="" && self.match==""){
-                                    //todo
-                                    //save
-                                    
                                     self.user.setAddress(add:self.user.initAddress)
                                     
                                     if(!(self.pass1=="")){
@@ -231,11 +217,8 @@ struct Edit_Profile: View {
                                     
                                     self.manager.updateUser(user: self.user)
                                 }
-                                    
-                                
-                            }else{
+                            } else{
                                 self.match = "Incorrect password."
-                                
                             }
                         }) {
                             Text("Save")
@@ -247,28 +230,18 @@ struct Edit_Profile: View {
                     NavigationLink(destination: Profile(previous:self.previous), isActive: self.$presentMe) { EmptyView() }
                     
                         Spacer()
-                    }
                 }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-                //.frame(height:geometry.size.height)
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
-            .offset(y: -keyboardResponder.currentHeight*0.9)
-//            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-//                    ImagePicker(image: self.$inputImage)
-//            }
-        
+        }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
+        .offset(y: -keyboardResponder.currentHeight*0.9)
     }
-    
-//    func loadImage() {
-//        guard let inputImage = inputImage else { return }
-//        self.image = Image(uiImage: inputImage)
-//    }
 }
 
 struct Edit_Profile_Previews: PreviewProvider {

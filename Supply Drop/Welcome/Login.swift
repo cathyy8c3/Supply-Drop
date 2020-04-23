@@ -24,12 +24,12 @@ struct Login: View {
                         .padding([.leading, .trailing],500)
                         .padding(.bottom,100)
                 }
+                
                 Spacer()
                  
                 VStack {
                     Welcome()
                         .padding()
-                    
                     
                     VStack{
                     
@@ -58,12 +58,11 @@ struct Login: View {
                         })
                     }
                     .frame(minWidth: 500, idealWidth: 500,maxWidth: 500, minHeight: 150, idealHeight: 150, maxHeight: 150)
-                
                 }
-                    
         
                 Spacer()
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarHidden(true)
             .navigationBarTitle("")
         }

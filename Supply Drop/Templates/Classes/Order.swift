@@ -11,7 +11,6 @@ import SwiftUI
 import Combine
 
 class Orders:ObservableObject,Identifiable{
-    
     @Published var orders:[Request] = []
     
     init(){
@@ -52,16 +51,6 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var donor:User = User()
     @Published var claimed:Bool = false
     
-    init(){}
-    
-    func setAddress(){
-        addressString = address.storeLoc()
-    }
-    
-    func setAdress(add:Address){
-        address = add
-    }
-    
     //0 = not sent, 1 = sent, 2 = received
     @Published var status:Int = 0
     @Published var complete:Bool = false
@@ -79,10 +68,6 @@ class Request:ObservableObject,Codable,Identifiable{
         case donorID = "DonorID" //
         case affiliateLink = "AffiliateLinks"
         case expectedArrival = "ExpectedArrival"
-    }
-    
-    func setNumString(){
-        numString = String(num)
     }
     
     required init(from decoder:Decoder) throws {
@@ -132,6 +117,20 @@ class Request:ObservableObject,Codable,Identifiable{
         donorID = order2.donorID
     }
     
+    init(){}
+    
+    func setNumString(){
+        numString = String(num)
+    }
+    
+    func setAddress(){
+        addressString = address.storeLoc()
+    }
+    
+    func setAdress(add:Address){
+        address = add
+    }
+    
     func setOrder(item2:String){
         item = item2
     }
@@ -148,27 +147,19 @@ class Request:ObservableObject,Codable,Identifiable{
     }
     
     func getRequester()->User{
-        //todo
-        
         return requester
     }
     
     func getDonor()->User{
-        //todo
-        
         return donor
     }
     
     func setRequester(u:User){
-        //todo
-        
         requester=u
         requesterID = u.id
     }
     
     func setDonor(u:User){
-        //todo
-        
         donor=u
         donorID = u.id
     }
@@ -176,7 +167,7 @@ class Request:ObservableObject,Codable,Identifiable{
     func status2string()->String{
         if(status==0){
             return("Not Sent")
-        }else if(status==1){
+        } else if(status==1){
             return("Sent")
         }
         else if(status>=2){
@@ -188,7 +179,7 @@ class Request:ObservableObject,Codable,Identifiable{
     func isSent()->Bool{
         if(status==0){
             return false
-        }else{
+        } else{
             return true
         }
     }
@@ -196,14 +187,13 @@ class Request:ObservableObject,Codable,Identifiable{
     func org2string()->String{
         if(org_name==""){
             return ""
-        }else{
+        } else{
             return " from \(org_name)"
         }
     }
 }
 
 extension Api{
-    
     //done
     
     func getAvailable(completion: @escaping([Request]) -> ()){
@@ -216,21 +206,11 @@ extension Api{
                 print("No data.")
                 return
             }
-            print("Data:")
-            print(String(data: data, encoding: .utf8)!)
-            
             let orders = try!JSONDecoder().decode([Request].self, from: data)
-            
-            print("Orders2:")
-            print(orders)
-            
             self.orders = orders
-            
             DispatchQueue.main.async {
                 completion(orders)
             }
-            
-                
         }.resume()
     }
     
@@ -250,7 +230,7 @@ extension Api{
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
         request.httpBody = finalBody
-        
+
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
@@ -284,7 +264,7 @@ extension Api{
         }.resume()
     }
     
-    //need to test
+    //test
     
     func deleteRequest(order:Request){
         guard let url = URL(string: "http://localhost:1500/api/requests/id") else{

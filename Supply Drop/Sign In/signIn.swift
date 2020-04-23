@@ -16,27 +16,18 @@ struct signIn: View {
     @State var validUser:Bool = false
     @State var error:String = ""
     
-    
     @EnvironmentObject var orders:Orders
+    @EnvironmentObject var user:User
     
     @ObservedObject var manager:Api = Api()
-    
-    @EnvironmentObject var user:User
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     var body: some View {
-        NavigationView{
-            
-            VStack{
+        NavigationView {
+            VStack {
                 Spacer()
-//                GeometryReader{geometry in
-//                    Spacer()
-                    Circle_logo_2()
-                        .frame(maxHeight:300)
-                    
-//                        .frame()
-    //                    .padding([.leading, .trailing],275)
-//                }
+                Circle_logo_2()
+                    .frame(maxHeight:300)
 
                 Spacer()
                 
@@ -53,38 +44,28 @@ struct signIn: View {
                             .border(Color.gray, width:0.5)
                             
                         
-                        SecureField("Enter your password.",text: self.$user.password)
+                        SecureField ("Enter your password.",text: self.$user.password)
                             .padding()
                             .frame(width:300, height:50)
                             .border(Color.gray, width:0.5)
                         
-//                        Button(action:{
-//                            //todo
-//                        }){
-//                            Text("Forget your password?")
-//                                .font(.subheadline)
-//                                .foregroundColor(Color.purple)
-//                        }
-                        
-                        NavigationLink(destination:newUser(user: self.user)){
+                        NavigationLink (destination:newUser(user: self.user)){
                             Text("Create an account.")
                                 .font(.subheadline)
                                 .foregroundColor(Color.purple)
                         }
                     }
                     
-                    NavigationLink(destination:Swipe(currentPage: 1),isActive: self.$validUser){EmptyView()}
+                    NavigationLink (destination:Swipe(currentPage: 1),isActive: self.$validUser){EmptyView()}
                     
                     VStack{
                         Text(error)
                             .foregroundColor(Color.red)
                         
-                        Button(action:{
-                            
+                        Button (action:{
                             self.manager.authenticate(user: self.user, completion: { done,user2 in
                                 if(done){
                                     self.user.tempUser2User(user2: user2[0])
-
                                     self.manager.getAvailable { (order2) in
                                         self.orders.setOrders2Orders(order1:order2)
                                     }
@@ -101,15 +82,13 @@ struct signIn: View {
                                                 }
                                             }
                                         }
-                                        
                                         self.orders.objectWillChange.send()
                                     }
-                                    
-                                    
                                     self.validUser = true
                                 }else{
                                     self.error = "Incorrect username or password."
-                                }})
+                                }
+                            })
                         }
                         ){
                             Text("Submit")
@@ -121,7 +100,6 @@ struct signIn: View {
                         .disabled(self.user.username.count==0 || self.user.password.count==0)
                         
                         Button(action:{
-                            
                             self.isModal = true
                         }){
                             Image("google_login")
@@ -145,14 +123,12 @@ struct signIn: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .navigationViewStyle(StackNavigationViewStyle())
-
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
         .offset(y: -keyboardResponder.currentHeight*0.9)
-    
     }
 }
 

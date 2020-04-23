@@ -9,16 +9,15 @@
 import SwiftUI
 
 struct Request_Form_1: View {
-    @ObservedObject  var order1:Request
-    
     @State var order:Request = Request()
-    @EnvironmentObject var user:User
     @State var n:Int = 0
     @State var next:Bool = false
     @State var error:String = ""
     
-    @ObservedObject var keyboardResponder = KeyboardResponder()
+    @EnvironmentObject var user:User
     
+    @ObservedObject var keyboardResponder = KeyboardResponder()
+    @ObservedObject  var order1:Request
     
     func validDate(date:String)->Bool{
         let regEx = #"^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"#
@@ -28,20 +27,21 @@ struct Request_Form_1: View {
     }
     
     var body: some View {
-        VStack{
-            GeometryReader{ geometry in
-                ScrollView{
+        VStack {
+            GeometryReader { geometry in
+                ScrollView {
                     Spacer()
+                    
                     VStack (spacing: 20){
-                            Spacer()
+                        Spacer()
+                        
                         Circle_logo_3()
-                        .padding([.leading, .trailing],150)
-                        .padding(.bottom,20)
+                            .padding([.leading, .trailing],150)
+                            .padding(.bottom,20)
                         
                         Text("Make a Request")
                             .font(.title)
                             .padding(.bottom,0)
-                        
                         
                         TextField("*Item", text: self.$order.item)
                             .padding()
@@ -49,16 +49,15 @@ struct Request_Form_1: View {
                             .border(Color.gray, width:0.5)
                         
                         TextField("Description", text: self.$order.description)
-                        .padding()
-                        .frame(width:geometry.size.width/1.2, height:50)
-                        .border(Color.gray, width:0.5)
+                            .padding()
+                            .frame(width:geometry.size.width/1.2, height:50)
+                            .border(Color.gray, width:0.5)
                             
                         HStack {
                             TextField("*Amazon Link to Item", text: self.$order.org_name)
                                 .padding()
                                 .frame(width:geometry.size.width/1.2, height:50)
                                 .border(Color.gray, width:0.5)
-        //                        .padding(.trailing,150)
                         }
                         HStack {
                             Stepper(value: self.$n, in: 0...1000) {
@@ -71,12 +70,6 @@ struct Request_Form_1: View {
                                 .padding()
                                 .frame(width:geometry.size.width/1.2-205, height:50)
                                 .border(Color.gray, width:0.5)
-                    
-        //                        TextField("# of Items", text: self.$num)
-        //                            .keyboardType(.numberPad)
-        //                            .padding()
-        //                            .frame(width:150, height:50)
-        //                            .border(Color.gray, width:0.5)
                         }
                         
                         HStack {
@@ -84,33 +77,31 @@ struct Request_Form_1: View {
                                 .frame(width:150)
                             
                             TextField("MM/DD/YYYY", text: self.$order.date)
-                            .padding()
+                                .padding()
                                 .frame(width:geometry.size.width/1.2-150, height:50)
                                 .border(Color.gray, width:0.5)
                         }
-                        
-//                        Divider()
                         
                         VStack (spacing:20){
                             Text("*Address")
                                 .font(.callout)
                             
                             TextField("Address Line 1", text: self.$user.initAddress.address1)
-                            .padding()
-                            .frame(width:geometry.size.width/1.2, height:50)
-                            .border(Color.gray, width:0.5)
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
 
                             
                             TextField("Address Line 2", text: self.$user.initAddress.address2)
-                            .padding()
-                            .frame(width:geometry.size.width/1.2, height:50)
-                            .border(Color.gray, width:0.5)
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
                             
                             HStack {
                                 TextField("City", text: self.$user.initAddress.city)
-                                .padding()
-                                .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
-                                .border(Color.gray, width:0.5)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
+                                    .border(Color.gray, width:0.5)
                                 
                                 TextField("State", text: self.$user.initAddress.state)
                                     .padding()
@@ -125,24 +116,20 @@ struct Request_Form_1: View {
                             }
                             
                             TextField("Country", text: self.$user.initAddress.country)
-                            .padding()
-                            .frame(width:geometry.size.width/1.2, height:50)
-                            .border(Color.gray, width:0.5)
-                            
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
+                                
                             Text(self.error)
                                 .foregroundColor(Color.red)
                                 .font(.subheadline)
                             
                             Button(action:{
-                                //todo
-                                
-//                                self.order.address.valid()
-                                
                                 if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.user.initAddress.address1.count==0 || self.user.initAddress.city.count==0 || self.user.initAddress.state.count==0 || self.user.initAddress.zip.count==0 || self.user.initAddress.country.count==0 || self.order.org_name==""){
                                     self.error = "Please enter all of the required information."
-                                }else if(!self.validDate(date: self.order.date)){
+                                } else if(!self.validDate(date: self.order.date)){
                                     self.error = "Invalid date."
-                                }else{
+                                } else{
                                     self.order.address = self.user.initAddress
                                     self.order.num=self.n
                                     self.order1.setOrder2Order(order2: self.order)
@@ -150,7 +137,6 @@ struct Request_Form_1: View {
                                 }
                             }){
                                 Text("Submit")
-        //                            .padding(.top, 10)
                                     .font(.title)
                                     .foregroundColor(Color.purple)
                                     .padding(.bottom, 50)
@@ -158,13 +144,9 @@ struct Request_Form_1: View {
                             .frame(width:500)
                             
                             NavigationLink(destination: Request_Form_2(order:self.order1),isActive: self.$next){EmptyView()}
-                            
                         }
-                        
                     }
                 }
-        //                .frame(maxHeight:1000)
-            
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)

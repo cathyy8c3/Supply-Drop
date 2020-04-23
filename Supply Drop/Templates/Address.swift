@@ -29,6 +29,9 @@ class Address{
         return "\(address1),\(address2),\(city),\(state),\(zip),\(country)"
     }
     
+    //todo
+    //check if address is valid
+    
     func valid()->String{
         if(address1.count==0 || city.count==0 || state.count==0 || zip.count==0 || country.count==0){
             return "Please enter information into all required fields."

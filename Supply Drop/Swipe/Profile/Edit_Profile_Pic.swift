@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct Edit_Profile_Pic: View {
-    @EnvironmentObject var user:User
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @State var image:Image?
     
+    @EnvironmentObject var user:User
+    
     var body: some View {
         NavigationView{
             GeometryReader{geometry in
-
                 ZStack (alignment:.bottom){
                     self.user.profile
                         .renderingMode(.original)
@@ -48,16 +48,14 @@ struct Edit_Profile_Pic: View {
                     self.showingImagePicker=true
                 }
             }
-            
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-        ImagePicker(image: self.$inputImage)
-    }
-    
+            ImagePicker(image: self.$inputImage)
+        }
     }
     
     func loadImage() {

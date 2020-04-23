@@ -15,7 +15,6 @@ struct Request_List: View {
     var body: some View {
         NavigationView{
             VStack {
-                
                 Picker(selection: $completed, label: Text("")) {
                     Text("Active").tag(0)
                     Text("Completed").tag(1)
@@ -26,21 +25,14 @@ struct Request_List: View {
                 
                 if(self.completed==0){
                     Active_Requests()
-                }else{
+                } else{
                     Completed_Requests()
                 }
                 
                 Spacer()
-                
-                //body
-                
-                
             }
-            .navigationBarTitle("Your Requests")
-            
+            .navigationBarTitle("Your Requests") 
         }
-//        .navigationViewStyle(StackNavigationViewStyle())
-            
     }
 }
 

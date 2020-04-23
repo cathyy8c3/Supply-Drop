@@ -10,37 +10,30 @@ import SwiftUI
 
 struct Thank_You: View {
     var body: some View {
-//        NavigationView {
-            VStack {
-                Circle_logo_3()
+        VStack {
+            Circle_logo_3()
                 .padding([.leading, .trailing],140)
-                    .padding(.bottom, 50)
-                
-                Text("Your request has been processed!")
-                    .font(.largeTitle)
-                    .fontWeight(.light)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal,50)
-                    .shadow(color:Color.purple,radius: 35)
-                    .padding(.bottom,100)
-                
-                NavigationLink(destination:Swipe(currentPage:1)){
-                    Text("Return")
-                        .font(.title)
-                        .fontWeight(.light)
-                        .foregroundColor(Color.purple)
-                }
+                .padding(.bottom, 50)
             
+            Text("Your request has been processed!")
+                .font(.largeTitle)
+                .fontWeight(.light)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal,50)
+                .shadow(color:Color.purple,radius: 35)
+                .padding(.bottom,100)
+            
+            NavigationLink(destination:Swipe(currentPage:1)){
+                Text("Return")
+                    .font(.title)
+                    .fontWeight(.light)
+                    .foregroundColor(Color.purple)
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .navigationViewStyle(StackNavigationViewStyle())
-//        }
-//        .navigationBarTitle("")
-//        .navigationBarHidden(true)
-//        .navigationBarBackButtonHidden(true)
-//        .navigationViewStyle(StackNavigationViewStyle())
+        }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

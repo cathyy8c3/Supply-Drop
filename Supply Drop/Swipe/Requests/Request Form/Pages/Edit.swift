@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct Edit: View {
-    @ObservedObject  var order:Request
     @State var n:Int
     @State var presentMe:Bool = false
     @State var error:String = ""
     @State var manager:Api = Api()
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
+    @ObservedObject  var order:Request
     
     func validDate(date:String)->Bool{
         let regEx = #"^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"#
@@ -29,8 +29,10 @@ struct Edit: View {
             GeometryReader{ geometry in
                 ScrollView{
                     Spacer()
+                    
                     VStack (spacing: 20){
-                            Spacer()
+                        Spacer()
+                        
                         Circle_logo_3()
                             .padding([.leading, .trailing,],150)
                             .padding(.bottom,20)
@@ -38,7 +40,6 @@ struct Edit: View {
                         Text("Request Info")
                             .font(.title)
                             .padding(.bottom,0)
-                        
                         
                         TextField("*Item", text: self.$order.item)
                             .padding()
@@ -50,11 +51,11 @@ struct Edit: View {
                         .frame(width:geometry.size.width/1.2, height:50)
                         .border(Color.gray, width:0.5)
                             
-                            TextField("*Amazon Link", text: self.$order.org_name)
-                                .padding()
-                                .frame(width:geometry.size.width/1.2, height:50)
-                                .border(Color.gray, width:0.5)
-        //                        .padding(.trailing,150)
+                        TextField("*Amazon Link", text: self.$order.org_name)
+                            .padding()
+                            .frame(width:geometry.size.width/1.2, height:50)
+                            .border(Color.gray, width:0.5)
+                        
                         HStack {
                             Stepper("*# of Items", value: self.$n, in: 0...1000)
                                     .padding()
@@ -64,13 +65,6 @@ struct Edit: View {
                                 .padding()
                                 .frame(width:geometry.size.width/1.2-205, height:50)
                                 .border(Color.gray, width:0.5)
-                    
-                            
-        //                        TextField("# of Items", text: self.$num)
-        //                            .keyboardType(.numberPad)
-        //                            .padding()
-        //                            .frame(width:150, height:50)
-        //                            .border(Color.gray, width:0.5)
                         }
                         
                         HStack {
@@ -90,21 +84,20 @@ struct Edit: View {
                                 .font(.callout)
                             
                             TextField("Address Line 1", text: self.$order.address.address1)
-                            .padding()
-                            .frame(width:geometry.size.width/1.2, height:50)
-                            .border(Color.gray, width:0.5)
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
 
-                            
                             TextField("Address Line 2", text: self.$order.address.address2)
-                            .padding()
-                            .frame(width:geometry.size.width/1.2, height:50)
-                            .border(Color.gray, width:0.5)
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
                             
                             HStack {
                                 TextField("City", text: self.$order.address.city)
-                                .padding()
-                                .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
-                                .border(Color.gray, width:0.5)
+                                    .padding()
+                                    .frame(width:geometry.size.width/1.2-geometry.size.width/2.3-15, height:50)
+                                    .border(Color.gray, width:0.5)
                                 
                                 TextField("State", text: self.$order.address.state)
                                     .padding()
@@ -119,9 +112,9 @@ struct Edit: View {
                             }
                             
                             TextField("Country", text: self.$order.address.country)
-                            .padding()
-                            .frame(width:geometry.size.width/1.2, height:50)
-                            .border(Color.gray, width:0.5)
+                                .padding()
+                                .frame(width:geometry.size.width/1.2, height:50)
+                                .border(Color.gray, width:0.5)
                             
                             Text(self.error)
                                 .foregroundColor(Color.red)
@@ -130,31 +123,25 @@ struct Edit: View {
                             Button(action: { 
                                 if(self.order.item.count==0 || self.n==0 || self.order.date.count==0 || self.order.address.address1.count==0 || self.order.address.city.count==0 || self.order.address.state.count==0 || self.order.address.zip.count==0 || self.order.address.country.count==0 || self.order.org_name.count==0){
                                     self.error = "Please enter all of the required information."
-                                }else if(!self.validDate(date: self.order.date)){
+                                } else if(!self.validDate(date: self.order.date)){
                                     self.error = "Invalid date."
-                                }else{
+                                } else{
                                     self.order.num=self.n
-                                    
                                     self.manager.createRequest(order: self.order)
-                                    
                                     self.presentMe=true
                                 }
-                                
                             }) {
                                 Text("Submit")
-                                .font(.title)
-                                .foregroundColor(Color.purple)
-                                .padding(.bottom, 20)
+                                    .font(.title)
+                                    .foregroundColor(Color.purple)
+                                    .padding(.bottom, 20)
                             }
                             .frame(width:500)
                             
                             NavigationLink(destination: Request_Form_3(order:self.order), isActive: self.$presentMe) { EmptyView() }
-
                         }
-                        
                     }
                 }
-            
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
@@ -171,6 +158,6 @@ struct Edit: View {
 
 struct Edit_Previews: PreviewProvider {
     static var previews: some View {
-        Edit(order: Request(),n: 0)
+        Edit(n: 0, order: Request())
     }
 }

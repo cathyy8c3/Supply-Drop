@@ -20,11 +20,9 @@ struct newUser: View {
     @State var next:Bool = false
     
     @ObservedObject var manager:Api = Api()
-    
     @ObservedObject var keyboardResponder = KeyboardResponder()
     
     func isValidEmail(email:String?) -> Bool {
-        
         guard email != nil else { return false }
         
         let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -50,14 +48,13 @@ struct newUser: View {
     
     var body: some View {
         GeometryReader { geometry in
-            NavigationView{
+            NavigationView {
                 ScrollView {
-                    VStack{
+                    VStack {
                         Spacer()
                         
                         Circle_logo_3()
                             .padding([.leading, .trailing],275)
-        //                    .padding(.top,200)
                         
                         VStack (alignment: .center, spacing: 30){
                             Text("Sign Up")
@@ -113,7 +110,6 @@ struct newUser: View {
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
 
-                                    
                                     TextField("Address Line 2", text: self.$user.initAddress.address2)
                                     .padding()
                                     .frame(width:geometry.size.width/1.2, height:50)
@@ -142,36 +138,30 @@ struct newUser: View {
                                     .frame(width:geometry.size.width/1.2, height:50)
                                     .border(Color.gray, width:0.5)
                                 }.padding(.bottom, 20)
-                                    
-                                
                             }
-                            
-                                
+                             
                             VStack{
                                 Button(action:{
                                     if (!(self.password1==self.password2)){
                                         self.passError = "Passwords don't match."
                                         self.height=30
-                                    }else if(!self.isValidPassword(testStr: self.password1) || !self.isValidPassword(testStr: self.password2)){
+                                    } else if(!self.isValidPassword(testStr: self.password1) || !self.isValidPassword(testStr: self.password2)){
                                             self.passError = "Invalid password.\nPassword must have at least 1 uppercase character, 1 lowercase character, 1 digit, and be at least 8 characters."
                                         self.height=120
-                                    }else{
+                                    } else{
                                         self.passError = ""
                                         self.height=0
                                     }
                                     
                                     if(!self.isValidEmail(email: self.user.email)){
                                         self.emailUsernameError = "Invalid Email."
-                                    }else if(!self.isValidUsername(username: self.user.username)){
+                                    } else if(!self.isValidUsername(username: self.user.username)){
                                         self.emailUsernameError = "Invalid Username."
-                                    }else{
+                                    } else{
                                         self.emailUsernameError=""
                                     }
                                     
                                     if(self.passError=="" && self.emailUsernameError==""){
-                                        //todo
-                                        //submit
-                                        
                                         self.user.setAddress(add: self.user.initAddress)
                                         self.user.setPass(pass: self.password1)
                                         
@@ -181,12 +171,10 @@ struct newUser: View {
                                     }
                                 }){
                                     Text("Create Your Account")
-        //                                        .padding(.top, 10)
                                         .font(.title)
                                         .foregroundColor(Color.purple)
                                 }
                                 .disabled(self.user.name.count==0 || self.user.name.count==0 || self.password1.count==0 || self.password2.count==0)
-        //                                Spacer()
                                 
                                 NavigationLink(destination:signIn(),isActive: self.$next){EmptyView()}
                                 
@@ -196,14 +184,11 @@ struct newUser: View {
                                 
                                 Google_Login()
                                     .padding(.bottom,30)
-        //                                    .frame(minWidth:0,minHeight:40)
                             }
-                                
-                                
                     }
-        //                .padding(.bottom,300)
                         
-                        Spacer()
+                    Spacer()
+                        
                     }
                     .navigationBarTitle("")
                     .navigationBarHidden(true)
@@ -217,9 +202,7 @@ struct newUser: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .offset(y: -self.keyboardResponder.currentHeight*0.9)
         }
-        
     }
-            
 }
 
 struct newUser_Previews: PreviewProvider {

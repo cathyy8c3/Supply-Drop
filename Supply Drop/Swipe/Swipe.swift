@@ -10,14 +10,14 @@ import SwiftUI
 
 struct Swipe: View {
     @State var currentPage:Int
-    @EnvironmentObject var orders:Orders
-    @ObservedObject var manager:Api = Api()
     
+    @EnvironmentObject var orders:Orders
+    
+    @ObservedObject var manager:Api = Api()
     @ObservedObject  var order:Request = Request()
     
     var body: some View {
         PagerView(pageCount: 3, currentIndex: $currentPage) {
-            //todo
             Donations()
             
             Circle_Hands()

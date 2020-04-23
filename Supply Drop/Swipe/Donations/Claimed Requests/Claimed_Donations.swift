@@ -14,9 +14,9 @@ struct Claimed_Donations: View {
     var body: some View {
         NavigationView{
             VStack {
-                
                 Picker(selection: $completed, label: Text("")) {
                     Text("Active").tag(0)
+                    
                     Text("Completed").tag(1)
                 }
                 .pickerStyle(SegmentedPickerStyle())
@@ -25,23 +25,15 @@ struct Claimed_Donations: View {
                 
                 if(self.completed==0){
                     Active()
-                }else{
+                } else{
                     Completed()
                 }
                 
                 Spacer()
-                
-                //body
-                
-                
             }
             .navigationBarTitle("Your Donations")
-            
         }
-        
         .navigationViewStyle(StackNavigationViewStyle())
-
-            
     }
 }
 

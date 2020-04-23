@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-
 class User:Codable, Identifiable, ObservableObject{
     @Published var name:String = ""
     @Published var email:String = ""
@@ -23,30 +22,6 @@ class User:Codable, Identifiable, ObservableObject{
     
     @Published var profile:Image = Image("logo_profile")
     @Published var messaging:Bool = true
-    
-    func tempUser2User(user2:tempUser){
-        DispatchQueue.main.async {
-            self.name = user2.Name
-            self.email = user2.Email
-            self.username = user2.Username
-            self.address = user2.ShippingAddress
-            self.initAddress = user2.ShippingAddress.toAddress(address: user2.ShippingAddress)
-            self.id = user2.ID
-        }
-    }
-    
-    func tempUser22User(user2:tempUser2){
-        DispatchQueue.main.async {
-            self.name = user2.Name
-            self.email = user2.Email
-            self.username = user2.Username
-            self.address = user2.ShippingAddress
-        }
-    }
-    
-//
-//    @Published var requests:[Int] = []
-//    @Published var donations:[Int] = []
     
     enum CodingKeys: String, CodingKey {
         case name = "Name"
@@ -79,14 +54,34 @@ class User:Codable, Identifiable, ObservableObject{
         try container.encode(id, forKey: .id)
     }
     
+    init(){}
+    
+    func tempUser2User(user2:tempUser){
+        DispatchQueue.main.async {
+            self.name = user2.Name
+            self.email = user2.Email
+            self.username = user2.Username
+            self.address = user2.ShippingAddress
+            self.initAddress = user2.ShippingAddress.toAddress(address: user2.ShippingAddress)
+            self.id = user2.ID
+        }
+    }
+    
+    func tempUser22User(user2:tempUser2){
+        DispatchQueue.main.async {
+            self.name = user2.Name
+            self.email = user2.Email
+            self.username = user2.Username
+            self.address = user2.ShippingAddress
+        }
+    }
+    
     func validPass()->Bool{
         if(password.count>=8 && password.count<=32){
             return true
         }
         return false
     }
-    
-    init(){}
     
     func setAddress(add:Address){
         address = add.storeLoc()
@@ -131,12 +126,10 @@ class Api:ObservableObject{
     //done
     
     func authenticate(user:User, completion: @escaping(Bool,[tempUser]) -> ()){
-        
         guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
             print("no url")
             return
         }
-        
         
         let body:[String:String] = ["Username": user.username, "Password": user.password]
         let finalBody = try! JSONSerialization.data(withJSONObject: body)
@@ -152,28 +145,12 @@ class Api:ObservableObject{
                 print("No data.")
                 return
             }
-            
-//            if(type(of: data)==String.self){
-//                self.authenticated = false
-//
-//            }else{
-//                self.authenticated = true
-//            }
-
             if let finalData = try? JSONDecoder().decode([tempUser].self, from:data){
-                print("working")
-                print(finalData)
-
                 self.authenticated = true
-                
                 completion(true,finalData)
-                
             } else{
                 print(String(data: data, encoding: .utf8)!)
-                print("error")
-
                 self.authenticated = false
-                
                 completion(false,[])
             }
         }.resume()
@@ -213,11 +190,7 @@ class Api:ObservableObject{
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else { return }
-            
-            print(String(data: data, encoding: .utf8)!)
-            
             let requests = try!JSONDecoder().decode([Request].self, from: data)
-            
             completion(requests)
         }.resume()
     }
@@ -231,11 +204,7 @@ class Api:ObservableObject{
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else { return }
-            
-            print(String(data: data, encoding: .utf8)!)
-            
             let requests = try!JSONDecoder().decode([Request].self, from: data)
-            
             completion(requests)
         }.resume()
     }
@@ -285,15 +254,10 @@ class Api:ObservableObject{
             
             if error == nil, let _ = response as? HTTPURLResponse {
                 let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
-                
-                print(user1[0])
-
                 DispatchQueue.main.async {
                     completion(user1)
                 }
             }
-            
-            
         }.resume()
     }
 }
@@ -315,7 +279,7 @@ extension String {
             finAdd.state = tempAdd[3]
             finAdd.zip = tempAdd[4]
             finAdd.country = tempAdd[5]
-        }else{
+        } else{
             finAdd.address1 = address
         }
         

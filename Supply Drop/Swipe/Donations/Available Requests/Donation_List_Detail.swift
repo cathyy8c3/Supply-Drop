@@ -9,94 +9,82 @@
 import SwiftUI
 
 struct Donation_List_Detail: View {
-    @ObservedObject  var order:Request
-    @EnvironmentObject  var user:User
     @State  var claim:String = "Claim Request"
     @State  var message:String = ""
     
+    @EnvironmentObject  var user:User
+    
+    @ObservedObject  var order:Request
+    
     var body: some View {
-//        NavigationView{
-            GeometryReader{geometry in
-                //ScrollView{
-                    VStack {
-                        VStack {
-                            ZStack {
-                                MapView(address: self.order.addressString.toAddress(address: self.order.addressString).getLoc())
-                                    .edgesIgnoringSafeArea([.top])
-                                    .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
-                            }
-                            
-                            self.order.getRequester().profile
-                                .resizable()
-                                .scaledToFit()
-                                .aspectRatio(contentMode:.fit)
-                                .clipShape(Circle())
-                                .shadow(radius: 20)
-                                .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(idealWidth: 200, maxWidth:500)
-                                .offset(y:-100)
-                                .padding(.bottom,-130)
-                        }
-                        
-                        Spacer()
-                        
-                        VStack(spacing:20) {
-                            Text("Request")
-                                .font(.largeTitle)
-                                .padding(.top,70)
-                            
-                            Text("Made by \(self.order.getRequester().username)")
-    //                            .font(.title)
-                            
-                            Text("Asking for \(String(self.order.num)) \(self.order.item)")
-    //                            .font(.title)
-                            
-                            VStack {
-                                Text("Address: \(self.order.addressString.toAddress(address: self.order.addressString).getLoc())")
-                                    .frame(width:300,height:100,alignment: .top)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .padding(.bottom,20)
-                        }
-                        
-                        Spacer()
-
-                        Button(action: {
-                            if(self.order.claimed==false){
-                                self.order.setDonor(u:self.user)
-                                self.order.claimed = true
-                                self.claim = "Claimed"
-                            }else{
-                                self.order.setDonor(u:User())
-                                self.order.claimed = false
-                                self.claim = "Claim Request"
-                            }
-                            //add / remove from user donation list
-                            //todo
-                        }) {
-                            Text("\(self.claim)")
-                                .font(.body)
-                                .padding(10)
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        .padding(.bottom,70)
-                        
-                        Spacer()
+        GeometryReader{geometry in
+            VStack {
+                VStack {
+                    ZStack {
+                        MapView(address: self.order.addressString.toAddress(address: self.order.addressString).getLoc())
+                            .edgesIgnoringSafeArea([.top])
+                            .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
                     }
-                //}
-                //.frame(height:geometry.size.height)
-//            }
-//            .navigationBarTitle("")
-//            .navigationBarHidden(true)
-//            .navigationBarBackButtonHidden(true)
-//            .navigationViewStyle(StackNavigationViewStyle())
+                    
+                    self.order.getRequester().profile
+                        .resizable()
+                        .scaledToFit()
+                        .aspectRatio(contentMode:.fit)
+                        .clipShape(Circle())
+                        .shadow(radius: 20)
+                        .overlay(Circle().stroke(Color.white,lineWidth: 2))
+                        .frame(idealWidth: 200, maxWidth:500)
+                        .offset(y:-100)
+                        .padding(.bottom,-130)
+                }
+                
+                Spacer()
+                
+                VStack(spacing:20) {
+                    Text("Request")
+                        .font(.largeTitle)
+                        .padding(.top,70)
+                    
+                    Text("Made by \(self.order.getRequester().username)")
+                    
+                    Text("Asking for \(String(self.order.num)) \(self.order.item)")
+                    
+                    VStack {
+                        Text("Address: \(self.order.addressString.toAddress(address: self.order.addressString).getLoc())")
+                            .frame(width:300,height:100,alignment: .top)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.bottom,20)
+                }
+                
+                Spacer()
+
+                Button(action: {
+                    if(self.order.claimed==false){
+                        self.order.setDonor(u:self.user)
+                        self.order.claimed = true
+                        self.claim = "Claimed"
+                    } else{
+                        self.order.setDonor(u:User())
+                        self.order.claimed = false
+                        self.claim = "Claim Request"
+                    }
+                    
+                    //todo
+                    //add / remove from user donation list
+                }) {
+                    Text("\(self.claim)")
+                        .font(.body)
+                        .padding(10)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.bottom,70)
+                
+                Spacer()
+            }
         }
-//        .navigationBarTitle("")
-//        .navigationBarHidden(true)
-//        .navigationBarBackButtonHidden(true)
-//        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

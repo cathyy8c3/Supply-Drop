@@ -17,7 +17,6 @@ struct Circle_logo_2: View {
                 .clipShape(Circle())
                 .shadow(radius: 20)
                 .frame(width:geometry.size.width/3,height:geometry.size.width/3)
-//                .padding(30)
         }
     }
 }

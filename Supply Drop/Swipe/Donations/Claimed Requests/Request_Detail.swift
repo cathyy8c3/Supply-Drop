@@ -10,153 +10,118 @@ import SwiftUI
 import MapKit
 
 struct Request_Detail: View {
-    @ObservedObject  var order:Request
     @State  var sent:Bool = false
     @State private var showingSheet = false
+    
+    @ObservedObject  var order:Request
     
     var body: some View {
         NavigationView{
             GeometryReader{geometry in
-                //ScrollView{
+                VStack {
                     VStack {
+                        MapView(address: self.order.address.getLoc())
+                            .edgesIgnoringSafeArea([.top])
+                            .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
+                        
+                        self.order.getRequester().profile
+                            .resizable()
+                            .scaledToFit()
+                            .aspectRatio(contentMode:.fit)
+                            .clipShape(Circle())
+                            .shadow(radius: 20)
+                            .overlay(Circle().stroke(Color.white,lineWidth: 2))
+                            .frame(idealWidth: 200, maxWidth:300)
+                            .offset(y:-100)
+                            .padding(.bottom,-90)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(spacing:20) {
+                        Text("Request")
+                            .font(.largeTitle)
+                            .padding(.top,10)
+                        
+                        Text("Made by \(self.order.getRequester().name)\(self.order.org2string())")
+                        
+                        Text("Asking for \(String(self.order.num)) \(self.order.item)")
+                        
+                        Text(self.order.affiliateLink)
+                        
+                        Text("Contact them at \(self.order.requester.email).")
                         
                         VStack {
-                            MapView(address: self.order.address.getLoc())
-                                .edgesIgnoringSafeArea([.top])
-                                .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
-                            
-                            self.order.getRequester().profile
-                                .resizable()
-                                .scaledToFit()
-                                .aspectRatio(contentMode:.fit)
-                                .clipShape(Circle())
-                                .shadow(radius: 20)
-                                .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                                .frame(idealWidth: 200, maxWidth:300)
-                                .offset(y:-100)
-                                .padding(.bottom,-90)
+                            Text("Address: \(self.order.address.getLoc())")
+                                .frame(width:300,height:100,alignment: .top)
                         }
-                        
-                        Spacer()
-                        
-                        VStack(spacing:20) {
-                            Text("Request")
-                                .font(.largeTitle)
-                                .padding(.top,10)
-                            
-                            Text("Made by \(self.order.getRequester().name)\(self.order.org2string())")
-    //                            .font(.title)
-                            
-                            Text("Asking for \(String(self.order.num)) \(self.order.item)")
-    //                            .font(.title)
-                            
-                            Text(self.order.affiliateLink)
-                            
-                            Text("Contact them at \(self.order.requester.email).")
-                            
-                            VStack {
-                                Text("Address: \(self.order.address.getLoc())")
-                                    .frame(width:300,height:100,alignment: .top)
-                            }
-                            .padding(.bottom,20)
-                        }
-                        
-                        HStack {
-                            Toggle(isOn:self.$sent) {
-                                Text("Sent")
-                            }
-                            .frame(width:100)
-                            
-                            Button(action: {
-                            }) {
-                                if(self.sent){
-                                    Text("Status: Sent")
-                                        .foregroundColor(Color.black)
-                                }
-                                else{
-                                    Text("Status: Not Sent")
-                                    .foregroundColor(Color.black)
-                                }
-                            }
-                            .padding(.leading,40)
-                            .multilineTextAlignment(.trailing)
-                        }
-                        .frame(width:geometry.size.width/1.5)
-                        .padding(.bottom,10)
-                        
-                        Button(action: {
-                            if(self.sent){
-                                if(self.order.status<2){
-                                    self.order.status=1
-                                }
-                            }
-                            else{
-                                if(self.order.status<2){
-                                    self.order.status=0
-                                }
-                            }
-                        }) {
-                            Text("Update Status")
-                                .foregroundColor(Color.purple)
-                        }
-//                        .padding(.bottom,10)
-                        
-//                        Spacer()
-
-//                        Button(action: {
-//                            //todo
-//                        }) {
-//                            if(self.order.getRequester().messaging){
-//                                Text("Send a Message to \(self.order.getRequester().name)")
-//                                    .font(.body)
-//                                    .padding(10)
-//                                    .background(Color.gray)
-//                                    .foregroundColor(.white)
-//                                    .cornerRadius(10)
-//                            }
-//                        }
-//                        .padding(.bottom,30)
-                        
-                        NavigationLink("", destination:Claimed_Donations(),isActive: self.$showingSheet)
-                        
-                        Button(action: {
-                            self.showingSheet = true
-                            
-                            //remove from user donation list
-                            //todo
-                        }) {
-                            Text("Cancel Donation")
-                                .foregroundColor(Color.red)
-                        }
-                        .actionSheet(isPresented: self.$showingSheet) {
-                            ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.destructive(Text("Cancel Donation")){
-                                    //todo: remove donation from user list
-                                        
-                                self.order.claimed=false
-                                self.order.setDonor(u:User())
-                                }, .cancel()])
-                        }
-                        .padding(.bottom,200)
-                        
-                        
-                        Spacer()
+                        .padding(.bottom,20)
                     }
-//                .navigationBarItems(leading:
-//                    {HStack{
-//                        Image(systemName: "chevron.left")
-//                        Text("Back")
-//                    }
-//                    .foregroundColor(Color.purple)
-//                })
-                //}
-                //.frame(height:geometry.size.height)
+                    
+                    HStack {
+                        Toggle(isOn:self.$sent) {
+                            Text("Sent")
+                        }
+                        .frame(width:100)
+                        
+                        Button(action: {
+                        }) {
+                            if(self.sent){
+                                Text("Status: Sent")
+                                    .foregroundColor(Color.black)
+                            } else{
+                                Text("Status: Not Sent")
+                                .foregroundColor(Color.black)
+                            }
+                        }
+                        .padding(.leading,40)
+                        .multilineTextAlignment(.trailing)
+                    }
+                    .frame(width:geometry.size.width/1.5)
+                    .padding(.bottom,10)
+                    
+                    Button(action: {
+                        if(self.sent){
+                            if(self.order.status<2){
+                                self.order.status=1
+                            }
+                        } else{
+                            if(self.order.status<2){
+                                self.order.status=0
+                            }
+                        }
+                    }) {
+                        Text("Update Status")
+                            .foregroundColor(Color.purple)
+                    }
+                    
+                    NavigationLink("", destination:Claimed_Donations(),isActive: self.$showingSheet)
+                    
+                    Button(action: {
+                        self.showingSheet = true
+                        
+                        //todo
+                        //remove from user donation list
+                    }) {
+                        Text("Cancel Donation")
+                            .foregroundColor(Color.red)
+                    }
+                    .actionSheet(isPresented: self.$showingSheet) {
+                        ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.destructive(Text("Cancel Donation")){
+                                //todo: remove donation from user list
+                                    
+                            self.order.claimed=false
+                            self.order.setDonor(u:User())
+                            }, .cancel()])
+                    }
+                    .padding(.bottom,200)
+                    
+                    Spacer()
+                }
             }
-//            .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .navigationViewStyle(StackNavigationViewStyle())
         }
-//        .navigationBarTitle("")
-//        .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
     }
