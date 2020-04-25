@@ -57,24 +57,26 @@ struct Request_Detail: View {
         GeometryReader{geometry in
             VStack {
                 VStack {
-                    MapView(address: self.order.address.getLoc())
-                        .edgesIgnoringSafeArea([.top])
-                        .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
+                    ZStack {
+                        MapView(address: self.order.address.getLoc())
+                            .edgesIgnoringSafeArea([.top])
+                            .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
+                    }
                     
                     self.order.getRequester().profile
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(contentMode:.fit)
                         .clipShape(Circle())
-                        .shadow(radius: 10)
+                        .shadow(radius: 20)
                         .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                        .frame(idealWidth: 200, maxWidth:300)
+                        .frame(idealWidth: 100, maxWidth:150)
                         .offset(y:-100)
-                        .padding(.bottom,-60)
+                        .padding(.bottom,-120)
                         .zIndex(5)
                     
                     NavigationView{
-                        VStack {
+                        VStack (alignment:.center) {
                             HStack {
                                 Text("Expected Arrival Date: ")
                                     .navigationBarTitle("")
@@ -105,9 +107,8 @@ struct Request_Detail: View {
                                     .foregroundColor(Color.purple)
                             }
                         }
+                        .frame(width:350, height:150)
                     }
-                    .frame(width:350, height:geometry.size.height/4)
-                    .navigationViewStyle(StackNavigationViewStyle())
                 }
                 
                 ScrollView{
@@ -128,7 +129,6 @@ struct Request_Detail: View {
                                 .frame(width:300,height:90,alignment: .top)
                                 .multilineTextAlignment(.center)
                         }
-                        .padding(.bottom,20)
                     }
                     
                     HStack {
@@ -141,8 +141,9 @@ struct Request_Detail: View {
                         }
                     }
                     .frame(width:geometry.size.width/1.5)
+                    .padding(.bottom,20)
                     
-                    NavigationLink("", destination:Claimed_Donations(),isActive: self.$showingSheet)
+                    NavigationLink(destination:Claimed_Donations(),isActive: self.$showingSheet){EmptyView()}
                     
                     Button(action: {
                         self.showingSheet = true

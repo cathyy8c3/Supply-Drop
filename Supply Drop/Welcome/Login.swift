@@ -67,6 +67,9 @@ struct Login: View {
             .navigationBarTitle("")
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

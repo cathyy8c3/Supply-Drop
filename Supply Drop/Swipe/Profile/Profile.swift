@@ -83,15 +83,16 @@ struct Profile: View {
                         .foregroundColor(Color.purple)
                     }
                     
-//                    Button(action: {
-//                        UserDefaults.standard.set(false, forKey: "LoggedIn")
-//                        self.loggedIn.setBools(value: false)
-//                        self.presentMe = true
-//                    }) {
-//                        Text("Sign Out")
-//                            .foregroundColor(Color.red)
-//                            .padding(.bottom,50)
-//                    }
+                    Button(action: {
+                        UserDefaults.standard.set(false, forKey: "LoggedIn")
+                        self.loggedIn.setBools(value: false)
+                        self.presentMe = true
+                    }) {
+                        Text("Sign Out")
+                            .foregroundColor(Color.red)
+                            .padding(.bottom,50)
+                            .padding(.top,30)
+                    }
                     
                     if(self.previous==0){
                         NavigationLink(destination:Donations(),isActive: self.$back){EmptyView()}

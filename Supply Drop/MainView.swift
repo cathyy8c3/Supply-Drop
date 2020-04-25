@@ -14,7 +14,7 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack{
-                if(self.loggedIn.boo){
+                if(UserDefaults.standard.bool(forKey: "LoggedIn")){
                     Swipe(currentPage:1)
                         .transition(.scale)
                 }else{
@@ -27,6 +27,9 @@ struct MainView: View {
             }
             .transition(.slide)
             .frame(width:geometry.size.width, height:geometry.size.height)
+//            .navigationBarTitle("")
+//            .navigationBarHidden(true)
+//            .navigationBarBackButtonHidden(true)
         }
     }
 }

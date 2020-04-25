@@ -11,7 +11,13 @@ import Combine
 
 struct ContentView: View {
     var body: some View {
-        Login()
+        NavigationView{
+            Login()
+        }
+//        .navigationBarTitle("")
+//        .navigationBarHidden(true)
+//        .navigationBarBackButtonHidden(true)
+        .transition(.slide)
     }
 }
 
