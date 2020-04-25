@@ -59,7 +59,7 @@ struct Request_Detail: View {
                 VStack {
                     MapView(address: self.order.address.getLoc())
                         .edgesIgnoringSafeArea([.top])
-                        .frame(minHeight:geometry.size.height/4,idealHeight:geometry.size.height/4, maxHeight:geometry.size.height/4)
+                        .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
                     
                     self.order.getRequester().profile
                         .resizable()
@@ -70,7 +70,7 @@ struct Request_Detail: View {
                         .overlay(Circle().stroke(Color.white,lineWidth: 2))
                         .frame(idealWidth: 200, maxWidth:300)
                         .offset(y:-100)
-                        .padding(.bottom,-130)
+                        .padding(.bottom,-60)
                         .zIndex(5)
                     
                     NavigationView{
@@ -106,57 +106,60 @@ struct Request_Detail: View {
                             }
                         }
                     }
-                    .frame(width:350, height:geometry.size.height/5.5)
-                    .padding(.top,30)
+                    .frame(width:350, height:geometry.size.height/4)
                     .navigationViewStyle(StackNavigationViewStyle())
                 }
                 
-                VStack(spacing:10) {
-                    Text("Request")
-                        .font(.largeTitle)
-                                        
-                    Text("Made by \(self.order.getRequester().name)")
-                    
-                    Text("Asking for \(String(self.order.num)) \(self.order.item)")
-                    
-                    Text("Contact them at \(self.order.requester.email).")
-                    
-                    VStack {
-                        Text("Address: \(self.order.address.getLoc())")
-                            .frame(width:300,height:90,alignment: .top)
+                ScrollView{
+                    VStack(spacing:10) {
+                        Text("Request")
+                            .font(.largeTitle)
+                                            
+                        Text("Made by \(self.order.getRequester().name)")
+                        
+                        Text("Asking for \(String(self.order.num)) \(self.order.item)")
+                        
+                        Text("Contact them at \(self.order.requester.email).")
+                            .frame(width:geometry.size.width/1.5, height:100)
                             .multilineTextAlignment(.center)
+                        
+                        VStack {
+                            Text("Address: \(self.order.address.getLoc())")
+                                .frame(width:300,height:90,alignment: .top)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.bottom,20)
                     }
-                    .padding(.bottom,20)
-                }
-                
-                HStack {
-                    if(self.order.status > 1){
-                        Text("Status: Received")
+                    
+                    HStack {
+                        if(self.order.status > 1){
+                            Text("Status: Received")
+                                .foregroundColor(Color.purple)
+                        } else{
+                            Text("Status: Not Received")
                             .foregroundColor(Color.purple)
-                    } else{
-                        Text("Status: Not Received")
-                        .foregroundColor(Color.purple)
+                        }
                     }
+                    .frame(width:geometry.size.width/1.5)
+                    
+                    NavigationLink("", destination:Claimed_Donations(),isActive: self.$showingSheet)
+                    
+                    Button(action: {
+                        self.showingSheet = true
+                    }) {
+                        Text("Cancel Donation")
+                            .foregroundColor(Color.red)
+                    }
+                    .actionSheet(isPresented: self.$showingSheet) {
+                        ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.destructive(Text("Cancel Donation")){
+                            self.order.claimed=false
+                            self.order.status = 0
+                            self.order.setDonor(u:User())
+                            self.manager.updateRequest(order: self.order)
+                            }, .cancel()])
+                    }
+                    .padding(.bottom,60)
                 }
-                .frame(width:geometry.size.width/1.5)
-                
-                NavigationLink("", destination:Claimed_Donations(),isActive: self.$showingSheet)
-                
-                Button(action: {
-                    self.showingSheet = true
-                }) {
-                    Text("Cancel Donation")
-                        .foregroundColor(Color.red)
-                }
-                .actionSheet(isPresented: self.$showingSheet) {
-                    ActionSheet(title: Text("Cancel Donation"), message: Text("Are you sure you want to cancel your donation?"), buttons: [.destructive(Text("Cancel Donation")){
-                        self.order.claimed=false
-                        self.order.status = 0
-                        self.order.setDonor(u:User())
-                        self.manager.updateRequest(order: self.order)
-                        }, .cancel()])
-                }
-                .padding(.bottom,60)
                 
                 Spacer()
             }

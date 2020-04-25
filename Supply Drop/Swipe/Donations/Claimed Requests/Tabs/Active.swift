@@ -44,7 +44,9 @@ struct Active: View {
                             }
                             
                             self.manager.getUser(userID: each.requesterID) { requester in
-                                each.requester.tempUser22User(user2:requester[0])
+                                if(requester.count>0){
+                                    each.requester.tempUser22User(user2:requester[0])
+                                }
                             }
                             
                             self.donationList.append(each)

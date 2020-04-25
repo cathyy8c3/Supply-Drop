@@ -60,7 +60,7 @@ struct Your_Request_Details: View {
                     ZStack {
                         MapView(address: self.order.addressString.toAddress(address: self.order.addressString).getLoc())
                             .edgesIgnoringSafeArea([.top])
-                            .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
+                            .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
                     }
                     
                     self.order.getRequester().profile
@@ -70,101 +70,101 @@ struct Your_Request_Details: View {
                         .clipShape(Circle())
                         .shadow(radius: 20)
                         .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                        .frame(idealWidth: 200, maxWidth:300)
-                        .offset(y:-100)
-                        .padding(.bottom,-70)
+                        .frame(idealWidth: 100, maxWidth:150)
+                        .offset(y:-150)
+                        .padding(.bottom,-120)
                 }
                 
-                Spacer()
-
-                VStack(spacing:20) {
-                    VStack {
-                        Text("Your Request")
-                            .font(.title)
-                            .padding(5)
-                        
-                        NavigationLink(destination:Edit_Your_Request(n: self.order.num, order: self.order)){
-                            Text("Edit Your Request")
-                                .font(.body)
-                                .foregroundColor(Color.purple)
-                        }
-                    }
-                    
-                    if(self.order.donorID != -1){
-                        Text("Claimed by \(self.order.getDonor().username)")
-                    }
-                    
-                    Text("You requested \(String(self.order.num)) \(self.order.item).")
-                    
-                    if(self.order.donorID != -1){
-                        Text("Contact the donor at \(self.order.donor.email).")
-                            .frame(width:geometry.size.width/1.5, height:70)
-                            .multilineTextAlignment(.center)
-                    }
-                    
-                    VStack {
-                        Text("Address: \(self.order.address.getLoc())")
-                            .frame(width:300,height:90,alignment: .top)
-                            .multilineTextAlignment(.center)
-                    }
-                }
-                
-                VStack (spacing:10){
-                    if(self.order.status>0 && self.validDate(date: self.order.expectedArrival)){
-                        Text("Expected Arrival Date: \(self.order.expectedArrival)")
-                    }
-                    
-                    HStack {
-                        if(self.order.status>0){
-                            Toggle(isOn:self.$received) {
-                                Text("Received")
+                ScrollView{
+                    VStack(spacing:20) {
+                        VStack {
+                            Text("Your Request")
+                                .font(.title)
+                                .padding(5)
+                            
+                            NavigationLink(destination:Edit_Your_Request(n: self.order.num, order: self.order)){
+                                Text("Edit Your Request")
+                                    .font(.body)
+                                    .foregroundColor(Color.purple)
                             }
-                            .frame(width:130)
                         }
                         
-                        if(self.received){
-                            Text("Status: Received")
-                                .foregroundColor(Color.black)
-                        } else{
-                            Text("Status: Not Received")
-                                .foregroundColor(Color.black)
+                        if(self.order.donorID != -1){
+                            Text("Claimed by \(self.order.getDonor().username)")
+                        }
+                        
+                        Text("You requested \(String(self.order.num)) \(self.order.item).")
+                        
+                        if(self.order.donorID != -1){
+                            Text("Contact the donor at \(self.order.donor.email).")
+                                .frame(width:geometry.size.width/1.5, height:70)
+                                .multilineTextAlignment(.center)
+                        }
+                        
+                        VStack {
+                            Text("Address: \(self.order.address.getLoc())")
+                                .frame(width:300,height:90,alignment: .top)
                                 .multilineTextAlignment(.center)
                         }
                     }
-                    .frame(width:geometry.size.width/1.5)
-                    .padding(.bottom,10)
-                }
-                
-                Button(action: {
-                    if(self.order.status < 2){
-                        self.order.status=2
-                        self.manager.updateRequest(order: self.order)
-                    } else{
-                        if(self.order.donorID != -1){
-                            self.order.status = 1
-                        } else{
-                            self.order.status = 0
+                    
+                    VStack (spacing:10){
+                        if(self.order.status>0 && self.validDate(date: self.order.expectedArrival)){
+                            Text("Expected Arrival Date: \(self.order.expectedArrival)")
                         }
-                        self.manager.updateRequest(order: self.order)
+                        
+                        HStack {
+                            if(self.order.status>0){
+                                Toggle(isOn:self.$received) {
+                                    Text("Received")
+                                }
+                                .frame(width:130)
+                            }
+                            
+                            if(self.received){
+                                Text("Status: Received")
+                                    .foregroundColor(Color.black)
+                            } else{
+                                Text("Status: Not Received")
+                                    .foregroundColor(Color.black)
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .frame(width:geometry.size.width/1.5)
+                        .padding(.bottom,10)
                     }
-                }) {
-                    Text("Update Status")
-                        .foregroundColor(Color.purple)
+                    
+                    Button(action: {
+                        if(self.order.status < 2){
+                            self.order.status=2
+                            self.manager.updateRequest(order: self.order)
+                        } else{
+                            if(self.order.donorID != -1){
+                                self.order.status = 1
+                            } else{
+                                self.order.status = 0
+                            }
+                            self.manager.updateRequest(order: self.order)
+                        }
+                    }) {
+                        Text("Update Status")
+                            .foregroundColor(Color.purple)
+                    }
+                    .padding(.bottom,10)
+                    
+                    Button(action: {
+                        self.showingSheet = true
+                    }) {
+                        Text("Cancel Request")
+                            .foregroundColor(Color.red)
+                            .padding(.bottom,120)
+                    }
+                    .actionSheet(isPresented: self.$showingSheet) {
+                        ActionSheet(title: Text("Cancel Request"), message: Text("Are you sure you want to cancel your request?"), buttons: [.destructive(Text("Cancel Request")){
+                            self.manager.deleteRequest(order: self.order)
+                            }, .cancel()])
+                    }.padding(.bottom,20)
                 }
-                .padding(.bottom,10)
-                
-                Button(action: {
-                    self.showingSheet = true
-                }) {
-                    Text("Cancel Request")
-                        .foregroundColor(Color.red)
-                        .padding(.bottom,120)
-                }
-                .actionSheet(isPresented: self.$showingSheet) {
-                    ActionSheet(title: Text("Cancel Request"), message: Text("Are you sure you want to cancel your request?"), buttons: [.destructive(Text("Cancel Request")){
-                        self.manager.deleteRequest(order: self.order)
-                        }, .cancel()])
-                }.padding(.bottom,20)
                 
                 Spacer()
             }

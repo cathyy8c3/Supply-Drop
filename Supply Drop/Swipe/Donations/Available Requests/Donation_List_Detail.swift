@@ -24,7 +24,7 @@ struct Donation_List_Detail: View {
                     ZStack {
                         MapView(address: self.order.addressString.toAddress(address: self.order.addressString).getLoc())
                             .edgesIgnoringSafeArea([.top])
-                            .frame(minHeight:geometry.size.height/3,idealHeight:geometry.size.height/3, maxHeight:geometry.size.height/3)
+                            .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
                     }
                     
                     self.order.getRequester().profile
@@ -34,68 +34,68 @@ struct Donation_List_Detail: View {
                         .clipShape(Circle())
                         .shadow(radius: 20)
                         .overlay(Circle().stroke(Color.white,lineWidth: 2))
-                        .frame(idealWidth: 200, maxWidth:300)
-                        .offset(y:-100)
-                        .padding(.bottom,-130)
+                        .frame(idealWidth: 100, maxWidth:150)
+                        .offset(y:-150)
+                        .padding(.bottom,-200)
                 }
                 
-                Spacer()
-                
-                VStack(spacing:20) {
-                    Text("Request")
-                        .font(.largeTitle)
-                        .padding(.top,70)
-                    
-                    Text("Made by \(self.order.getRequester().username)")
-                    
-                    Text("Asking for \(String(self.order.num)) \(self.order.item)")
-                    
-                    VStack {
-                        Text("Address: \(self.order.addressString.toAddress(address: self.order.addressString).getLoc())")
-                            .frame(width:300,height:90,alignment: .top)
-                            .multilineTextAlignment(.center)
+                ScrollView{
+                    VStack(spacing:20) {
+                        Text("Request")
+                            .font(.largeTitle)
+                            .padding(.top,30)
+                        
+                        Text("Made by \(self.order.getRequester().username)")
+                        
+                        Text("Asking for \(String(self.order.num)) \(self.order.item)")
+                        
+                        VStack {
+                            Text("Address: \(self.order.addressString.toAddress(address: self.order.addressString).getLoc())")
+                                .frame(width:300,height:90,alignment: .top)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.bottom,20)
                     }
-                    .padding(.bottom,20)
-                }
-                
-                Spacer()
+                    
+                    Spacer()
 
-                Button(action: {
-                    if(self.order.donorID == -1){
-                        self.order.setDonor(u:self.user)
-                        self.order.claimed = true
-                        self.claim = "Claimed"
-                        self.order.status = 1
-                        
-                        self.order.setDonor(u: self.user)
-                        self.manager.updateRequest(order: self.order)
-                    } else{
-                        self.order.setDonor(u:User())
-                        self.order.claimed = false
-                        self.claim = "Claim Request"
-                        self.order.status = 0
-                        
-                        self.order.setDonor(u: User())
-                        self.manager.updateRequest(order: self.order)
+                    Button(action: {
+                        if(self.order.donorID == -1){
+                            self.order.setDonor(u:self.user)
+                            self.order.claimed = true
+                            self.claim = "Claimed"
+                            self.order.status = 1
+                            
+                            self.order.setDonor(u: self.user)
+                            self.manager.updateRequest(order: self.order)
+                        } else{
+                            self.order.setDonor(u:User())
+                            self.order.claimed = false
+                            self.claim = "Claim Request"
+                            self.order.status = 0
+                            
+                            self.order.setDonor(u: User())
+                            self.manager.updateRequest(order: self.order)
+                        }
+                    }) {
+                        if(self.order.donorID == -1){
+                            Text("Claim Request")
+                                .font(.body)
+                                .padding(10)
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        } else{
+                            Text("Claimed")
+                                .font(.body)
+                                .padding(10)
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
                     }
-                }) {
-                    if(self.order.donorID == -1){
-                        Text("Claim Request")
-                            .font(.body)
-                            .padding(10)
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    } else{
-                        Text("Claimed")
-                            .font(.body)
-                            .padding(10)
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
+                    .padding(.bottom,70)
                 }
-                .padding(.bottom,70)
                 
                 Spacer()
             }
