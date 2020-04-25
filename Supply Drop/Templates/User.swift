@@ -91,6 +91,10 @@ class User:Codable, Identifiable, ObservableObject{
         password = pass
     }
     
+    func setUsername(usern:String){
+        username = usern
+    }
+    
     func setUser(name2:String, email2:String, password2:String, username2:String, address2:String, id2:Int){
         name=name2
         email=email2

@@ -17,7 +17,7 @@ struct Request_Form_1: View {
     @EnvironmentObject var user:User
     
     @ObservedObject var keyboardResponder = KeyboardResponder()
-    @ObservedObject  var order1:Request
+    @ObservedObject  var order1:Request = Request()
     
     func validDate(date:String)->Bool{
         let curr = Date()

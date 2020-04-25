@@ -83,10 +83,15 @@ struct Profile: View {
                         .foregroundColor(Color.purple)
                     }
                     
+                    NavigationLink(destination:ContentView(),isActive: self.$presentMe){EmptyView()}
+                    
                     Button(action: {
                         UserDefaults.standard.set(false, forKey: "LoggedIn")
-                        self.loggedIn.setBools(value: false)
+                        UserDefaults.standard.set("",forKey: "Username")
+                        UserDefaults.standard.set("",forKey: "UserPassword")
                         self.presentMe = true
+                        self.loggedIn.setBools(value: false)
+                        
                     }) {
                         Text("Sign Out")
                             .foregroundColor(Color.red)

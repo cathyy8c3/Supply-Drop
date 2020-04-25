@@ -14,22 +14,14 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack{
-                if(UserDefaults.standard.bool(forKey: "LoggedIn")){
-                    Swipe(currentPage:1)
-                        .transition(.scale)
-                }else{
+                if(!UserDefaults.standard.bool(forKey: "LoggedIn")){
                     Login()
+                        .transition(.scale)
+                } else{
+                    Swipe(currentPage: 1)
                         .transition(.scale)
                 }
             }
-            .onAppear{
-                self.loggedIn.setBools(value: UserDefaults.standard.bool(forKey: "LoggedIn"))
-            }
-            .transition(.slide)
-            .frame(width:geometry.size.width, height:geometry.size.height)
-//            .navigationBarTitle("")
-//            .navigationBarHidden(true)
-//            .navigationBarBackButtonHidden(true)
         }
     }
 }

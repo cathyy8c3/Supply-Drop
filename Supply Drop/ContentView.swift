@@ -14,9 +14,6 @@ struct ContentView: View {
         NavigationView{
             Login()
         }
-//        .navigationBarTitle("")
-//        .navigationBarHidden(true)
-//        .navigationBarBackButtonHidden(true)
         .transition(.slide)
     }
 }

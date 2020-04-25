@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Login: View {
     @State var isModal: Bool = false
+    @State var toSignIn:Bool = false
     
     @EnvironmentObject var user:User
     
@@ -32,11 +33,19 @@ struct Login: View {
                         .padding()
                     
                     VStack{
-                    
-                        NavigationLink(destination:signIn()){
+                        Button(action:{
+                            self.user.setPass(pass: UserDefaults.standard.string(forKey: "UserPassword") ?? "")
+                            self.user.setUsername(usern: UserDefaults.standard.string(forKey: "Username") ?? "")
+                            
+                            self.toSignIn = true
+                        }){
                             Text("Sign In")
                                 .font(.largeTitle)
                                 .foregroundColor(Color.purple)
+                        }
+                        
+                        NavigationLink(destination:signIn(),isActive: self.$toSignIn){
+                            EmptyView()
                         }
                         
                         NavigationLink(destination:newUser(user: User())){

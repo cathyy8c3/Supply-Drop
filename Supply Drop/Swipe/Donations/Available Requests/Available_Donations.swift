@@ -102,6 +102,24 @@ struct Available_Donations: View {
                 }
             }
         }
+        .onAppear(perform:{
+            self.manager.getAvailable { (order2) in
+                self.orders.setOrders2Orders(order1:order2)
+                
+                for i in (0..<self.orders.orders.count){
+                    if(self.orders.orders[i].donorID ?? -1>=0){
+                        self.manager.getUser(userID: self.orders.orders[i].donorID ?? -1) { (user1) in
+                            self.orders.orders[i].donor.tempUser22User(user2:user1[0])
+                        }
+                    }
+                    if(self.orders.orders[i].requesterID>=0){
+                        self.manager.getUser(userID: self.orders.orders[i].requesterID ) { (user1) in
+                            self.orders.orders[i].requester.tempUser22User(user2:user1[0])
+                        }
+                    }
+                }
+            }
+        })
     }
 
     func pageView(_ page: Int) -> some View {

@@ -20,7 +20,7 @@ struct Completed_Requests: View {
                 NavigationLink(destination:Your_Request_Details(order: current)){
                     Group{
                         if(current.status>=2){
-                            Selection(order: current, phrase: "requested", you:true)
+                            Selection(order: current, phrase: "requested", you:true, starred: false)
                                 .frame(width:geometry.size.width,height:120)
                                 .padding(.leading,-20)
                         } else{

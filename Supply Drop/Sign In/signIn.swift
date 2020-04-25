@@ -69,24 +69,24 @@ struct signIn: View {
                                     self.user.tempUser2User(user2: user2[0])
                                     self.manager.getAvailable { (order2) in
                                         self.orders.setOrders2Orders(order1:order2)
-                                    }
-                                    DispatchQueue.main.async {
-                                        for i in (0..<self.orders.orders.count){
+                                        
+                                        for i in (0..<order2.count){
                                             if(self.orders.orders[i].donorID ?? -1>=0){
                                                 self.manager.getUser(userID: self.orders.orders[i].donorID ?? -1) { (user1) in
                                                     self.orders.orders[i].donor.tempUser22User(user2:user1[0])
                                                 }
                                             }
-                                            if(self.orders.orders[i].requesterID>=0){
+                                            if(self.orders.orders[i].requesterID > -1){
                                                 self.manager.getUser(userID: self.orders.orders[i].requesterID ) { (user1) in
                                                     self.orders.orders[i].requester.tempUser22User(user2:user1[0])
                                                 }
                                             }
                                         }
-                                        self.orders.objectWillChange.send()
                                     }
                                     self.loggedIn.setBools(value: true)
                                     UserDefaults.standard.set(true, forKey: "LoggedIn")
+                                    UserDefaults.standard.set(self.user.username,forKey: "Username")
+                                    UserDefaults.standard.set(self.user.password,forKey: "UserPassword")
                                     self.validUser = true
                                 }else{
                                     self.error = "Incorrect username or password."
