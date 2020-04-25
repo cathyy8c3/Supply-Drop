@@ -41,7 +41,7 @@ struct Available_Donations: View {
                             .offset(y:proxy.size.height/4)
                             .onAppear(perform:{
                                 self.manager.getAvailable { (order2) in
-                                    self.orders.setOrders2Orders(order1:order2)
+                                    self.orders.setOrders2Orders(order1:order2, user1:self.user)
                                     
                                     for i in (0..<self.orders.orders.count){
                                         if(self.orders.orders[i].donorID ?? -1>=0){
@@ -104,7 +104,7 @@ struct Available_Donations: View {
         }
         .onAppear(perform:{
             self.manager.getAvailable { (order2) in
-                self.orders.setOrders2Orders(order1:order2)
+                self.orders.setOrders2Orders(order1:order2, user1: self.user)
                 
                 for i in (0..<self.orders.orders.count){
                     if(self.orders.orders[i].donorID ?? -1>=0){

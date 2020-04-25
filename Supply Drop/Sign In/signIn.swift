@@ -68,9 +68,9 @@ struct signIn: View {
                                 if(done){
                                     self.user.tempUser2User(user2: user2[0])
                                     self.manager.getAvailable { (order2) in
-                                        self.orders.setOrders2Orders(order1:order2)
+                                        self.orders.setOrders2Orders(order1:order2, user1:self.user)
                                         
-                                        for i in (0..<order2.count){
+                                        for i in (0..<self.orders.orders.count){
                                             if(self.orders.orders[i].donorID ?? -1>=0){
                                                 self.manager.getUser(userID: self.orders.orders[i].donorID ?? -1) { (user1) in
                                                     self.orders.orders[i].donor.tempUser22User(user2:user1[0])

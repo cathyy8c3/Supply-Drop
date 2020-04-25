@@ -17,8 +17,16 @@ class Orders:ObservableObject,Identifiable{
         setOrders()
     }
     
-    func setOrders2Orders(order1:[Request]){
-        orders = order1
+    func setOrders2Orders(order1:[Request], user1:User){
+        var tempOrders:[Request] = []
+        
+        for each in order1{
+            if(each.requesterID != user1.id){
+                tempOrders.append(each)
+            }
+        }
+        
+        self.orders = tempOrders
     }
     
     
