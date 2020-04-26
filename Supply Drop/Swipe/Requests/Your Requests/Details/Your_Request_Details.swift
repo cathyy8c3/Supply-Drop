@@ -76,7 +76,7 @@ struct Your_Request_Details: View {
                 }
                 
                 ScrollView{
-                    VStack(spacing:20) {
+                    VStack(spacing:10) {
                         VStack {
                             Text("Your Request")
                                 .font(.title)
@@ -97,6 +97,12 @@ struct Your_Request_Details: View {
                         
                         if(self.order.donorID != -1){
                             Text("Contact the donor at \(self.order.donor.email).")
+                                .frame(width:geometry.size.width/1.5, height:70)
+                                .multilineTextAlignment(.center)
+                        }
+                        
+                        if(self.order.expectedArrival.count > 0){
+                            Text("Expected to arrive on \(self.order.expectedArrival).")
                                 .frame(width:geometry.size.width/1.5, height:70)
                                 .multilineTextAlignment(.center)
                         }

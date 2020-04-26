@@ -1,14 +1,14 @@
 //
-//  ContentView.swift
+//  Login2.swift
 //  Supply Drop
 //
-//  Created by Cathy Chang on 4/14/20.
+//  Created by Cathy Chang on 4/25/20.
 //  Copyright © 2020 Supply Drop. All rights reserved.
 //
 
 import SwiftUI
 
-struct Login: View {
+struct Login2: View {
     @State var isModal: Bool = false
     @State var toSignIn:Bool = false
     @State var toSwipe:Bool = false
@@ -37,27 +37,7 @@ struct Login: View {
                     
                     VStack{
                         Button(action:{
-                            self.user.setPass(pass: UserDefaults.standard.string(forKey: "UserPassword") ?? "")
-                            self.user.setUsername(usern: UserDefaults.standard.string(forKey: "Username") ?? "")
-                            
-                            print(self.user.password)
-                            print(self.user.username)
-                            
-                            if(UserDefaults.standard.bool(forKey: "LoggedIn")){
-                                self.manager.authenticate(user: self.user, completion: { (done,user2) in
-                                    if (done){
-                                        self.user.tempUser2User(user2: user2[0])
-                                        
-                                        self.manager.getAvailable { (order2) in
-                                            self.orders.setOrders2Orders(order1:order2, user1:self.user)
-                                        }
-                                    }
-                                })
-                                
-                                self.toSwipe = true
-                            } else{
-                                self.toSignIn = true
-                            }
+                            self.toSignIn = true
                         }){
                             Text("Sign In")
                                 .font(.largeTitle)
@@ -106,8 +86,8 @@ struct Login: View {
     }
 }
 
-struct Login_Previews: PreviewProvider {
+struct Login2_Previews: PreviewProvider {
     static var previews: some View {
-        Login()
+        Login2()
     }
 }

@@ -88,7 +88,7 @@ struct signIn: View {
                                     UserDefaults.standard.set(self.user.username,forKey: "Username")
                                     UserDefaults.standard.set(self.user.password,forKey: "UserPassword")
                                     self.validUser = true
-                                }else{
+                                } else{
                                     self.error = "Incorrect username or password."
                                 }
                             })

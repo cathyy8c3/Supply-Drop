@@ -89,9 +89,6 @@ struct Profile: View {
                         UserDefaults.standard.set(false, forKey: "LoggedIn")
                         UserDefaults.standard.set("",forKey: "Username")
                         UserDefaults.standard.set("",forKey: "UserPassword")
-                        self.presentMe = true
-                        self.loggedIn.setBools(value: false)
-                        
                     }) {
                         Text("Sign Out")
                             .foregroundColor(Color.red)

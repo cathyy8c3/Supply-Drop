@@ -18,7 +18,7 @@ struct MainView: View {
                     Login()
                         .transition(.scale)
                 } else{
-                    Swipe(currentPage: 1)
+                    Login2()
                         .transition(.scale)
                 }
             }

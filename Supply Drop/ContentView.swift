@@ -12,9 +12,11 @@ import Combine
 struct ContentView: View {
     var body: some View {
         NavigationView{
-            Login()
+            MainView()
         }
-        .transition(.slide)
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
