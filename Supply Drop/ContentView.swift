@@ -11,12 +11,7 @@ import Combine
 
 struct ContentView: View {
     var body: some View {
-        NavigationView{
-            MainView()
-        }
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
+        MainView()
     }
 }
 

@@ -120,14 +120,14 @@ struct Your_Request_Details: View {
                         }
                         
                         HStack {
-                            if(self.order.status>0){
+                            if(self.order.status==1){
                                 Toggle(isOn:self.$received) {
                                     Text("Received")
                                 }
                                 .frame(width:130)
                             }
                             
-                            if(self.received){
+                            if(self.received || self.order.status>1){
                                 Text("Status: Received")
                                     .foregroundColor(Color.black)
                             } else{
@@ -153,8 +153,10 @@ struct Your_Request_Details: View {
                             self.manager.updateRequest(order: self.order)
                         }
                     }) {
-                        Text("Update Status")
-                            .foregroundColor(Color.purple)
+                        if(self.order.status<2){
+                            Text("Update Status")
+                                .foregroundColor(Color.purple)
+                        }
                     }
                     .padding(.bottom,10)
                     

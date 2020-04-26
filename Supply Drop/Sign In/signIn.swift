@@ -50,6 +50,12 @@ struct signIn: View {
                             .frame(width:300, height:50)
                             .border(Color.gray, width:0.5)
                         
+                        NavigationLink (destination:passwordReset()){
+                            Text("Forgot your password?")
+                                .font(.subheadline)
+                                .foregroundColor(Color.purple)
+                        }
+                        
                         NavigationLink (destination:newUser(user: self.user)){
                             Text("Create an account.")
                                 .font(.subheadline)

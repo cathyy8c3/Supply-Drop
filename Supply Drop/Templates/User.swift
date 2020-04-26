@@ -238,6 +238,29 @@ class Api:ObservableObject{
         }.resume()
     }
     
+    func updatePassword(user:User){
+        guard let url = URL(string: "http://localhost:1500/api/users/\(user.id)/updatepass") else{
+            print("no url")
+            return
+        }
+        
+        guard let finalBody = try? JSONEncoder().encode(user) else {
+            print("Failed to encode user")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "PUT"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
+        }.resume()
+    }
+    
     //done
     
     func getUser(userID:Int, completion: @escaping([tempUser2]) -> ()){

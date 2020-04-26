@@ -40,9 +40,6 @@ struct Login: View {
                             self.user.setPass(pass: UserDefaults.standard.string(forKey: "UserPassword") ?? "")
                             self.user.setUsername(usern: UserDefaults.standard.string(forKey: "Username") ?? "")
                             
-                            print(self.user.password)
-                            print(self.user.username)
-                            
                             if(UserDefaults.standard.bool(forKey: "LoggedIn")){
                                 self.manager.authenticate(user: self.user, completion: { (done,user2) in
                                     if (done){
@@ -53,7 +50,6 @@ struct Login: View {
                                         }
                                     }
                                 })
-                                
                                 self.toSwipe = true
                             } else{
                                 self.toSignIn = true
@@ -98,6 +94,7 @@ struct Login: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarHidden(true)
             .navigationBarTitle("")
+            .navigationBarBackButtonHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarTitle("")

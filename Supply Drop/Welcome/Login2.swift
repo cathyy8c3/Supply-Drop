@@ -37,6 +37,7 @@ struct Login2: View {
                     
                     VStack{
                         Button(action:{
+                            self.user.setUser2User(user2: User())
                             self.toSignIn = true
                         }){
                             Text("Sign In")
@@ -78,6 +79,7 @@ struct Login2: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .navigationBarHidden(true)
             .navigationBarTitle("")
+            .navigationBarBackButtonHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarTitle("")

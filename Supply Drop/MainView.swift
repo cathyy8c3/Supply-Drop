@@ -14,13 +14,16 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack{
-                if(!UserDefaults.standard.bool(forKey: "LoggedIn")){
+                if(UserDefaults.standard.bool(forKey: "LoggedIn")){
                     Login()
                         .transition(.scale)
                 } else{
                     Login2()
                         .transition(.scale)
                 }
+            }
+            .onAppear{
+                self.loggedIn.setBools(value: UserDefaults.standard.bool(forKey: "LoggedIn"))
             }
         }
     }

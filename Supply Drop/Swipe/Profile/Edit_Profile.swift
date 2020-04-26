@@ -194,7 +194,7 @@ struct Edit_Profile: View {
                                 
                             if(!self.isValidPassword(testStr: self.pass1) && !(self.pass1=="")){
                                 self.match = "Invalid password."
-                            }else{
+                            } else{
                                 self.match=""
                             }
                             
@@ -211,6 +211,8 @@ struct Edit_Profile: View {
                                 
                                 if(!(self.pass1=="")){
                                     self.user.password = self.pass1
+                                    
+                                    self.manager.updatePassword(user: self.user)
                                 }
                                 
                                 self.presentMe=true
