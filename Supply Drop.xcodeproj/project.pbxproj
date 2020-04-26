@@ -32,6 +32,8 @@
 		4C87B4562448E0A8004B7E78 /* Edit_Profile_Pic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C87B4552448E0A8004B7E78 /* Edit_Profile_Pic.swift */; };
 		4C87B45824490212004B7E78 /* SwiftUIPager_sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C87B45724490212004B7E78 /* SwiftUIPager_sample.swift */; };
 		4C87B45A244902D8004B7E78 /* Available_Donations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C87B459244902D8004B7E78 /* Available_Donations.swift */; };
+		4CA2E578245617D4002A3E19 /* passwordReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA2E577245617D4002A3E19 /* passwordReset.swift */; };
+		4CA2E57B24561D98002A3E19 /* passwordReset_2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA2E57A24561D98002A3E19 /* passwordReset_2.swift */; };
 		4CA9E657244780B100454CEA /* Swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA9E656244780B100454CEA /* Swipe.swift */; };
 		4CA9E661244785F800454CEA /* Circle_Hands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA9E660244785F800454CEA /* Circle_Hands.swift */; };
 		4CBFCCD6245528D9000FDE34 /* Login2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBFCCD5245528D9000FDE34 /* Login2.swift */; };
@@ -119,6 +121,8 @@
 		4C87B4552448E0A8004B7E78 /* Edit_Profile_Pic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit_Profile_Pic.swift; sourceTree = "<group>"; };
 		4C87B45724490212004B7E78 /* SwiftUIPager_sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIPager_sample.swift; sourceTree = "<group>"; };
 		4C87B459244902D8004B7E78 /* Available_Donations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Available_Donations.swift; sourceTree = "<group>"; };
+		4CA2E577245617D4002A3E19 /* passwordReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passwordReset.swift; sourceTree = "<group>"; };
+		4CA2E57A24561D98002A3E19 /* passwordReset_2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passwordReset_2.swift; sourceTree = "<group>"; };
 		4CA9E656244780B100454CEA /* Swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swipe.swift; sourceTree = "<group>"; };
 		4CA9E660244785F800454CEA /* Circle_Hands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle_Hands.swift; sourceTree = "<group>"; };
 		4CBFCCD5245528D9000FDE34 /* Login2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login2.swift; sourceTree = "<group>"; };
@@ -324,6 +328,15 @@
 			path = "Side Menu";
 			sourceTree = "<group>";
 		};
+		4CA2E57924561D7B002A3E19 /* Password Reset */ = {
+			isa = PBXGroup;
+			children = (
+				4CA2E577245617D4002A3E19 /* passwordReset.swift */,
+				4CA2E57A24561D98002A3E19 /* passwordReset_2.swift */,
+			);
+			path = "Password Reset";
+			sourceTree = "<group>";
+		};
 		4CA9E65124477C1D00454CEA /* Swipe */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,6 +452,7 @@
 			isa = PBXGroup;
 			children = (
 				4CC811C82446AACB00269F00 /* signIn.swift */,
+				4CA2E57924561D7B002A3E19 /* Password Reset */,
 				4C506E82244A624400951D15 /* Elements */,
 			);
 			path = "Sign In";
@@ -669,6 +683,7 @@
 				4C87B4522448D6E5004B7E78 /* Edit_Your_Request.swift in Sources */,
 				4CC811BA24468D5400269F00 /* Circle_Logo.swift in Sources */,
 				4CC65C32244BFADA002C8DD9 /* KeyboardResponder.swift in Sources */,
+				4CA2E57B24561D98002A3E19 /* passwordReset_2.swift in Sources */,
 				4CC8118A2446471100269F00 /* Login.swift in Sources */,
 				4C0A9582244D2631004D8B74 /* Thank_You.swift in Sources */,
 				4C2EEF352448151A00BA5BE3 /* Address.swift in Sources */,
@@ -687,6 +702,7 @@
 				4C2EEF33244813DC00BA5BE3 /* Claimed_Donations.swift in Sources */,
 				4C118362244B5F9B009E9FAF /* MainView.swift in Sources */,
 				4CF978342446E3CF00E04A2B /* Google_Login.swift in Sources */,
+				4CA2E578245617D4002A3E19 /* passwordReset.swift in Sources */,
 				4C853306244972B600483CC5 /* ImageCarouselView.swift in Sources */,
 				4CD72AFA2447909000C75817 /* Request_Form.swift in Sources */,
 				4CC811CE2446ACCC00269F00 /* newUser.swift in Sources */,
