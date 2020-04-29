@@ -17,6 +17,8 @@
 		4C2EEF352448151A00BA5BE3 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2EEF342448151A00BA5BE3 /* Address.swift */; };
 		4C2EEF38244816F300BA5BE3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2EEF37244816F300BA5BE3 /* Profile.swift */; };
 		4C2EEF3A2448238F00BA5BE3 /* Edit_Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2EEF392448238F00BA5BE3 /* Edit_Profile.swift */; };
+		4C410CF824594B29003F08C7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4C410CF724594B29003F08C7 /* Alamofire */; };
+		4C410CFB24594C67003F08C7 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 4C410CFA24594C67003F08C7 /* SwiftyJSON */; };
 		4C506E75244A5E7400951D15 /* Active_Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C506E74244A5E7400951D15 /* Active_Requests.swift */; };
 		4C506E77244A5E7E00951D15 /* Completed_Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C506E76244A5E7E00951D15 /* Completed_Requests.swift */; };
 		4C82297A244A176E00CCCCF7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C822979244A176E00CCCCF7 /* ContentView.swift */; };
@@ -178,7 +180,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C410CF824594B29003F08C7 /* Alamofire in Frameworks */,
 				4C0F5F942458F8C80059C105 /* JWTDecode in Frameworks */,
+				4C410CFB24594C67003F08C7 /* SwiftyJSON in Frameworks */,
 				4CD72AFE2447B2E800C75817 /* SwiftUIPager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,6 +551,8 @@
 			packageProductDependencies = (
 				4CD72AFD2447B2E800C75817 /* SwiftUIPager */,
 				4C0F5F932458F8C80059C105 /* JWTDecode */,
+				4C410CF724594B29003F08C7 /* Alamofire */,
+				4C410CFA24594C67003F08C7 /* SwiftyJSON */,
 			);
 			productName = "Supply Drop";
 			productReference = 4CC811822446471100269F00 /* Supply Drop.app */;
@@ -623,6 +629,8 @@
 			packageReferences = (
 				4CD72AFC2447B2E800C75817 /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
 				4C0F5F922458F8C80059C105 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				4C410CF624594B29003F08C7 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				4C410CF924594C67003F08C7 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = 4CC811832446471100269F00 /* Products */;
 			projectDirPath = "";
@@ -1064,6 +1072,22 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		4C410CF624594B29003F08C7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+		4C410CF924594C67003F08C7 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		4CD72AFC2447B2E800C75817 /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
@@ -1079,6 +1103,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4C0F5F922458F8C80059C105 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
+		};
+		4C410CF724594B29003F08C7 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C410CF624594B29003F08C7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		4C410CFA24594C67003F08C7 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C410CF924594C67003F08C7 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 		4CD72AFD2447B2E800C75817 /* SwiftUIPager */ = {
 			isa = XCSwiftPackageProductDependency;
