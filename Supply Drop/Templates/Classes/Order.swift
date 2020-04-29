@@ -202,10 +202,10 @@ class Request:ObservableObject,Codable,Identifiable{
 }
 
 extension Api{
-    //done
+    //todo
     
     func getAvailable(completion: @escaping([Request]) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/requests/unfulfilled") else{
+        guard let url = URL(string: "http://localhost:3306/api/requests/unfulfilled") else{
             return
         }
         
@@ -214,17 +214,24 @@ extension Api{
                 print("No data.")
                 return
             }
-            let orders = try!JSONDecoder().decode([Request].self, from: data)
+            
+//            print("Orders: ")
+//            print(String(data: data, encoding: .utf8)!)
+            
+            guard let orders = try?JSONDecoder().decode([Request].self, from: data) else{
+                completion([])
+                return
+            }
             DispatchQueue.main.async {
                 completion(orders)
             }
         }.resume()
     }
     
-    //done
+    //todo
     
     func createRequest(order:Request){
-        guard let url = URL(string: "http://localhost:1500/api/requests/new") else{
+        guard let url = URL(string: "http://localhost:3306/api/requests/new") else{
             print("no url")
             return
         }
@@ -246,10 +253,10 @@ extension Api{
         }.resume()
     }
     
-    //done
+    //todo
     
     func updateRequest(order:Request){
-        guard let url = URL(string: "http://localhost:1500/api/requests/\(order.id)") else{
+        guard let url = URL(string: "http://localhost:3306/api/requests/\(order.id)") else{
             print("no url")
             return
         }
@@ -271,10 +278,10 @@ extension Api{
         }.resume()
     }
     
-    //done
+    //todo
     
     func deleteRequest(order:Request){
-        guard let url = URL(string: "http://localhost:1500/api/requests/\(order.id)") else{
+        guard let url = URL(string: "http://localhost:3306/api/requests/\(order.id)") else{
             print("no url")
             return
         }

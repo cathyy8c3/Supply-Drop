@@ -43,7 +43,7 @@ struct Login: View {
                             if(UserDefaults.standard.bool(forKey: "LoggedIn")){
                                 self.manager.authenticate(user: self.user, completion: { (done,user2) in
                                     if (done){
-                                        self.user.tempUser2User(user2: user2[0])
+//                                        self.user.tempUser2User(user2: user2)
                                         
                                         self.manager.getAvailable { (order2) in
                                             self.orders.setOrders2Orders(order1:order2, user1:self.user)

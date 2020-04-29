@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4C0A9582244D2631004D8B74 /* Thank_You.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0A9581244D2631004D8B74 /* Thank_You.swift */; };
+		4C0F5F942458F8C80059C105 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 4C0F5F932458F8C80059C105 /* JWTDecode */; };
 		4C11835E244B5D0F009E9FAF /* Bools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C11835D244B5D0E009E9FAF /* Bools.swift */; };
 		4C118362244B5F9B009E9FAF /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C118361244B5F9B009E9FAF /* MainView.swift */; };
 		4C29DADE24495FEA006E5476 /* Donations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C29DADD24495FEA006E5476 /* Donations.swift */; };
@@ -177,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C0F5F942458F8C80059C105 /* JWTDecode in Frameworks */,
 				4CD72AFE2447B2E800C75817 /* SwiftUIPager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,6 +546,7 @@
 			name = "Supply Drop";
 			packageProductDependencies = (
 				4CD72AFD2447B2E800C75817 /* SwiftUIPager */,
+				4C0F5F932458F8C80059C105 /* JWTDecode */,
 			);
 			productName = "Supply Drop";
 			productReference = 4CC811822446471100269F00 /* Supply Drop.app */;
@@ -619,6 +622,7 @@
 			mainGroup = 4CC811792446471100269F00;
 			packageReferences = (
 				4CD72AFC2447B2E800C75817 /* XCRemoteSwiftPackageReference "SwiftUIPager" */,
+				4C0F5F922458F8C80059C105 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 			);
 			productRefGroup = 4CC811832446471100269F00 /* Products */;
 			projectDirPath = "";
@@ -1052,6 +1056,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4C0F5F922458F8C80059C105 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
 		4CD72AFC2447B2E800C75817 /* XCRemoteSwiftPackageReference "SwiftUIPager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fermoya/SwiftUIPager.git";
@@ -1063,6 +1075,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4C0F5F932458F8C80059C105 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C0F5F922458F8C80059C105 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			productName = JWTDecode;
+		};
 		4CD72AFD2447B2E800C75817 /* SwiftUIPager */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4CD72AFC2447B2E800C75817 /* XCRemoteSwiftPackageReference "SwiftUIPager" */;

@@ -72,7 +72,6 @@ struct signIn: View {
                         Button (action:{
                             self.manager.authenticate(user: self.user, completion: { done,user2 in
                                 if(done){
-                                    self.user.tempUser2User(user2: user2[0])
                                     self.manager.getAvailable { (order2) in
                                         self.orders.setOrders2Orders(order1:order2, user1:self.user)
                                         
@@ -91,8 +90,7 @@ struct signIn: View {
                                     }
                                     self.loggedIn.setBools(value: true)
                                     UserDefaults.standard.set(true, forKey: "LoggedIn")
-                                    UserDefaults.standard.set(self.user.username,forKey: "Username")
-                                    UserDefaults.standard.set(self.user.password,forKey: "UserPassword")
+                                    UserDefaults.standard.set(user2.string, forKey: "Token")
                                     self.validUser = true
                                 } else{
                                     self.error = "Incorrect username or password."

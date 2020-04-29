@@ -87,8 +87,7 @@ struct Profile: View {
                     
                     Button(action: {
                         UserDefaults.standard.set(false, forKey: "LoggedIn")
-                        UserDefaults.standard.set("",forKey: "Username")
-                        UserDefaults.standard.set("",forKey: "UserPassword")
+                        UserDefaults.standard.set(nil, forKey: "Token")
                         self.loggedIn.setBools(value: false)
                     }) {
                         Text("Sign Out")

@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import JWTDecode
 
 class User:Codable, Identifiable, ObservableObject{
     @Published var name:String = ""
@@ -129,8 +130,8 @@ class Api:ObservableObject{
     
     //done
     
-    func authenticate(user:User, completion: @escaping(Bool,[tempUser]) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/users/auth") else{
+    func authenticate(user:User, completion: @escaping(Bool,JWT) -> ()){
+        guard let url = URL(string: "http://localhost:3306/api/users/auth") else{
             print("no url")
             return
         }
@@ -149,13 +150,17 @@ class Api:ObservableObject{
                 print("No data.")
                 return
             }
-            if let finalData = try? JSONDecoder().decode([tempUser].self, from:data){
+            if let data2 = try? decode(jwt: String(data: data, encoding: .utf8)!){
                 self.authenticated = true
-                completion(true,finalData)
+                
+                print("Logged in successfully")
+                
+                completion(true,data2)
             } else{
+                print("Authentication: ")
                 print(String(data: data, encoding: .utf8)!)
+                print("Auth end")
                 self.authenticated = false
-                completion(false,[])
             }
         }.resume()
     }
@@ -163,7 +168,7 @@ class Api:ObservableObject{
     //done
     
     func createUser(user:User){
-        guard let url = URL(string: "http://localhost:1500/api/users/new") else{
+        guard let url = URL(string: "http://localhost:3306/api/users/new") else{
             print("no url")
             return
         }
@@ -185,10 +190,10 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //done
+    //todo
     
     func getDonations(userID:Int,completion: @escaping([Request]) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/users/\(String(userID))/donations") else{
+        guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))/donations") else{
                 return
         }
         
@@ -199,10 +204,10 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //done
+    //todo
     
     func getRequests(userID:Int,completion: @escaping([Request]) -> ()){
-        guard let url = URL(string: "http://localhost:1500/api/users/\(String(userID))/requests") else{
+        guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))/requests") else{
                 return
         }
         
@@ -213,10 +218,10 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //done
+    //todo
     
     func updateUser(user:User){
-        guard let url = URL(string: "http://localhost:1500/api/users/\(user.id)/update") else{
+        guard let url = URL(string: "http://localhost:3306/api/users/\(user.id)/update") else{
             print("no url")
             return
         }
@@ -239,7 +244,7 @@ class Api:ObservableObject{
     }
     
     func updatePassword(user:User){
-        guard let url = URL(string: "http://localhost:1500/api/users/\(user.id)/updatepass") else{
+        guard let url = URL(string: "http://localhost:3306/api/users/\(user.id)/updatepass") else{
             print("no url")
             return
         }
@@ -268,7 +273,30 @@ class Api:ObservableObject{
             completion([])
         }
         
-        guard let url = URL(string: "http://localhost:1500/api/users/\(String(userID))") else{
+        guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))") else{
+            print("no url")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if error == nil, let _ = response as? HTTPURLResponse {
+                let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
+                DispatchQueue.main.async {
+                    completion(user1)
+                }
+            }
+        }.resume()
+    }
+    
+    //todo
+    
+    func getUser2(completion: @escaping([tempUser2]) -> ()){
+        guard let url = URL(string: "http://localhost:3306/api/users/get") else{
             print("no url")
             return
         }
