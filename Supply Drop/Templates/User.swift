@@ -124,6 +124,14 @@ class tempUser2:Codable{
     var Name,Username,ShippingAddress,Email:String
 }
 
+class Token:Codable{
+    var token:String = ""
+    
+    func setToken(tok:String){
+        token = tok
+    }
+}
+
 class Api:ObservableObject{
     var authenticated:Bool = false
     @Published var orders:[Request] = []
@@ -154,6 +162,7 @@ class Api:ObservableObject{
                 self.authenticated = true
                 
                 print("Logged in successfully")
+                UserDefaults.standard.set(data2.string, forKey: "Token")
                 
                 completion(true,data2)
             } else{
@@ -293,25 +302,41 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //todo
+    //done
     
-    func getUser2(completion: @escaping([tempUser2]) -> ()){
+    func getUser2(jwt:JWT, completion: @escaping([tempUser]) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/get") else{
             print("no url")
             return
         }
         
-        URLSession.shared.dataTask(with: url){ (data,response,error) in
+        let temp:Token = Token()
+        temp.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
+        
+        let body:[String:String] = ["token":temp.token]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(temp.token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
             guard let data = data else{
                 print("No data.")
                 return
             }
-            
-            if error == nil, let _ = response as? HTTPURLResponse {
-                let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
+            if let user2 = try? JSONDecoder().decode([tempUser].self, from: data){
                 DispatchQueue.main.async {
-                    completion(user1)
+                    completion(user2)
                 }
+            } else{
+                print("Get User failed: ")
+                print(String(data: data, encoding: .utf8)!)
+                print("Get User end")
+                self.authenticated = false
             }
         }.resume()
     }
