@@ -37,16 +37,6 @@ struct Completed_Requests: View {
                         if(each.status>=2){
                             each.setAdress(add: each.addressString.toAddress(address: each.addressString))
                             
-                            if(each.donorID ?? -1 > -1){
-                                self.manager.getUser(userID: each.donorID ?? -1) { donor in
-                                    each.donor.tempUser22User(user2:donor[0])
-                                }
-                            }
-                            
-                            self.manager.getUser(userID: each.requesterID) { donor in
-                                each.requester.tempUser22User(user2:donor[0])
-                            }
-                            
                             self.requestList.append(each)
                         }
                     }

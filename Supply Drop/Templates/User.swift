@@ -252,6 +252,8 @@ class Api:ObservableObject{
         }.resume()
     }
     
+    //todo
+    
     func updatePassword(user:User){
         guard let url = URL(string: "http://localhost:3306/api/users/\(user.id)/updatepass") else{
             print("no url")
@@ -275,32 +277,32 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //done
-    
-    func getUser(userID:Int, completion: @escaping([tempUser2]) -> ()){
-        if(userID<0){
-            completion([])
-        }
-        
-        guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))") else{
-            print("no url")
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url){ (data,response,error) in
-            guard let data = data else{
-                print("No data.")
-                return
-            }
-            
-            if error == nil, let _ = response as? HTTPURLResponse {
-                let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
-                DispatchQueue.main.async {
-                    completion(user1)
-                }
-            }
-        }.resume()
-    }
+//    get rid of
+//
+//    func getUser(userID:Int, completion: @escaping([tempUser2]) -> ()){
+//        if(userID<0){
+//            completion([])
+//        }
+//
+//        guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))") else{
+//            print("no url")
+//            return
+//        }
+//
+//        URLSession.shared.dataTask(with: url){ (data,response,error) in
+//            guard let data = data else{
+//                print("No data.")
+//                return
+//            }
+//
+//            if error == nil, let _ = response as? HTTPURLResponse {
+//                let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
+//                DispatchQueue.main.async {
+//                    completion(user1)
+//                }
+//            }
+//        }.resume()
+//    }
     
     //done
     
