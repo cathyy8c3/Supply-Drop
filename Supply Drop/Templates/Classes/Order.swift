@@ -46,6 +46,8 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var date:String = ""
     @Published var affiliateLink:String = ""
     @Published var expectedArrival:String = ""
+    @Published var requesterUsername:String = ""
+    @Published var donorUsername:String = ""
     
     @Published var address:Address = Address()
     @Published var addressString:String = ""
@@ -76,6 +78,8 @@ class Request:ObservableObject,Codable,Identifiable{
         case donorID = "DonorID" //
         case affiliateLink = "AffiliateLinks"
         case expectedArrival = "ExpectedArrival"
+        case requesterUsername = "RequesterUsername"
+        case donorUsername = "DonorUsername"
     }
     
     required init(from decoder:Decoder) throws {
@@ -92,6 +96,8 @@ class Request:ObservableObject,Codable,Identifiable{
         donorID = try values.decodeIfPresent(Int.self, forKey: .donorID) ?? -1
         affiliateLink = try values.decode(String.self, forKey: .affiliateLink)
         expectedArrival = try values.decode(String.self, forKey: .expectedArrival)
+        requesterUsername = try values.decode(String.self, forKey: .requesterUsername)
+        donorUsername = try values.decode(String.self, forKey: .donorUsername)
     }
 
     public func encode(to encoder: Encoder) throws {

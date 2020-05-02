@@ -199,29 +199,65 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //todo
+    //done
     
     func getDonations(userID:Int,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))/donations") else{
                 return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let temp:Token = Token()
+        temp.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
+        
+        let body:[String:String] = ["token":temp.token]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(temp.token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else { return }
+            
+            print("Donations:")
+            print(String(data: data, encoding: .utf8)!)
+            print("End Donations")
+            
             let requests = try!JSONDecoder().decode([Request].self, from: data)
             completion(requests)
         }.resume()
     }
     
-    //todo
+    //done
     
     func getRequests(userID:Int,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))/requests") else{
                 return
         }
         
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let temp:Token = Token()
+        temp.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
+        
+        let body:[String:String] = ["token":temp.token]
+        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(temp.token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else { return }
+            
+            print("Requests:")
+            print(String(data: data, encoding: .utf8)!)
+            print("End Requests")
+            
             let requests = try!JSONDecoder().decode([Request].self, from: data)
             completion(requests)
         }.resume()
