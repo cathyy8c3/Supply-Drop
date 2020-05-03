@@ -73,6 +73,7 @@ class User:Codable, Identifiable, ObservableObject{
             self.name = user2.Name
             self.email = user2.Email
             self.username = user2.Username
+            self.initAddress = user2.ShippingAddress.toAddress(address: user2.ShippingAddress)
             self.address = user2.ShippingAddress
         }
     }
@@ -124,6 +125,22 @@ class tempUser2:Codable{
     var Name,Username,ShippingAddress,Email:String
 }
 
+class tempUser3:Codable{
+    var Name,Username,ShippingAddress,Email,token,CurrentPassword,NewPassword:String
+    var ID:Int
+    
+    init(user2:User, tok:String, oldPass:String, newPass:String){
+        Name = user2.name
+        Username = user2.username
+        ShippingAddress = user2.address
+        Email = user2.email
+        ID = user2.id
+        token = tok
+        CurrentPassword = oldPass
+        NewPassword = newPass
+    }
+}
+
 class Token:Codable{
     var token:String = ""
     
@@ -158,6 +175,11 @@ class Api:ObservableObject{
                 print("No data.")
                 return
             }
+            
+            print("Authentication: ")
+            print(String(data: data, encoding: .utf8)!)
+            print("Auth end")
+            
             if let data2 = try? decode(jwt: String(data: data, encoding: .utf8)!){
                 self.authenticated = true
                 
@@ -263,15 +285,20 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //todo
+    //done
     
-    func updateUser(user:User){
-        guard let url = URL(string: "http://localhost:3306/api/users/\(user.id)/update") else{
+    func updateUser(user:User, oldPass1:String, newPass1:String){
+        guard let url = URL(string: "http://localhost:3306/api/users/\(String(user.id))/update") else{
             print("no url")
             return
         }
         
-        guard let finalBody = try? JSONEncoder().encode(user) else {
+        let temp:Token = Token()
+        temp.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
+        
+        let temp2:tempUser3 = tempUser3(user2: user, tok: temp.token, oldPass: oldPass1, newPass: newPass1)
+        
+        guard let finalBody = try? JSONEncoder().encode(temp2) else {
             print("Failed to encode user")
             return
         }
@@ -281,64 +308,16 @@ class Api:ObservableObject{
         request.httpBody = finalBody
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(temp.token)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
             guard let data = data else { return }
+            
+            print("Update User:")
             print(String(data: data, encoding: .utf8)!)
+            print("End Update User")
         }.resume()
     }
-    
-    //todo
-    
-    func updatePassword(user:User){
-        guard let url = URL(string: "http://localhost:3306/api/users/\(user.id)/updatepass") else{
-            print("no url")
-            return
-        }
-        
-        guard let finalBody = try? JSONEncoder().encode(user) else {
-            print("Failed to encode user")
-            return
-        }
-        
-        var request = URLRequest(url:url)
-        request.httpMethod = "PUT"
-        request.httpBody = finalBody
-        
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        URLSession.shared.dataTask(with: request){ (data,response,error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
-        }.resume()
-    }
-    
-//    get rid of
-//
-//    func getUser(userID:Int, completion: @escaping([tempUser2]) -> ()){
-//        if(userID<0){
-//            completion([])
-//        }
-//
-//        guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))") else{
-//            print("no url")
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url){ (data,response,error) in
-//            guard let data = data else{
-//                print("No data.")
-//                return
-//            }
-//
-//            if error == nil, let _ = response as? HTTPURLResponse {
-//                let user1 = try!JSONDecoder().decode([tempUser2].self, from: data)
-//                DispatchQueue.main.async {
-//                    completion(user1)
-//                }
-//            }
-//        }.resume()
-//    }
     
     //done
     

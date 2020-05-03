@@ -211,13 +211,11 @@ struct Edit_Profile: View {
                                 
                                 if(!(self.pass1=="")){
                                     self.user.password = self.pass1
-                                    
-                                    self.manager.updatePassword(user: self.user)
                                 }
                                 
                                 self.presentMe=true
                                 
-                                self.manager.updateUser(user: self.user)
+                                self.manager.updateUser(user: self.user, oldPass1: self.oldpass, newPass1: self.pass1)
                             }
                         } else{
                             self.match = "Incorrect password."

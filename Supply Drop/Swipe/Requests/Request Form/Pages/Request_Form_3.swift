@@ -97,7 +97,7 @@ struct Request_Form_3: View {
                             
                             self.manager.createRequest(order: self.order)
                             self.user.setAddress(add:self.user.initAddress)
-                            self.manager.updateUser(user: self.user)
+                            self.manager.updateUser(user: self.user, oldPass1: "", newPass1: "")
                         }){
                             Text("Submit")
                                 .font(.title)

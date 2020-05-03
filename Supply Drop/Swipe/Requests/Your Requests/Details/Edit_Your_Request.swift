@@ -157,7 +157,7 @@ struct Edit_Your_Request: View {
                                 self.order.num=self.n
                                 self.user.setAddress(add: self.order.address)
                                 self.order.setAddress()
-                                self.manager.updateUser(user: self.user)
+                                self.manager.updateUser(user: self.user, oldPass1: "", newPass1: "")
                                 self.manager.updateRequest(order: self.order)
                             }
                         }) {
