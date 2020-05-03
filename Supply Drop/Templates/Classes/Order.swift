@@ -29,7 +29,6 @@ class Orders:ObservableObject,Identifiable{
         self.orders = tempOrders
     }
     
-    
     func setOrders(){
         Api().getAvailable {
             self.orders = $0
@@ -48,6 +47,7 @@ class Request:ObservableObject,Codable,Identifiable{
     @Published var expectedArrival:String = ""
     @Published var requesterUsername:String = ""
     @Published var donorUsername:String = ""
+    private var token:String = ""
     
     @Published var address:Address = Address()
     @Published var addressString:String = ""
@@ -80,6 +80,7 @@ class Request:ObservableObject,Codable,Identifiable{
         case expectedArrival = "ExpectedArrival"
         case requesterUsername = "RequesterUsername"
         case donorUsername = "DonorUsername"
+        case token = "token"
     }
     
     required init(from decoder:Decoder) throws {
@@ -114,6 +115,7 @@ class Request:ObservableObject,Codable,Identifiable{
         try container.encode(donorID, forKey: .donorID)
         try container.encode(affiliateLink, forKey: .affiliateLink)
         try container.encode(expectedArrival, forKey: .expectedArrival)
+        try container.encode(token, forKey: .token)
     }
     
     func setOrder2Order(order2:Request){
@@ -158,6 +160,10 @@ class Request:ObservableObject,Codable,Identifiable{
             return false
         }
         return true
+    }
+    
+    func setToken(tok:String){
+        token = tok
     }
     
     func getRequester()->User{
@@ -208,7 +214,7 @@ class Request:ObservableObject,Codable,Identifiable{
 }
 
 extension Api{
-    //todo
+    //done
     
     func getAvailable(completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/requests/unfulfilled") else{
@@ -234,13 +240,15 @@ extension Api{
         }.resume()
     }
     
-    //todo
+    //done
     
     func createRequest(order:Request){
         guard let url = URL(string: "http://localhost:3306/api/requests/new") else{
             print("no url")
             return
         }
+        
+        order.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
         
         guard let finalBody = try? JSONEncoder().encode(order) else {
             print("Failed to encode order")
@@ -259,13 +267,15 @@ extension Api{
         }.resume()
     }
     
-    //todo
+    //done
     
     func updateRequest(order:Request){
         guard let url = URL(string: "http://localhost:3306/api/requests/\(order.id)") else{
             print("no url")
             return
         }
+        
+        order.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
         
         guard let finalBody = try? JSONEncoder().encode(order) else {
             print("Failed to encode user")
@@ -284,16 +294,20 @@ extension Api{
         }.resume()
     }
     
-    //todo
+    //done
     
     func deleteRequest(order:Request){
         guard let url = URL(string: "http://localhost:3306/api/requests/\(order.id)") else{
             print("no url")
             return
         }
-
-        let body:[String:Int] = ["ID": order.id]
-        let finalBody = try! JSONSerialization.data(withJSONObject: body)
+        
+        order.setToken(tok: UserDefaults.standard.string(forKey: "Token") ?? "")
+        
+        guard let finalBody = try? JSONEncoder().encode(order) else {
+            print("Failed to encode user")
+            return
+        }
 
         var request = URLRequest(url:url)
         request.httpMethod = "DELETE"
