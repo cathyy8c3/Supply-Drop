@@ -30,8 +30,10 @@ class Orders:ObservableObject,Identifiable{
     }
     
     func setOrders(){
-        Api().getAvailable {
-            self.orders = $0
+        DispatchQueue.main.async {
+            Api().getAvailable {
+                self.orders = $0
+            }
         }
     }
 }

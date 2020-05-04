@@ -12,6 +12,8 @@ struct passwordReset_2: View {
     @State var pass1:String = ""
     @State var pass2:String = ""
     @State var error:String = ""
+    @State var temp:resetUser
+    @State var manager:Api = Api()
     
     @EnvironmentObject var user:User
     
@@ -44,8 +46,10 @@ struct passwordReset_2: View {
                 } else if(!self.isValidPassword(testStr: self.pass1)){
                     self.error = "Invalid password.\nPassword must have at least 1 uppercase character, 1 lowercase character, 1 digit, and be at least 8 characters."
                 } else{
-                    //todo
-                    //update password
+                    self.temp.setPass(newPass: self.pass1)
+                    self.manager.resetPassword2(user1: self.temp) { (works) in
+                        self.error = works
+                    }
                 }
             }) {
                 Text("Reset Your Password")
@@ -64,6 +68,6 @@ struct passwordReset_2: View {
 
 struct passwordReset_2_Previews: PreviewProvider {
     static var previews: some View {
-        passwordReset_2()
+        passwordReset_2(temp: resetUser(email: "cathy.chang@warriorlife.net", resTok: "ABCDE1234", newPass: ""))
     }
 }

@@ -37,22 +37,11 @@ struct Login: View {
                     
                     VStack{
                         Button(action:{
-                            self.user.setPass(pass: UserDefaults.standard.string(forKey: "UserPassword") ?? "")
-                            self.user.setUsername(usern: UserDefaults.standard.string(forKey: "Username") ?? "")
-                            
                             if(UserDefaults.standard.bool(forKey: "LoggedIn")){
-                                self.manager.authenticate(user: self.user, completion: { (done,user2) in
-                                    if (done){
-                                        self.manager.getUser2(jwt: user2) { (user3) in
-                                            self.user.tempUser2User(user2: user3[0])
-                                        }
-                                        UserDefaults.standard.set(user2.string, forKey: "Token")
-                                        
-                                        self.manager.getAvailable { (order2) in
-                                            self.orders.setOrders2Orders(order1:order2, user1:self.user)
-                                        }
-                                    }
-                                })
+                                self.manager.getUser2() { (user3) in
+                                    self.user.tempUser2User(user2: user3[0])
+                                }
+                                
                                 self.toSwipe = true
                             } else{
                                 self.toSignIn = true

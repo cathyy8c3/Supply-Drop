@@ -48,7 +48,7 @@ struct Profile: View {
                        .foregroundColor(Color.white)
                    }
                    .position(x:50,y:geometry.size.height/8)
-                    .edgesIgnoringSafeArea(.top)
+                   .edgesIgnoringSafeArea(.top)
                 }
                 .edgesIgnoringSafeArea(.top)
                 

@@ -18,6 +18,7 @@ class User:Codable, Identifiable, ObservableObject{
     @Published var username:String = ""
     @Published var address:String = ""
     @Published var id:Int = -1
+    private var reset:String = ""
     
     @Published var initAddress:Address = Address()
     
@@ -31,6 +32,7 @@ class User:Codable, Identifiable, ObservableObject{
         case username = "Username"
         case address = "ShippingAddress"
         case id = "ID"
+        case reset = "ResetToken"
     }
     
     required init(from decoder:Decoder) throws {
@@ -42,6 +44,7 @@ class User:Codable, Identifiable, ObservableObject{
         username = try values.decode(String.self, forKey: .username)
         address = try values.decode(String.self, forKey: .address)
         id = try values.decode(Int.self, forKey: .id)
+        reset = try values.decode(String.self, forKey: .reset)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -53,6 +56,7 @@ class User:Codable, Identifiable, ObservableObject{
         try container.encode(username, forKey: .username)
         try container.encode(address, forKey: .address)
         try container.encode(id, forKey: .id)
+        try container.encode(reset, forKey: .reset)
     }
     
     init(){}
@@ -141,12 +145,30 @@ class tempUser3:Codable{
     }
 }
 
+class resetUser:Codable{
+    var Email,ResetToken,NewPassword:String
+    
+    init(email:String, resTok:String, newPass:String){
+        Email = email
+        ResetToken = resTok
+        NewPassword = newPass
+    }
+    
+    func setPass(newPass:String){
+        NewPassword = newPass
+    }
+}
+
 class Token:Codable{
     var token:String = ""
     
     func setToken(tok:String){
         token = tok
     }
+}
+
+class ErrorMessage:Codable{
+    var message:String
 }
 
 class Api:ObservableObject{
@@ -321,7 +343,7 @@ class Api:ObservableObject{
     
     //done
     
-    func getUser2(jwt:JWT, completion: @escaping([tempUser]) -> ()){
+    func getUser2(completion: @escaping([tempUser]) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/get") else{
             print("no url")
             return
@@ -355,6 +377,69 @@ class Api:ObservableObject{
                 print("Get User end")
                 self.authenticated = false
             }
+        }.resume()
+    }
+    
+    //fix
+    
+    func resetPassword(user1:User, completion: @escaping(ErrorMessage) -> ()){
+        guard let url = URL(string: "http://localhost:3306/api/requests/reset/generatetoken") else{
+            print("no url")
+            return
+        }
+        
+        guard let finalBody = try? JSONEncoder().encode(user1) else {
+            print("Failed to encode user")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            
+            if let message = try? JSONDecoder().decode(ErrorMessage.self, from: data){
+                DispatchQueue.main.async {
+                    completion(message)
+                }
+            } else{
+                print("Reset Token 1 failed: ")
+                print(String(data: data, encoding: .utf8)!)
+                print("Reset Token 1 end")
+            }
+        }.resume()
+    }
+    
+    //test
+    
+    func resetPassword2(user1:resetUser, completion: @escaping(String) -> ()){
+        guard let url = URL(string: "http://localhost:3306/api/requests/reset/recovertoken") else{
+            print("no url")
+            return
+        }
+        
+        guard let finalBody = try? JSONEncoder().encode(user1) else {
+            print("Failed to encode user")
+            return
+        }
+        
+        var request = URLRequest(url:url)
+        request.httpMethod = "POST"
+        request.httpBody = finalBody
+        
+        URLSession.shared.dataTask(with: request){ (data,response,error) in
+            guard let data = data else{
+                print("No data.")
+                return
+            }
+            completion(String(data: data, encoding: .utf8)!)
         }.resume()
     }
 }
