@@ -48,7 +48,11 @@ struct passwordReset_2: View {
                 } else{
                     self.temp.setPass(newPass: self.pass1)
                     self.manager.resetPassword2(user1: self.temp) { (works) in
-                        self.error = works
+                        if(works){
+                            self.error = "Password reset."
+                        } else{
+                            self.error = "Incorrect code."
+                        }
                     }
                 }
             }) {

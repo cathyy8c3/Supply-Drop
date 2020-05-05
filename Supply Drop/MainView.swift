@@ -8,18 +8,17 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct MainView: View {    
     @EnvironmentObject var loggedIn:Bools
     
     var body: some View {
         GeometryReader { geometry in
             ZStack{
-                if(UserDefaults.standard.bool(forKey: "LoggedIn")){
+                if(self.loggedIn.boo){
                     Login()
-                        .transition(.scale)
+                        .transition(.slide)
                 } else{
                     Login2()
-                        .transition(.scale)
                 }
             }
             .onAppear{

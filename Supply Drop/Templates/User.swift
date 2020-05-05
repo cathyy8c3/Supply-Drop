@@ -123,6 +123,14 @@ class User:Codable, Identifiable, ObservableObject{
 class tempUser:Codable{
     var Name,Username,ShippingAddress,Email:String
     var ID:Int
+    
+    init(){
+        Name = ""
+        Username = ""
+        ShippingAddress = ""
+        Email = ""
+        ID = -1
+    }
 }
 
 class tempUser2:Codable{
@@ -165,10 +173,6 @@ class Token:Codable{
     func setToken(tok:String){
         token = tok
     }
-}
-
-class ErrorMessage:Codable{
-    var message:String
 }
 
 class Api:ObservableObject{
@@ -343,7 +347,7 @@ class Api:ObservableObject{
     
     //done
     
-    func getUser2(completion: @escaping([tempUser]) -> ()){
+    func getUser2(completion: @escaping([tempUser], Bool) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/get") else{
             print("no url")
             return
@@ -369,21 +373,21 @@ class Api:ObservableObject{
             }
             if let user2 = try? JSONDecoder().decode([tempUser].self, from: data){
                 DispatchQueue.main.async {
-                    completion(user2)
+                    completion(user2, true)
                 }
             } else{
                 print("Get User failed: ")
                 print(String(data: data, encoding: .utf8)!)
                 print("Get User end")
-                self.authenticated = false
+                completion([tempUser()],false)
             }
         }.resume()
     }
     
-    //fix
+    //done
     
-    func resetPassword(user1:User, completion: @escaping(ErrorMessage) -> ()){
-        guard let url = URL(string: "http://localhost:3306/api/requests/reset/generatetoken") else{
+    func resetPassword(user1:User, completion: @escaping(Bool) -> ()){
+        guard let url = URL(string: "http://localhost:3306/api/users/reset/generatetoken") else{
             print("no url")
             return
         }
@@ -405,22 +409,22 @@ class Api:ObservableObject{
                 return
             }
             
-            if let message = try? JSONDecoder().decode(ErrorMessage.self, from: data){
-                DispatchQueue.main.async {
-                    completion(message)
-                }
+            print("Reset Token 1: ")
+            print(String(data: data, encoding: .utf8)!)
+            print("Reset Token 1 end")
+            
+            if(String(data: data, encoding: .utf8)!.count > 17){
+                completion(true)
             } else{
-                print("Reset Token 1 failed: ")
-                print(String(data: data, encoding: .utf8)!)
-                print("Reset Token 1 end")
+                completion(false)
             }
         }.resume()
     }
     
     //test
     
-    func resetPassword2(user1:resetUser, completion: @escaping(String) -> ()){
-        guard let url = URL(string: "http://localhost:3306/api/requests/reset/recovertoken") else{
+    func resetPassword2(user1:resetUser, completion: @escaping(Bool) -> ()){
+        guard let url = URL(string: "http://localhost:3306/api/users/reset/recovertoken") else{
             print("no url")
             return
         }
@@ -429,6 +433,11 @@ class Api:ObservableObject{
             print("Failed to encode user")
             return
         }
+        
+        print("ResetUser: \(user1.ResetToken)")
+        print(user1.Email)
+        print(user1.NewPassword)
+        print("End ResetUser")
         
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
@@ -439,7 +448,16 @@ class Api:ObservableObject{
                 print("No data.")
                 return
             }
-            completion(String(data: data, encoding: .utf8)!)
+            
+            print("Reset 2:")
+            print(String(data: data, encoding: .utf8)!)
+            print("End Reset 2")
+            
+            if(String(data: data, encoding: .utf8)! == "Password reset"){
+                completion(true)
+            } else{
+                completion(false)
+            }
         }.resume()
     }
 }

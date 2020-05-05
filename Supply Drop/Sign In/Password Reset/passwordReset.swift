@@ -76,8 +76,9 @@ struct passwordReset: View {
                             
                             Button(action: {
                                 self.manager.resetPassword(user1: self.temp) { (reset) in
-                                    if(reset.message.count > 17){
+                                    if(reset){
                                         self.send = self.send + 1
+                                        self.validEmail = true
                                     } else{
                                         self.validEmail = false
                                     }
@@ -89,24 +90,10 @@ struct passwordReset: View {
                                     .font(.body)
                             }
                         }
-
-                        Button(action: {
-                            withAnimation{
-                                self.submit = true
-                            }
-                        }) {
-                            Text(self.send>0 ? "Submit" : "")
-                                .foregroundColor(Color.purple)
+                        
+                        if(self.send > 0){
+                            passwordReset_2(temp:resetUser(email: self.temp.email, resTok: self.code, newPass: ""))
                         }
-                    }
-                    
-                    if(self.submit){
-                        VStack{
-                            withAnimation{
-                                passwordReset_2(temp:resetUser(email: self.temp.email, resTok: self.code, newPass: ""))
-                            }
-                        }
-                        .transition(.scale)
                     }
                     
                     Spacer()

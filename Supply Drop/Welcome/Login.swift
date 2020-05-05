@@ -38,11 +38,14 @@ struct Login: View {
                     VStack{
                         Button(action:{
                             if(UserDefaults.standard.bool(forKey: "LoggedIn")){
-                                self.manager.getUser2() { (user3) in
-                                    self.user.tempUser2User(user2: user3[0])
+                                self.manager.getUser2() { (user3, work) in
+                                    if (work){
+                                        self.user.tempUser2User(user2: user3[0])
+                                        self.toSwipe = true
+                                    } else{
+                                        self.toSignIn = true
+                                    }
                                 }
-                                
-                                self.toSwipe = true
                             } else{
                                 self.toSignIn = true
                             }

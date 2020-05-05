@@ -79,8 +79,10 @@ struct signIn: View {
                                     UserDefaults.standard.set(true, forKey: "LoggedIn")
                                     UserDefaults.standard.set(user2.string, forKey: "Token")
                                     
-                                    self.manager.getUser2(){ (user3) in
-                                        self.user.tempUser2User(user2: user3[0])
+                                    self.manager.getUser2(){ (user3, work) in
+                                        if (work){
+                                            self.user.tempUser2User(user2: user3[0])
+                                        }
                                     }
                                     
                                     self.validUser = true
