@@ -69,17 +69,17 @@ struct Login: View {
                                 .foregroundColor(Color.purple)
                         }
                         
-                        Button(action:{
-                            self.isModal = true
-                        }){
-                            Image("google_login")
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:200)
-                        }.sheet(isPresented: $isModal, content: {
-                            googleSignIn()
-                        })
+//                        Button(action:{
+//                            self.isModal = true
+//                        }){
+//                            Image("google_login")
+//                                .renderingMode(.original)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width:200)
+//                        }.sheet(isPresented: $isModal, content: {
+//                            googleSignIn()
+//                        })
                     }
                     .frame(minWidth: 500, idealWidth: 500,maxWidth: 500, minHeight: 150, idealHeight: 150, maxHeight: 150)
                 }

@@ -68,7 +68,7 @@ struct passwordReset_2: View {
             
             Text(self.error)
                 .fontWeight(.light)
-                .frame(width:300,height: 150)
+                .frame(maxWidth: self.error == "" ? 0 : 300,maxHeight: self.error == "" ? 0 : 150)
                 .foregroundColor(Color.red)
                 .multilineTextAlignment(.center)
         }

@@ -100,17 +100,17 @@ struct signIn: View {
                         .frame(width:300)
                         .disabled(self.user.username.count==0 || self.user.password.count==0)
                         
-                        Button(action:{
-                            self.isModal = true
-                        }){
-                            Image("google_login")
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                                .frame(width:200,height:50)
-                        }.sheet(isPresented: $isModal, content: {
-                            googleSignIn()
-                        })
+//                        Button(action:{
+//                            self.isModal = true
+//                        }){
+//                            Image("google_login")
+//                            .renderingMode(.original)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                                .frame(width:200,height:50)
+//                        }.sheet(isPresented: $isModal, content: {
+//                            googleSignIn()
+//                        })
                     }
                     .frame(height:100)
 
