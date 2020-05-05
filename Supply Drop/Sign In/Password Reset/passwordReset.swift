@@ -15,8 +15,7 @@ struct passwordReset: View {
     @State var manager:Api = Api()
     @State var back2:Bool = false
     @State var validEmail:Bool = true
-    
-    @ObservedObject var temp:User = User()
+    @State var temp:User = User()
     
     var body: some View {
         GeometryReader{ geometry in

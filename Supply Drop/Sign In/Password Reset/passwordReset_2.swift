@@ -13,6 +13,7 @@ struct passwordReset_2: View {
     @State var pass2:String = ""
     @State var error:String = ""
     @State var manager:Api = Api()
+    @State var toSignIn:Bool = false
     
     @EnvironmentObject var user:User
     
@@ -31,6 +32,8 @@ struct passwordReset_2: View {
     
     var body: some View {
         VStack (spacing: 10){
+            NavigationLink(destination: signIn(), isActive: self.$toSignIn){ EmptyView() }
+            
             SecureField("Enter your new password.", text: self.$pass1)
                 .padding()
                 .frame(width:300, height:50)
@@ -51,6 +54,7 @@ struct passwordReset_2: View {
                     self.manager.resetPassword2(user1: self.temp) { (works) in
                         if(works){
                             self.error = "Password reset."
+                            self.toSignIn = true
                         } else{
                             self.error = "Incorrect code."
                         }

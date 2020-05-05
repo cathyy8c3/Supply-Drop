@@ -428,16 +428,11 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //fix
+    //done
     
     func resetPassword2(user1:resetUser, completion: @escaping(Bool) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/reset/recovertoken") else{
             print("no url")
-            return
-        }
-        
-        guard let finalBody = try? JSONEncoder().encode(user1) else {
-            print("Failed to encode user")
             return
         }
         
@@ -446,9 +441,20 @@ class Api:ObservableObject{
         print(user1.NewPassword)
         print("End ResetUser")
         
+        guard let finalBody = try? JSONEncoder().encode(user1) else {
+            print("Failed to encode user")
+            return
+        }
+        
+        print("Final Body Reset User: ")
+        print(String(data: finalBody, encoding: .utf8)!)
+        print("End Final Body Reset User")
+        
         var request = URLRequest(url:url)
         request.httpMethod = "POST"
         request.httpBody = finalBody
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
             guard let data = data else{
