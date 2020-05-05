@@ -12,10 +12,11 @@ struct passwordReset_2: View {
     @State var pass1:String = ""
     @State var pass2:String = ""
     @State var error:String = ""
-    @State var temp:resetUser
     @State var manager:Api = Api()
     
     @EnvironmentObject var user:User
+    
+    @ObservedObject var temp:resetUser
     
     func isValidPassword(testStr:String?) -> Bool {
         guard testStr != nil else { return false }

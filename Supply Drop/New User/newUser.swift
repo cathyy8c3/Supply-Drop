@@ -135,10 +135,11 @@ struct newUser: View {
                                     }
                                     
                                     TextField("Country", text: self.$user.initAddress.country)
-                                    .padding()
-                                    .frame(width:geometry.size.width/1.2, height:50)
-                                    .border(Color.gray, width:0.5)
-                                }.padding(.bottom, 20)
+                                        .padding()
+                                        .frame(width:geometry.size.width/1.2, height:50)
+                                        .border(Color.gray, width:0.5)
+                                }
+                                .padding(.bottom, 20)
                             }
                             
                             Text(self.validAddress)
@@ -179,9 +180,13 @@ struct newUser: View {
                                         self.user.setAddress(add: self.user.initAddress)
                                         self.user.setPass(pass: self.password1)
                                         
-                                        self.manager.createUser(user: self.user)
-                                        
-                                        self.next = true
+                                        self.manager.createUser(user: self.user){ (taken) in
+                                            if(taken.count > 25){
+                                                self.next = true
+                                            } else{
+                                                self.emailUsernameError = taken
+                                            }
+                                        }
                                     }
                                 }){
                                     Text("Create Your Account")

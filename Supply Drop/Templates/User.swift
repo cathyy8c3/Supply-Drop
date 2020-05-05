@@ -153,7 +153,7 @@ class tempUser3:Codable{
     }
 }
 
-class resetUser:Codable{
+class resetUser:Codable,ObservableObject{
     var Email,ResetToken,NewPassword:String
     
     init(email:String, resTok:String, newPass:String){
@@ -224,7 +224,7 @@ class Api:ObservableObject{
     
     //done
     
-    func createUser(user:User){
+    func createUser(user:User, completion: @escaping(String) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/new") else{
             print("no url")
             return
@@ -243,7 +243,14 @@ class Api:ObservableObject{
         
         URLSession.shared.dataTask(with: request){ (data,response,error) in
             guard let data = data else { return }
+            
+            guard let res = try? String(data: data, encoding: .utf8) else{
+                completion("")
+                return
+            }
+            
             print(String(data: data, encoding: .utf8)!)
+            completion(res)
         }.resume()
     }
     
@@ -421,7 +428,7 @@ class Api:ObservableObject{
         }.resume()
     }
     
-    //test
+    //fix
     
     func resetPassword2(user1:resetUser, completion: @escaping(Bool) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/reset/recovertoken") else{

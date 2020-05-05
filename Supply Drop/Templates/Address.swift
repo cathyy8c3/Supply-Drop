@@ -18,6 +18,10 @@ class Address{
     var country:String = ""
     
     func getLoc()->String{
+        if("\(address1)\(address2)\(city)\(state)\(zip)\(country)".count == 0){
+            return ""
+        }
+        
         if(address2==""){
             return "\(address1)\n\(city), \(state) \(zip)\n\(country)"
         }
