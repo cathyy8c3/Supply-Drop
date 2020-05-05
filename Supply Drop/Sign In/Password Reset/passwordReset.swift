@@ -60,7 +60,7 @@ struct passwordReset: View {
                             .fontWeight(.light)
                             .multilineTextAlignment(.center)
                             .frame(width:geometry.size.width/1.2)
-                            .transition(.scale)
+                            .transition(.move(edge: .bottom))
                     }
                     
                     if(!self.submit){
@@ -77,8 +77,10 @@ struct passwordReset: View {
                             Button(action: {
                                 self.manager.resetPassword(user1: self.temp) { (reset) in
                                     if(reset){
-                                        self.send = self.send + 1
-                                        self.validEmail = true
+                                        withAnimation{
+                                            self.send = self.send + 1
+                                            self.validEmail = true
+                                        }
                                     } else{
                                         self.validEmail = false
                                     }
@@ -93,6 +95,7 @@ struct passwordReset: View {
                         
                         if(self.send > 0){
                             passwordReset_2(temp:resetUser(email: self.temp.email, resTok: self.code, newPass: ""))
+                                .transition(.move(edge: .bottom))
                         }
                     }
                     
