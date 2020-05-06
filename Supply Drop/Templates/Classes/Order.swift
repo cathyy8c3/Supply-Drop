@@ -59,8 +59,6 @@ class Request:ObservableObject,Codable,Identifiable{
     
     @Published var id:Int = -1
     
-    @Published var requester:User = User()
-    @Published var donor:User = User()
     @Published var claimed:Bool = false
     
     //0 = not sent, 1 = sent, 2 = received
@@ -99,8 +97,8 @@ class Request:ObservableObject,Codable,Identifiable{
         donorID = try values.decodeIfPresent(Int.self, forKey: .donorID) ?? -1
         affiliateLink = try values.decode(String.self, forKey: .affiliateLink)
         expectedArrival = try values.decode(String.self, forKey: .expectedArrival)
-        requesterUsername = try values.decode(String.self, forKey: .requesterUsername)
-        donorUsername = try values.decode(String.self, forKey: .donorUsername)
+        requesterUsername = try values.decodeIfPresent(String.self, forKey: .requesterUsername) ?? ""
+        donorUsername = try values.decodeIfPresent(String.self, forKey: .donorUsername) ?? ""
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -118,6 +116,8 @@ class Request:ObservableObject,Codable,Identifiable{
         try container.encode(affiliateLink, forKey: .affiliateLink)
         try container.encode(expectedArrival, forKey: .expectedArrival)
         try container.encode(token, forKey: .token)
+        try container.encode(donorUsername, forKey: .donorUsername)
+        try container.encode(requesterUsername, forKey: .requesterUsername)
     }
     
     func setOrder2Order(order2:Request){
@@ -168,21 +168,11 @@ class Request:ObservableObject,Codable,Identifiable{
         token = tok
     }
     
-    func getRequester()->User{
-        return requester
-    }
-    
-    func getDonor()->User{
-        return donor
-    }
-    
     func setRequester(u:User){
-        requester=u
         requesterID = u.id
     }
     
     func setDonor(u:User){
-        donor=u
         donorID = u.id
     }
     
@@ -229,8 +219,9 @@ extension Api{
                 return
             }
             
-//            print("Orders: ")
-//            print(String(data: data, encoding: .utf8)!)
+            print("Orders: ")
+            print(String(data: data, encoding: .utf8)!)
+            print("End Orders")
             
             guard let orders = try?JSONDecoder().decode([Request].self, from: data) else{
                 completion([])

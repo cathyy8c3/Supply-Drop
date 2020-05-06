@@ -63,7 +63,7 @@ struct Request_Detail: View {
                             .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
                     }
                     
-                    self.order.getRequester().profile
+                    User().profile
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(contentMode:.fit)
@@ -116,13 +116,13 @@ struct Request_Detail: View {
                         Text("Request")
                             .font(.largeTitle)
                                             
-                        Text("Made by \(self.order.getRequester().name)")
+                        Text("Made by \(self.order.requesterUsername)")
                         
                         Text("Asking for \(String(self.order.num)) \(self.order.item)")
                         
-                        Text("Contact them at \(self.order.requester.email).")
-                            .frame(width:geometry.size.width/1.5, height:100)
-                            .multilineTextAlignment(.center)
+//                        Text("Contact them at \(self.order.requester.email).")
+//                            .frame(width:geometry.size.width/1.5, height:100)
+//                            .multilineTextAlignment(.center)
                         
                         VStack {
                             Text("Address: \(self.order.address.getLoc())")

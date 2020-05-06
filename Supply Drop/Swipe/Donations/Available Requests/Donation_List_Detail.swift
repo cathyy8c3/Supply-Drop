@@ -27,7 +27,7 @@ struct Donation_List_Detail: View {
                             .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
                     }
                     
-                    self.order.getRequester().profile
+                    User().profile
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(contentMode:.fit)
@@ -45,7 +45,7 @@ struct Donation_List_Detail: View {
                             .font(.largeTitle)
                             .padding(.top,30)
                         
-                        Text("Made by \(self.order.getRequester().username)")
+                        Text("Made by \(self.order.requesterUsername)")
                         
                         Text("Asking for \(String(self.order.num)) \(self.order.item)")
                         

@@ -63,7 +63,7 @@ struct Your_Request_Details: View {
                             .frame(minHeight:geometry.size.height/6,idealHeight:geometry.size.height/6, maxHeight:geometry.size.height/6)
                     }
                     
-                    self.order.getRequester().profile
+                    User().profile
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(contentMode:.fit)
@@ -90,15 +90,15 @@ struct Your_Request_Details: View {
                         }
                         
                         if(self.order.donorID != -1){
-                            Text("Claimed by \(self.order.getDonor().username)")
+                            Text("Claimed by \(self.order.donorUsername)")
                         }
                         
                         Text("You requested \(String(self.order.num)) \(self.order.item).")
                         
                         if(self.order.donorID != -1){
-                            Text("Contact the donor at \(self.order.donor.email).")
-                                .frame(width:geometry.size.width/1.5, height:70)
-                                .multilineTextAlignment(.center)
+//                            Text("Contact the donor at \(self.order.donor.email).")
+//                                .frame(width:geometry.size.width/1.5, height:70)
+//                                .multilineTextAlignment(.center)
                         }
                         
                         if(self.order.expectedArrival.count > 0){

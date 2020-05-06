@@ -66,8 +66,8 @@ class User:Codable, Identifiable, ObservableObject{
             self.name = user2.Name
             self.email = user2.Email
             self.username = user2.Username
-            self.address = user2.ShippingAddress
             self.initAddress = user2.ShippingAddress.toAddress(address: user2.ShippingAddress)
+            self.address = self.initAddress.getLoc()
             self.id = user2.ID
         }
     }
@@ -258,7 +258,7 @@ class Api:ObservableObject{
     
     func getDonations(userID:Int,completion: @escaping([Request]) -> ()){
         guard let url = URL(string: "http://localhost:3306/api/users/\(String(userID))/donations") else{
-                return
+            return
         }
         
         let temp:Token = Token()
@@ -383,9 +383,7 @@ class Api:ObservableObject{
                     completion(user2, true)
                 }
             } else{
-                print("Get User failed: ")
-                print(String(data: data, encoding: .utf8)!)
-                print("Get User end")
+                print("Get User failed")
                 completion([tempUser()],false)
             }
         }.resume()

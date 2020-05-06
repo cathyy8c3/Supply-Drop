@@ -72,18 +72,18 @@ struct signIn: View {
                         Button (action:{
                             self.manager.authenticate(user: self.user, completion: { done,user2 in
                                 if(done){
-                                    self.manager.getAvailable { (order2) in
-                                        self.orders.setOrders2Orders(order1:order2, user1:self.user)
-                                    }
-                                    self.loggedIn.setBools(value: true)
-                                    UserDefaults.standard.set(true, forKey: "LoggedIn")
-                                    UserDefaults.standard.set(user2.string, forKey: "Token")
-                                    
                                     self.manager.getUser2(){ (user3, work) in
                                         if (work){
                                             self.user.tempUser2User(user2: user3[0])
                                         }
                                     }
+                                    
+//                                    self.manager.getAvailable { (order2) in
+//                                        self.orders.setOrders2Orders(order1:order2, user1:self.user)
+//                                    }
+                                    self.loggedIn.setBools(value: true)
+                                    UserDefaults.standard.set(true, forKey: "LoggedIn")
+                                    UserDefaults.standard.set(user2.string, forKey: "Token")
                                     
                                     self.validUser = true
                                 } else{

@@ -25,13 +25,13 @@ struct Swipe: View {
             
             Request_Form(order:self.order)
         }
-        .onAppear(perform:{
-            DispatchQueue.main.async {
-                self.manager.getAvailable { (order2) in
-                    self.orders.setOrders2Orders(order1:order2, user1:self.user)
-                }
-            }
-        })
+//        .onAppear(perform:{
+//            DispatchQueue.main.async {
+//                self.manager.getAvailable { (order2) in
+//                    self.orders.setOrders2Orders(order1:order2, user1:self.user)
+//                }
+//            }
+//        })
     }
 }
 
